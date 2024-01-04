@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/itemSang"
+        android:title="Ca Sáng"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/itemChieu"
+         android:title="Ca Chiều"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/itemFull"
+        android:title="Full time"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/itemNghi"
+        android:title="Nghỉ"
+        app:showAsAction="withText" />
+</menu>

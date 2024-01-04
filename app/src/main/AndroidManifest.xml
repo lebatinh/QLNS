@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.QuảnLýNhânSự"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31" >
+        <activity
+            android:name=".ql.dslich.Them_Lich_Nv"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ql.dslich.SuaLich"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ql.dslich.XepLichLv"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".api.Youtube"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".nv.DK_Lich_Lv_Activity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ql.nv.SuaNV"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ql.nv.ChangeListNV"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ql.nv.ThemNV"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".nv.dsnv.DSNVActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".nv.MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.DMKActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Success"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.DKActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.DNActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
