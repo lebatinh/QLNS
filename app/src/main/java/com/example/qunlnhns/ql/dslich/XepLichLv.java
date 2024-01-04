@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -250,14 +251,16 @@ public class XepLichLv extends AppCompatActivity {
         // Tính toán ngày bắt đầu của tuần hiện tại
         LocalDate startOfCurrentWeek = currentDate.with(DayOfWeek.MONDAY);
 
+        // Tính toán ngày chủ nhật của tuần hiện tại
+        LocalDate endOfCurrentWeek = startOfCurrentWeek.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+
         // Lấy dữ liệu của tuần hiện tại hoặc các tuần trong tương lai
         startDate = startOfCurrentWeek.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        endDate = endOfCurrentWeek.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        // Gọi hàm để lấy dữ liệu
-        fetchAndDisplayData(startDate, startDate);
-    }
+        // Hiển thị thông tin đã chọn trong TextView
+        tvLichTime.setText("Từ " + startDate + " đến " + endDate);
 
-    private void fetchAndDisplayData(String startDate, String startDate1) {
         // Gọi hàm để lấy dữ liệu
         LichLv();
     }
@@ -302,6 +305,7 @@ public class XepLichLv extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showDatePickerDialog() {
+        AnhXa();
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
             LocalDate selectedDate = LocalDate.of(year, month + 1, dayOfMonth);
 
@@ -311,18 +315,21 @@ public class XepLichLv extends AppCompatActivity {
                 return;
             }
 
-            LocalDate startOfSelectedWeek = selectedDate.with(DayOfWeek.MONDAY);
-            LocalDate endOfSelectedWeek = startOfSelectedWeek.plusDays(6);
+            // Tìm ngày thứ 2 đầu tiên của tuần chứa ngày được chọn
+            LocalDate startOfSelectedWeek = selectedDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+            // Tìm ngày chủ nhật cuối cùng của tuần chứa ngày được chọn
+            LocalDate endOfSelectedWeek = selectedDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
             try {
                 selectedStartDate = Date.from(startOfSelectedWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
                 selectedEndDate = Date.from(endOfSelectedWeek.atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant());
 
+                // Chuyển đổi thành kiểu String ngay sau khi chọn ngày
                 startDate = startOfSelectedWeek.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
                 endDate = endOfSelectedWeek.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
                 displaySelectedDates();
-                LichLv(); // Không truyền tham số vào đây
+                LichLv();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -339,32 +346,46 @@ public class XepLichLv extends AppCompatActivity {
     }
 
     private void LichLv() {
+        AnhXa();
         lvLich = findViewById(R.id.lvLich);
         arrLich = new ArrayList<>();
 
         adapter = new LichAdapter(this, R.layout.nv_lich, arrLich);
         lvLich.setAdapter(adapter);
 
+        // Xóa dữ liệu cũ trước khi thêm dữ liệu mới
+        arrLich.clear();
+
+        Log.d("LichLv", "LichLv method is called");
         // Lấy dữ liệu cho khoảng thời gian cụ thể
-        GetData1(url2, startDate, endDate);
+        GetData1(url2);
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void displaySelectedDates() {
+        AnhXa();
         // Gán giá trị cho startDate và endDate
+        // Đảm bảo startDate và endDate là kiểu String
         startDate = selectedStartDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         endDate = selectedEndDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
         // Hiển thị thông tin đã chọn trong TextView
         tvLichTime.setText("Từ " + startDate + " đến " + endDate);
     }
-    private void GetData1(String url2, String startDate, String endDate) {
-        // Append startDate and endDate to the URL
-        String urlWithDates = url2 + "?startDate=" + startDate + "&endDate=" + endDate;
+    private void GetData1(String url2) {
+        Log.d("GetData1", "startDate: " + startDate + ", endDate: " + endDate);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, urlWithDates, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url2, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                Log.d("GetData1", "Response: " + response);
+                // Tắt ProgressDialog khi có phản hồi
+                progressDialog.dismiss();
+
+                // Xử lý dữ liệu khi có phản hồi
                 if (response.length() == 0) {
                     // Hiển thị thông báo nếu không có nhân viên nào
                     showAlertDialog(XepLichLv.this, "Cảnh báo!", "Danh sách lịch làm việc trống!");
@@ -372,49 +393,59 @@ public class XepLichLv extends AppCompatActivity {
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject object = response.getJSONObject(i);
-                            String hoTen = object.optString("HoTen", "");
-                            String maNv = object.optString("MaNv", "");
-                            String t2 = object.optString("T2", "");
-                            String t3 = object.optString("T3", "");
-                            String t4 = object.optString("T4", "");
-                            String t5 = object.optString("T5", "");
-                            String t6 = object.optString("T6", "");
-                            String t7 = object.optString("T7", "");
-                            String cn = object.optString("Cn", "");
-                            timeStart = object.optString("StartDate", "");
-                            timeEnd = object.optString("EndDate", "");
+                            // So sánh startDate và endDate từ JSON với giá trị đã gán mặc định
+                            if (startDate.equals(object.optString("StartDate")) && endDate.equals(object.optString("EndDate"))) {
+                                // Xử lý thông tin từ JSON
+                                String hoTen = object.optString("HoTen", "");
+                                String maNv = object.optString("MaNv", "");
+                                String t2 = object.optString("T2", "");
+                                String t3 = object.optString("T3", "");
+                                String t4 = object.optString("T4", "");
+                                String t5 = object.optString("T5", "");
+                                String t6 = object.optString("T6", "");
+                                String t7 = object.optString("T7", "");
+                                String cn = object.optString("Cn", "");
+                                timeStart = object.optString("StartDate", "");
+                                timeEnd = object.optString("EndDate", "");
 
-                            tvLichTime.setText("Từ " + timeStart + " đến " + timeEnd);
-                            // Lấy chuỗi Base64 từ JSON
-                            String hinhBase64 = object.optString("HinhAnh", "");
-                            // Chuyển chuỗi Base64 thành mảng byte
-                            byte[] hinhBytes = new byte[0];
+                                tvLichTime.setText("Từ " + timeStart + " đến " + timeEnd);
+                                // Lấy chuỗi Base64 từ JSON
+                                String hinhBase64 = object.optString("HinhAnh", "");
+                                // Chuyển chuỗi Base64 thành mảng byte
+                                byte[] hinhBytes = new byte[0];
 
-                            hinhBytes = Base64.decode(hinhBase64, Base64.DEFAULT);
-                            // Kiểm tra xem mảng byte có dữ liệu không
-                            if (hinhBytes != null && hinhBytes.length > 0) {
-                                // Chuyển mảng byte thành Bitmap
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(hinhBytes, 0, hinhBytes.length);
+                                hinhBytes = Base64.decode(hinhBase64, Base64.DEFAULT);
+                                // Kiểm tra xem mảng byte có dữ liệu không
+                                if (hinhBytes != null && hinhBytes.length > 0) {
+                                    // Chuyển mảng byte thành Bitmap
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(hinhBytes, 0, hinhBytes.length);
 
+                                }
+                                arrLich.add(new Lich(hinhBytes, hoTen, maNv, t2, t3, t4, t5, t6, t7, cn));
+                                Log.d("Gỡ lỗi", "Dữ liệu: " + arrLich.toString());
                             }
-                            arrLich.add(new Lich(hinhBytes, hoTen, maNv, t2, t3, t4, t5, t6, t7, cn));
                         } catch (JSONException e) {
-                            throw new RuntimeException(e);
+                            e.printStackTrace();
+                            Log.e("Lỗi JSON", "Lỗi phân tích dữ liệu JSON: " + e.getMessage());
                         }
                     }
+
                     adapter.notifyDataSetChanged();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                // Xử lý lỗi khi có lỗi trong quá trình gửi yêu cầu
                 Toast.makeText(XepLichLv.this, "Error", Toast.LENGTH_SHORT).show();
-                Log.d("Error", error.toString());
+                Log.e ("Lỗi Volley", "Lỗi trong yêu cầu mạng: " + error.toString ());
             }
         });
         requestQueue.add(jsonArrayRequest);
     }
+
     private void GdDkLich() {
+        AnhXa();
         lvDkLich = findViewById(R.id.lvDkLich);
         arrDkLich = new ArrayList<>();
 
