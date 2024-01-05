@@ -44,7 +44,7 @@ public class LichDkAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView hinhanh;
-        TextView hoten, manv, lydo, t2, t3, t4, t5, t6, t7, cn;
+        TextView manv, hoten, lydo, t2, t3, t4, t5, t6, t7, cn;
     }
 
     private static Bitmap decodeBase64ToBitmap(String base64String) {
@@ -66,8 +66,8 @@ public class LichDkAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout, null);
             holder.hinhanh = convertView.findViewById(R.id.hinhanh);
-            holder.hoten = convertView.findViewById(R.id.hoten);
             holder.manv = convertView.findViewById(R.id.manv);
+            holder.hoten = convertView.findViewById(R.id.hoten);
             holder.lydo = convertView.findViewById(R.id.lydo);
             holder.t2 = convertView.findViewById(R.id.t2);
             holder.t3 = convertView.findViewById(R.id.t3);
@@ -76,6 +76,13 @@ public class LichDkAdapter extends BaseAdapter {
             holder.t6 = convertView.findViewById(R.id.t6);
             holder.t7 = convertView.findViewById(R.id.t7);
             holder.cn = convertView.findViewById(R.id.cn);
+            holder.t2.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            holder.t3.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            holder.t4.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            holder.t5.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            holder.t6.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            holder.t7.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            holder.cn.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
 
             convertView.setTag(holder);
         } else {
@@ -95,8 +102,8 @@ public class LichDkAdapter extends BaseAdapter {
             holder.hinhanh.setImageBitmap(bitmap);
         }
 
-        holder.hoten.setText(lichDk.getHoTen());
         holder.manv.setText(lichDk.getMaNv());
+        holder.hoten.setText(lichDk.getHoTen());
         holder.lydo.setText(lichDk.getLyDo());
         holder.t2.setText(lichDk.getT2());
         holder.t3.setText(lichDk.getT3());

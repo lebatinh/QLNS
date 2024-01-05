@@ -90,6 +90,7 @@ public class XepLichLv extends AppCompatActivity {
 
         AnhXa();
 
+        GdDkLich();
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,16 +105,6 @@ public class XepLichLv extends AppCompatActivity {
                 startActivity(new Intent(XepLichLv.this, Them_Lich_Nv.class));
             }
         });
-
-        tvLichLv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lnrDk.setVisibility(View.VISIBLE);
-                lnrLich.setVisibility(View.GONE);
-                lnrXn.setVisibility(View.GONE);
-                GdDkLich();
-            }
-        });
         tvDsDk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +113,14 @@ public class XepLichLv extends AppCompatActivity {
                 lnrXn.setVisibility(View.VISIBLE);
             }
         });
-
+        tvLichLv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lnrDk.setVisibility(View.VISIBLE);
+                lnrLich.setVisibility(View.GONE);
+                lnrXn.setVisibility(View.GONE);
+            }
+        });
         btnGuiTb.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -169,10 +167,16 @@ public class XepLichLv extends AppCompatActivity {
                             builder1.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    final ProgressDialog progressDialog = new ProgressDialog(XepLichLv.this);
+                                    progressDialog.setMessage("Loading...");
+                                    progressDialog.show();
                                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url3, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
+                                            progressDialog.dismiss();
                                             if (response.equals("success")) {
+                                                arrLich.remove(position);
+                                                adapter.notifyDataSetChanged();
                                                 showAlertDialog(XepLichLv.this, "Thông báo", "Xóa nhân viên thành công! \nBạn đã có thể xem lại danh sách.");
                                             } else if (response.equals("fail")) {
                                                 showAlertDialog(XepLichLv.this, "Cảnh báo!", "Xóa nhân viên không thành công.");
@@ -190,14 +194,13 @@ public class XepLichLv extends AppCompatActivity {
                                             // Truyền tham số cho yêu cầu POST
                                             Map<String, String> params = new HashMap<>();
                                             params.put("manv", maNv);
+                                            Log.d("manv", maNv.toString());
                                             return params;
                                         }
                                     };
                                     // Thêm yêu cầu vào hàng đợi Volley
                                     RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                                     requestQueue.add(stringRequest);
-                                    arrLich.remove(position);
-                                    adapter.notifyDataSetChanged();
                                 }
                             });
                             builder1.setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -212,8 +215,12 @@ public class XepLichLv extends AppCompatActivity {
                     builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            final ProgressDialog progressDialog = new ProgressDialog(XepLichLv.this);
+                            progressDialog.setMessage("Loading...");
+                            progressDialog.show();
                             Intent intent = new Intent(XepLichLv.this, SuaLich.class);
                             intent.putExtra("MaNv", maNv);
+                            progressDialog.dismiss();
                             startActivity(intent);
                         }
                     });
@@ -271,10 +278,14 @@ public class XepLichLv extends AppCompatActivity {
         finish();
     }
     private void QueryData(String url4) {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         AnhXa();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url4, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressDialog.dismiss();
                 if (response.equals("success")) {
                     showAlertDialog(XepLichLv.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
@@ -421,7 +432,7 @@ public class XepLichLv extends AppCompatActivity {
                                     Bitmap bitmap = BitmapFactory.decodeByteArray(hinhBytes, 0, hinhBytes.length);
 
                                 }
-                                arrLich.add(new Lich(hinhBytes, hoTen, maNv, t2, t3, t4, t5, t6, t7, cn));
+                                arrLich.add(new Lich(hinhBytes, maNv, hoTen, t2, t3, t4, t5, t6, t7, cn));
                                 Log.d("Gỡ lỗi", "Dữ liệu: " + arrLich.toString());
                             }
                         } catch (JSONException e) {
@@ -455,10 +466,14 @@ public class XepLichLv extends AppCompatActivity {
         GetData(url1);
     }
     private void GetData(String url1) {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 if (response.length() == 0) {
                     // Hiển thị thông báo nếu không có nhân viên nào
                     showAlertDialog(XepLichLv.this, "Cảnh báo!", "Danh sách trống!");

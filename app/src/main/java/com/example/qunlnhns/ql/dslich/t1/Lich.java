@@ -4,8 +4,21 @@ import android.util.Base64;
 
 public class Lich {
     private byte[] hinh;
-    private String HoTen, MaNv;
+    private String  MaNv, HoTen;
     private String T2, T3, T4, T5, T6, T7, Cn;
+
+    public Lich(byte[] hinh, String maNv, String hoTen, String t2, String t3, String t4, String t5, String t6, String t7, String cn) {
+        this.hinh = hinh;
+        MaNv = maNv;
+        HoTen = hoTen;
+        T2 = t2;
+        T3 = t3;
+        T4 = t4;
+        T5 = t5;
+        T6 = t6;
+        T7 = t7;
+        Cn = cn;
+    }
 
     public byte[] getHinh() {
         return hinh;
@@ -15,20 +28,20 @@ public class Lich {
         this.hinh = hinh;
     }
 
-    public String getHoTen() {
-        return HoTen;
-    }
-
-    public void setHoTen(String hoTen) {
-        HoTen = hoTen;
-    }
-
     public String getMaNv() {
         return MaNv;
     }
 
     public void setMaNv(String maNv) {
         MaNv = maNv;
+    }
+
+    public String getHoTen() {
+        return HoTen;
+    }
+
+    public void setHoTen(String hoTen) {
+        HoTen = hoTen;
     }
 
     public String getT2() {
@@ -84,19 +97,6 @@ public class Lich {
     }
 
     public void setCn(String cn) {
-        Cn = cn;
-    }
-
-    public Lich(byte[] hinh, String maNv, String hoTen, String t2, String t3, String t4, String t5, String t6, String t7, String cn) {
-        this.hinh = hinh;
-        HoTen = hoTen;
-        MaNv = maNv;
-        T2 = t2;
-        T3 = t3;
-        T4 = t4;
-        T5 = t5;
-        T6 = t6;
-        T7 = t7;
         Cn = cn;
     }
 

@@ -4,8 +4,22 @@ import android.util.Base64;
 
 public class LichDk {
     private byte[] hinh;
-    private String HoTen, MaNv, LyDo;
+    private String MaNv, HoTen, LyDo;
     private String T2, T3, T4, T5, T6, T7, Cn;
+
+    public LichDk(byte[] hinh, String maNv, String hoTen, String lyDo, String t2, String t3, String t4, String t5, String t6, String t7, String cn) {
+        this.hinh = hinh;
+        MaNv = maNv;
+        HoTen = hoTen;
+        LyDo = lyDo;
+        T2 = t2;
+        T3 = t3;
+        T4 = t4;
+        T5 = t5;
+        T6 = t6;
+        T7 = t7;
+        Cn = cn;
+    }
 
     public byte[] getHinh() {
         return hinh;
@@ -15,20 +29,20 @@ public class LichDk {
         this.hinh = hinh;
     }
 
-    public String getHoTen() {
-        return HoTen;
-    }
-
-    public void setHoTen(String hoTen) {
-        HoTen = hoTen;
-    }
-
     public String getMaNv() {
         return MaNv;
     }
 
     public void setMaNv(String maNv) {
         MaNv = maNv;
+    }
+
+    public String getHoTen() {
+        return HoTen;
+    }
+
+    public void setHoTen(String hoTen) {
+        HoTen = hoTen;
     }
 
     public String getLyDo() {
@@ -95,19 +109,6 @@ public class LichDk {
         Cn = cn;
     }
 
-    public LichDk(byte[] hinh, String hoTen, String maNv, String lyDo, String t2, String t3, String t4, String t5, String t6, String t7, String cn) {
-        this.hinh = hinh;
-        HoTen = hoTen;
-        MaNv = maNv;
-        LyDo = lyDo;
-        T2 = t2;
-        T3 = t3;
-        T4 = t4;
-        T5 = t5;
-        T6 = t6;
-        T7 = t7;
-        Cn = cn;
-    }
     // Thêm phương thức này để trả về chuỗi Base64 của hình ảnh
     public String getHinhBase64() {
         if (hinh != null && hinh.length > 0) {
