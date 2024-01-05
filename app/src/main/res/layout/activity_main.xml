@@ -369,6 +369,29 @@
                                 android:text="Viết thông báo"
                                 android:textSize="15dp" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:id="@+id/xltp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:src="@drawable/paid" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Xét lương\nthưởng, phạt"
+                                android:textSize="15dp" />
+                        </LinearLayout>
                     </GridLayout>
                 </LinearLayout>
 
