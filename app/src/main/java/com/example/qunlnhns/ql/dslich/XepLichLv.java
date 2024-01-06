@@ -15,11 +15,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -36,10 +38,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Notification;
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.ql.dslich.t1.Lich;
 import com.example.qunlnhns.ql.dslich.t1.LichAdapter;
 import com.example.qunlnhns.ql.dslich.t2.LichDk;
 import com.example.qunlnhns.ql.dslich.t2.LichDkAdapter;
+import com.example.qunlnhns.ql.nv.ChangeListNV;
 import com.example.qunlnhns.user.DKActivity;
 
 import org.json.JSONArray;
@@ -74,7 +78,7 @@ public class XepLichLv extends AppCompatActivity {
     private TextView tvDsDk, tvLichLv, tvLichTime;
     private ImageButton btnHome, btnThem;
     private Button btnGuiTb;
-    String tg, timeStart, timeEnd, startDate, endDate, selectedDate;
+    String tg, startDate, endDate, selectedDate, notificationContent;
     private Date selectedStartDate;
     private Date selectedEndDate;
 
@@ -129,27 +133,9 @@ public class XepLichLv extends AppCompatActivity {
             }
         });
         btnGuiTb.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                // Lấy thời gian hiện tại
-                LocalDateTime currentTime = LocalDateTime.now();
-
-                // Định dạng thời gian theo định dạng mong muốn
-                DateTimeFormatter formatter = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                }
-                String formattedTime = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    formattedTime = currentTime.format(formatter);
-                }
-
-                // Đặt giá trị cho biến tg
-                tg = formattedTime;
-                Notification.showNotification(XepLichLv.this, "Thông báo!", "Lịch của bạn đã có hãy vào xem ngay nhé!");
-
-                QueryData(url4);
+                showNotificationDialog();
             }
         });
 
@@ -251,6 +237,69 @@ public class XepLichLv extends AppCompatActivity {
 
     }
 
+    private void showNotificationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(XepLichLv.this);
+        builder.setTitle("Thông báo");
+
+        // Layout cho dialog
+        LinearLayout layout = new LinearLayout(XepLichLv.this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        // Ô nhập liệu
+        final EditText input = new EditText(XepLichLv.this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint("Nhập nội dung thông báo");
+        layout.addView(input);
+
+        builder.setView(layout);
+
+        // Nút "Gửi"
+        builder.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Lấy nội dung từ ô nhập liệu
+                notificationContent = input.getText().toString();
+
+                if (!notificationContent.isEmpty()) {
+                    // Lấy thời gian hiện tại
+                    LocalDateTime currentTime = LocalDateTime.now();
+
+                    // Định dạng thời gian theo định dạng mong muốn
+                    DateTimeFormatter formatter = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    }
+                    String formattedTime = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        formattedTime = currentTime.format(formatter);
+                    }
+
+                    // Đặt giá trị cho biến tg
+                    tg = formattedTime;
+
+                    // Gọi hàm QueryData để gửi thông báo và cập nhật SQL
+                    QueryData(url4);
+                } else {
+                    // Hiển thị thông báo lỗi nếu nội dung trống
+                    Toast.makeText(XepLichLv.this, "Vui lòng nhập nội dung thông báo", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Nút "Hủy"
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Đóng dialog nếu người dùng ấn "Hủy"
+                dialog.cancel();
+            }
+        });
+
+        // Hiển thị dialog
+        builder.show();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void getAndDisplayDefaultWeekData() {
         // Lấy ngày hiện tại
@@ -272,21 +321,43 @@ public class XepLichLv extends AppCompatActivity {
         // Gọi hàm để lấy dữ liệu
         LichLv(selectedDate);
     }
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận quay lại");
+        builder.setMessage("Bạn có muốn quay lại màn hình chính không?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Chuyển về màn hình đăng nhập (DNActivity)
+                startActivity(new Intent(XepLichLv.this, MainActivity.class));
+                finish(); // Đóng màn hình hiện tại nếu cần
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Hủy bỏ dialog và tiếp tục ở màn hình hiện tại
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
     private void QueryData(String url4) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(XepLichLv.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
-        AnhXa();
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url4, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressDialog.dismiss();
                 if (response.equals("success")) {
+                    Notification.showNotification(XepLichLv.this, "QLNV", "Bạn có thông báo mới, Vào xem ngay nhé!");
                     showAlertDialog(XepLichLv.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
                     showAlertDialog(XepLichLv.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
@@ -295,7 +366,8 @@ public class XepLichLv extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(XepLichLv.this, "Lỗi đăng ký: " + error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(XepLichLv.this, "Lỗi gửi thông báo!", Toast.LENGTH_SHORT).show();
+                Log.d("Lỗi gửi thông báo: ", error.toString());
             }
         }) {
             @Nullable
@@ -303,8 +375,7 @@ public class XepLichLv extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 // Truyền tham số cho yêu cầu POST
                 Map<String, String> params = new HashMap<>();
-                String tb = "Đã có lịch làm việc cho tuần này!";
-                params.put("tb", tb);
+                params.put("tb", notificationContent);
                 params.put("tg", tg);
                 return params;
             }
@@ -358,7 +429,6 @@ public class XepLichLv extends AppCompatActivity {
 
         datePickerDialog.show();
     }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void displaySelectedDates() {
         AnhXa();
@@ -381,7 +451,6 @@ public class XepLichLv extends AppCompatActivity {
         // Gọi hàm để lấy dữ liệu từ server
         GetData1(url2, selectedDate);
     }
-
 
     private void GetData1(String url2, String selectedDate) {
         Log.d("GetData1", "startDate: " + startDate + ", endDate: " + endDate);

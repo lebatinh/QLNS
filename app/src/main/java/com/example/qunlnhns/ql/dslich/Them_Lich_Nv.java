@@ -37,6 +37,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
+import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.ql.dslich.t3.List_Nv;
 import com.example.qunlnhns.ql.dslich.t3.List_Nv_Adapter;
 import com.example.qunlnhns.user.DKActivity;
@@ -174,6 +176,31 @@ public class Them_Lich_Nv extends AppCompatActivity {
                 }
             });
         }
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận quay lại");
+        builder.setMessage("Bạn có muốn quay lại màn hình chính không?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Chuyển về màn hình đăng nhập (DNActivity)
+                startActivity(new Intent(Them_Lich_Nv.this, MainActivity.class));
+                finish(); // Đóng màn hình hiện tại nếu cần
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Hủy bỏ dialog và tiếp tục ở màn hình hiện tại
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -3,8 +3,10 @@ package com.example.qunlnhns.user;
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.nv.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +56,37 @@ public class DKActivity extends AppCompatActivity {
             }
         });
     }
+    // Nếu người dùng ấn nút quay lại
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Bạn có muốn quay lại màn hình đăng nhập không?");
+        builder.setMessage("Khi quay lại sẽ hủy những gì bạn nhập vào!");
 
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Chuyển về màn hình đăng nhập (DNActivity)
+                edtTk_Dk.setText("");
+                edtMk_Dk.setText("");
+                edtMk_Dk1.setText("");
+                edtMaNv_Dk.setText("");
+                startActivity(new Intent(DKActivity.this, DNActivity.class));
+                finish(); // Đóng màn hình hiện tại nếu cần
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Hủy bỏ dialog và tiếp tục ở màn hình hiện tại
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     private void dangky() {
         AnhXa();
         if (!tk.isEmpty() && !manv.isEmpty() && !mk.isEmpty() && !mk1.isEmpty()) {
@@ -73,6 +106,10 @@ public class DKActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 if (response.equals("success")) {
+                    edtTk_Dk.setText("");
+                    edtMk_Dk.setText("");
+                    edtMk_Dk1.setText("");
+                    edtMaNv_Dk.setText("");
                     showAlertDialog(DKActivity.this, "Thông báo", "Đăng ký thành công!\nBạn có thể dùng tài khoản đó để đăng nhập");
                 } else if (response.equals("fail")) {
                     showAlertDialog(DKActivity.this, "Cảnh báo!", "Đăng ký không thành công.\nTài khoản hoặc mã nhân viên đã tồn tại!");

@@ -3,8 +3,10 @@ package com.example.qunlnhns.user;
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -75,7 +77,37 @@ public class DMKActivity extends AppCompatActivity {
             }
         });
     }
+    // Nếu người dùng ấn nút quay lại
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Bạn có muốn quay lại màn hình đăng nhập không?");
+        builder.setMessage("Khi quay lại sẽ hủy những gì bạn nhập vào!");
 
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Chuyển về màn hình đăng nhập (DNActivity)
+                edtTk_Dmk.setText("");
+                edtMk_Dmk.setText("");
+                edtMknew_Dmk.setText("");
+                edtMknew1_Dmk.setText("");
+                startActivity(new Intent(DMKActivity.this, DNActivity.class));
+                finish(); // Đóng màn hình hiện tại nếu cần
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Hủy bỏ dialog và tiếp tục ở màn hình hiện tại
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     private void doimatkhau() {
         if (!tk.isEmpty() && !mkc.isEmpty() && !mkm.isEmpty() && !mkm1.isEmpty()) {
             if (mkm.equals(mkm1)) {
@@ -133,6 +165,10 @@ public class DMKActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 if (response.equals("success")) {
+                    edtTk_Dmk.setText("");
+                    edtMk_Dmk.setText("");
+                    edtMknew_Dmk.setText("");
+                    edtMknew1_Dmk.setText("");
                     showAlertDialog(DMKActivity.this, "Thông báo", "Đổi mật khẩu thành công!\nBạn có thể đăng nhập lại bằng\ntài khoản và mật khẩu mới");
                 } else if (response.equals("fail")) {
                     showAlertDialog(DMKActivity.this, "Cảnh báo!", "Đổi mật khẩu không thành công.\nTài khoản hoặc mật khẩu không chính xác\nhoặc không tồn tại!");

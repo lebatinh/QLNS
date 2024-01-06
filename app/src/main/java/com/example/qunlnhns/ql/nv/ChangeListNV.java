@@ -27,6 +27,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
 import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.nv.dsnv.NVAdapter;
 import com.example.qunlnhns.nv.dsnv.NhanVien;
@@ -144,9 +145,30 @@ public class ChangeListNV extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận quay lại");
+        builder.setMessage("Bạn có muốn quay lại màn hình chính không?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Chuyển về màn hình đăng nhập (DNActivity)
+                startActivity(new Intent(ChangeListNV.this, MainActivity.class));
+                finish(); // Đóng màn hình hiện tại nếu cần
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Hủy bỏ dialog và tiếp tục ở màn hình hiện tại
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
+
     private void GetData(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {

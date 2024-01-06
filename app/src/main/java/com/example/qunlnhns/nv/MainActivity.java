@@ -3,8 +3,10 @@ package com.example.qunlnhns.nv;
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,12 +30,13 @@ import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.api.Youtube;
 import com.example.qunlnhns.nv.dsnv.DSNVActivity;
-import com.example.qunlnhns.ql.dslich.tb.Tb;
-import com.example.qunlnhns.ql.dslich.tb.TbAdapter;
+import com.example.qunlnhns.nv.dsnv.tb.Tb;
+import com.example.qunlnhns.nv.dsnv.tb.TbAdapter;
 import com.example.qunlnhns.ql.nv.ChangeListNV;
 import com.example.qunlnhns.ql.nv.ThemNV;
 import com.example.qunlnhns.ql.dslich.XepLichLv;
 import com.example.qunlnhns.user.DKActivity;
+import com.example.qunlnhns.user.DNActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,9 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private ScrollView scrollView;
     String localhost = DKActivity.localhost;
     private String url = "http://" + localhost + "/user/get_manv.php";
-    ;
     String url2 = "http://" + localhost + "/user/get_tb.php";
-    private boolean check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,8 +147,35 @@ public class MainActivity extends AppCompatActivity {
                 lvTb.setVisibility(View.VISIBLE);
             }
         });
-    }
 
+    }
+    // Nếu người dùng ấn nút quay lại
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận quay lại");
+        builder.setMessage("Bạn có muốn quay lại màn hình đăng nhập không?");
+
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Chuyển về màn hình đăng nhập (DNActivity)
+                startActivity(new Intent(MainActivity.this, DNActivity.class));
+                finish(); // Đóng màn hình hiện tại nếu cần
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Hủy bỏ dialog và tiếp tục ở màn hình hiện tại
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

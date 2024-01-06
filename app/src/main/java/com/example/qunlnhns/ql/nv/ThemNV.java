@@ -34,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
 import com.example.qunlnhns.nv.dsnv.DSNVActivity;
 import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.nv.dsnv.NhanVien;
@@ -118,9 +119,30 @@ public class ThemNV extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận quay lại");
+        builder.setMessage("Bạn có muốn quay lại màn hình chính không?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Chuyển về màn hình đăng nhập (DNActivity)
+                startActivity(new Intent(ThemNV.this, MainActivity.class));
+                finish(); // Đóng màn hình hiện tại nếu cần
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Hủy bỏ dialog và tiếp tục ở màn hình hiện tại
+                dialog.dismiss();
+            }
+        });
+
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        dialog.show();
     }
+
     private void themNv() {
         AnhXa();
         if (!manv.isEmpty() && !hoten.isEmpty() && !ngaysinh.isEmpty() && !gioitinh.isEmpty() && !quequan.isEmpty() && !diachi.isEmpty() && !chucvu.isEmpty() && !sdt.isEmpty()) {

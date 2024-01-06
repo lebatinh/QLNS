@@ -9,7 +9,7 @@ import androidx.core.app.NotificationCompat;
 
 public class Notification {
     private static final String CHANNEL_ID = "Thông báo!";
-    private static final String CHANNEL_NAME = "Lịch của bạn đã có hãy vào xem ngay nhé!";
+    private static final String CHANNEL_NAME = "Nội dung thông báo!";
 
     public static void showNotification(Context context, String title, String content) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

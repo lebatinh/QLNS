@@ -1,4 +1,4 @@
-package com.example.qunlnhns.ql.dslich.tb;
+package com.example.qunlnhns.nv.dsnv.tb;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -2,6 +2,7 @@ package com.example.qunlnhns.nv.dsnv;
 
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
@@ -23,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
 import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.user.DKActivity;
 
@@ -78,9 +81,30 @@ public class DSNVActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận quay lại");
+        builder.setMessage("Bạn có muốn quay lại màn hình chính không?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Chuyển về màn hình đăng nhập (DNActivity)
+                startActivity(new Intent(DSNVActivity.this, MainActivity.class));
+                finish(); // Đóng màn hình hiện tại nếu cần
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Hủy bỏ dialog và tiếp tục ở màn hình hiện tại
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
+
     private void performSearch(String query) {
         ArrayList<NhanVien> searchResults = new ArrayList<>();
 
