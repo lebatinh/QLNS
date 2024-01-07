@@ -80,8 +80,7 @@ public class XepLichLv extends AppCompatActivity {
     private ImageButton btnHome, btnThem;
     private Button btnGuiTb;
     String tg, startDate, endDate, selectedDate, notificationContent;
-    private Date selectedStartDate;
-    private Date selectedEndDate;
+    private Date selectedStartDate,selectedEndDate;
     Database database;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -240,7 +239,6 @@ public class XepLichLv extends AppCompatActivity {
         getAndDisplayDefaultWeekData();
 
     }
-
     private void showNotificationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(XepLichLv.this);
         builder.setTitle("Thông báo");

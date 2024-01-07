@@ -147,7 +147,12 @@ public class MainActivity extends AppCompatActivity {
                 lvTb.setVisibility(View.VISIBLE);
             }
         });
-
+        xemllv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Xem_Lich_Lv.class));
+            }
+        });
     }
     // Nếu người dùng ấn nút quay lại
     @Override
