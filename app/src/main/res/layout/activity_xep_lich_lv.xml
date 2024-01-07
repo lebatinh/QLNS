@@ -48,6 +48,38 @@
             android:background="@color/black" />
 
         <LinearLayout
+            android:id="@+id/lnrDk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvDsDk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableRight="@drawable/more"
+                android:hint="Danh sách đăng ký "
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="200dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:background="@color/black" />
+
+            <ListView
+                android:id="@+id/lvDkLich"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/lnrLich"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:drawableRight="@drawable/more"
-                    android:text="Lịch làm việc chính thức "
+                    android:hint="Lịch làm việc chính thức "
                     android:textSize="20dp"
                     android:textStyle="bold" />
                 <View
@@ -76,8 +108,7 @@
                 android:background="@color/black" />
                 <TextView
                     android:id="@+id/tvLichTime"
-                    android:hint="Từ ngày ... đến ngày ..."
-                    android:drawableRight="@drawable/more"
+                    android:text="Từ ngày ... đến ngày ..."
                     android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"/>

@@ -138,12 +138,6 @@ public class Them_Lich_Nv extends AppCompatActivity {
             }
         });
 
-        btnThem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QueryData(url2);
-            }
-        });
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,7 +170,42 @@ public class Them_Lich_Nv extends AppCompatActivity {
                 }
             });
         }
+        btnThem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Check if tvNgay is empty
+                if (tvNgay.getText().toString().trim().isEmpty()) {
+                    showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Bạn quên chưa chọn ngày cho lịch!");
+                } else {
+                    boolean anyDayEmpty = false; // Flag to track if any day is empty
+
+                    // tvNgay is not empty, proceed to the loop
+                    for (int i = 0; i < 7; i++) {
+                        String time = tvLuaChonArray[i].getText().toString().trim();
+
+                        // Set the day based on the value of i
+                        String t;
+                        if (i == 0) {
+                            t = "Chủ nhật";
+                        } else {
+                            t = "Thứ " + (i + 1);
+                        }
+
+                        if (time.isEmpty()) {
+                            showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Bạn quên chưa chọn Ca cho " + t + "!");
+                            anyDayEmpty = true; // Set the flag to true if any day is empty
+                        }
+                    }
+
+                    // Check the flag before proceeding
+                    if (!anyDayEmpty) {
+                        QueryData(url2);
+                    }
+                }
+            }
+        });
     }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -300,88 +329,80 @@ public class Them_Lich_Nv extends AppCompatActivity {
         // Lặp qua mảng TextView để lấy dữ liệu cho time1 đến time7
         for (int i = 0; i < tvLuaChonArray.length; i++) {
             String timeValue = tvLuaChonArray[i].getText().toString().trim();
-            if (!timeValue.toString().trim().isEmpty() ) {
-                switch (i) {
-                    case 0:
-                        time1 = timeValue;
-                        break;
-                    case 1:
-                        time2 = timeValue;
-                        break;
-                    case 2:
-                        time3 = timeValue;
-                        break;
-                    case 3:
-                        time4 = timeValue;
-                        break;
-                    case 4:
-                        time5 = timeValue;
-                        break;
-                    case 5:
-                        time6 = timeValue;
-                        break;
-                    case 6:
-                        time7 = timeValue;
-                        break;
-                }
+            switch (i) {
+                case 0:
+                    time1 = timeValue;
+                    break;
+                case 1:
+                    time2 = timeValue;
+                    break;
+                case 2:
+                    time3 = timeValue;
+                    break;
+                case 3:
+                    time4 = timeValue;
+                    break;
+                case 4:
+                    time5 = timeValue;
+                    break;
+                case 5:
+                    time6 = timeValue;
+                    break;
+                case 6:
+                    time7 = timeValue;
+                    break;
             }
-            else {
-                showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Không được bỏ trống ngày nào!");
-            }
-            if (tvNgay.toString().trim().isEmpty()){
-                showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Bạn quên chưa chọn ngày cho lịch!");
-            }
-            maNv = manv.getText().toString().trim();
-            hoTen = hoten.getText().toString().trim();
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    if (response.equals("success")) {
-                        showAlertDialog(Them_Lich_Nv.this, "Thông báo", "Thêm thông tin nhân viên thành công! Bạn đã có thể xem nhân viên trong danh sách.");
-                        startActivity(new Intent(Them_Lich_Nv.this, XepLichLv.class));
-                    } else if (response.equals("fail")) {
-                        showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Thêm nhân viên không thành công.\nThông tin nhân viên này đã tồn tại!");
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(Them_Lich_Nv.this, "Lỗi Thêm nhân viên: " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }) {
-                @Nullable
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    // Truyền tham số cho yêu cầu POST
-                    Map<String, String> params = new HashMap<>();
-                    params.put("manv", m1);
-                    params.put("hoten", hoTen);
-                    params.put("t2", time2);
-                    params.put("t3", time3);
-                    params.put("t4", time4);
-                    params.put("t5", time5);
-                    params.put("t6", time6);
-                    params.put("t7", time7);
-                    params.put("cn", time1);
-                    params.put("startDate", startDate);
-                    params.put("endDate", endDate);
-
-                    // Chuyển đổi ảnh từ ImageView sang mảng byte
-                    BitmapDrawable bitmapDrawable = (BitmapDrawable) hinhanh.getDrawable();
-                    if (bitmapDrawable != null) {
-                        Bitmap bitmap = bitmapDrawable.getBitmap();
-                        String encodedImage = bitmapToBase64(bitmap);
-                        params.put("hinhanh", encodedImage);
-                    }
-
-                    return params;
-                }
-            };
-
-            // Thêm yêu cầu vào hàng đợi Volley
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(stringRequest);
         }
+        maNv = manv.getText().toString().trim();
+        hoTen = hoten.getText().toString().trim();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.equals("success")) {
+                    showAlertDialog(Them_Lich_Nv.this, "Thông báo", "Thêm thông tin nhân viên thành công! Bạn đã có thể xem nhân viên trong danh sách.");
+                    startActivity(new Intent(Them_Lich_Nv.this, XepLichLv.class));
+                } else if (response.equals("fail")) {
+                    showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Thêm nhân viên không thành công.\nThông tin nhân viên này đã tồn tại!");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(Them_Lich_Nv.this, "Lỗi Thêm nhân viên: " + error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                // Truyền tham số cho yêu cầu POST
+                Map<String, String> params = new HashMap<>();
+                params.put("manv", m1);
+                params.put("hoten", hoTen);
+                params.put("t2", time2);
+                params.put("t3", time3);
+                params.put("t4", time4);
+                params.put("t5", time5);
+                params.put("t6", time6);
+                params.put("t7", time7);
+                params.put("cn", time1);
+                params.put("startDate", startDate);
+                params.put("endDate", endDate);
+
+                // Chuyển đổi ảnh từ ImageView sang mảng byte
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) hinhanh.getDrawable();
+                if (bitmapDrawable != null) {
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    String encodedImage = bitmapToBase64(bitmap);
+                    params.put("hinhanh", encodedImage);
+                }
+
+                return params;
+            }
+        };
+
+        // Thêm yêu cầu vào hàng đợi Volley
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
 
     }
 
