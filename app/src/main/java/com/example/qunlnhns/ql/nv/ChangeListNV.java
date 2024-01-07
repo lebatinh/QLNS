@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
 import com.example.qunlnhns.nv.MainActivity;
@@ -50,11 +51,14 @@ public class ChangeListNV extends AppCompatActivity {
     String url = "http://"+localhost+"/user/getdata_nv.php";
     String url1 = "http://"+localhost+"/user/delete_nv.php";
 
+    Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dsnv);
 
+        // Khởi tạo đối tượng Database
+        database = new Database(this, "detail.sqlite", null, 1);
         lvNv = findViewById(R.id.lvNv);
         arrNv = new ArrayList<>();
 
@@ -122,10 +126,11 @@ public class ChangeListNV extends AppCompatActivity {
                     builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(ChangeListNV.this, SuaNV.class);
 
-                            intent.putExtra("MaNv", manv);
-                            startActivity(intent);
+                            database.CREATE_TABLE_DETAIL();
+                            database.INSERT_MANV_DELTAIL(null, manv);
+
+                            startActivity(new Intent(ChangeListNV.this, SuaNV.class));
                         }
                     });
                     builder.setNeutralButton("Thoát", new DialogInterface.OnClickListener() {

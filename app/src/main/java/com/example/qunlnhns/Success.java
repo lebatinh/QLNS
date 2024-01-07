@@ -20,12 +20,6 @@ public class Success extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.success);
 
-        Intent intent = getIntent();
-        if (intent.hasExtra("manv")){
-            String manv1 = intent.getStringExtra("manv");
-            manv = manv1;
-        }
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

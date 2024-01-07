@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.user.DKActivity;
 import com.example.qunlnhns.user.DNActivity;
@@ -69,7 +70,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     private final TextView[] tvLuaChonArray = new TextView[7];
     private Date selectedStartDate;
     private Date selectedEndDate;
-
+    Database database;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +78,11 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_dk_lich_lv);
 
         AnhXa();
-        Intent intent = getIntent();
-        if (intent.hasExtra("manv")) {
-            getmanv = intent.getStringExtra("manv");
-            manv1 = getmanv;
-        }
+
+        // Khởi tạo đối tượng Database
+        database = new Database(this, "main.sqlite", null, 1);
+        manv1 = database.SELECT_MANV_MAIN();
+
         check();
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override

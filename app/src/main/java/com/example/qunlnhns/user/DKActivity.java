@@ -32,7 +32,7 @@ public class DKActivity extends AppCompatActivity {
     private EditText edtTk_Dk, edtMaNv_Dk, edtMk_Dk, edtMk_Dk1;
     private TextView txtDangNhap;
     private Button btnDangKy;
-    public static String localhost = "192.168.3.32";
+    public static String localhost = "192.168.3.33";
     private String URL = "http://"+localhost+"/user/insert.php";
     private String tk, manv, mk, mk1;
 

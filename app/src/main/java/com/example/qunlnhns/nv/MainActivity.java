@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.api.Youtube;
 import com.example.qunlnhns.nv.dsnv.DSNVActivity;
@@ -59,18 +60,17 @@ public class MainActivity extends AppCompatActivity {
     private String url = "http://" + localhost + "/user/get_manv.php";
     String url2 = "http://" + localhost + "/user/get_tb.php";
 
+    Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = getIntent();
-        if (intent.hasExtra("manv")) {
-            String getmanv = intent.getStringExtra("manv");
-            manv1 = getmanv;
-            GetData();
-        }
+        // Khởi tạo đối tượng Database
+        database = new Database(this, "main.sqlite", null, 1);
+        manv1 = database.SELECT_MANV_MAIN();
 
+        GetData();
         GetData1(url2);
 
         lvTb = findViewById(R.id.lvTb);

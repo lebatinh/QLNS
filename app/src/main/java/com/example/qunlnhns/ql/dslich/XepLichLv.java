@@ -36,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.qunlnhns.Database;
 import com.example.qunlnhns.Notification;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.nv.MainActivity;
@@ -81,7 +82,7 @@ public class XepLichLv extends AppCompatActivity {
     String tg, startDate, endDate, selectedDate, notificationContent;
     private Date selectedStartDate;
     private Date selectedEndDate;
-
+    Database database;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,8 @@ public class XepLichLv extends AppCompatActivity {
 
         AnhXa();
 
+        // Khởi tạo đối tượng Database
+        database = new Database(this, "detail.sqlite", null, 1);
         GdDkLich();
         tvLichTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,9 +215,10 @@ public class XepLichLv extends AppCompatActivity {
                             progressDialog.setMessage("Loading...");
                             progressDialog.show();
                             Intent intent = new Intent(XepLichLv.this, SuaLich.class);
-                            intent.putExtra("MaNv", maNv);
+                            database.INSERT_MANV_DELTAIL(null, maNv);
+
                             progressDialog.dismiss();
-                            startActivity(intent);
+                            startActivity(new Intent(XepLichLv.this, SuaLich.class));
                         }
                     });
                     builder.setNeutralButton("Hủy", new DialogInterface.OnClickListener() {

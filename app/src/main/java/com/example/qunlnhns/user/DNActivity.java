@@ -20,8 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.Success;
+import com.example.qunlnhns.nv.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,11 +37,14 @@ public class DNActivity extends AppCompatActivity {
     private String tk, mk, manvvalue;
     String localhost = DKActivity.localhost;
     String URL = "http://"+localhost+"/user/getdata.php";
-
+    Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dn);
+
+        // Khởi tạo đối tượng Database
+        database = new Database(this, "main.sqlite", null, 1);
 
         AnhXa();
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
@@ -128,9 +133,10 @@ public class DNActivity extends AppCompatActivity {
                 if (check) {
                     edtTk_Dn.setText("");
                     edtMk_Dn.setText("");
-                    Intent intent = new Intent(DNActivity.this, Success.class);
-                    intent.putExtra("manv", manvvalue);
-                    startActivity(intent);
+
+                    database.CREATE_TABLE_MAIN();
+                    database.INSERT_MANV_MAIN(null, manvvalue);
+                    startActivity(new Intent(DNActivity.this, Success.class));
                 } else {
                     edtTk_Dn.setText("");
                     edtMk_Dn.setText("");

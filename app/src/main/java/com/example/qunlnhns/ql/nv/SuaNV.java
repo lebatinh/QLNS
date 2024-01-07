@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
 import com.example.qunlnhns.nv.dsnv.DSNVActivity;
@@ -66,6 +67,7 @@ public class SuaNV extends AppCompatActivity {
     final int REQUEST_CODE_CAMERA = 123;
     final int REQUEST_CODE_FOLDER = 456;
 
+    Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,14 +75,10 @@ public class SuaNV extends AppCompatActivity {
 
         AnhXa();
 
-        Intent intent = getIntent();
-        if (intent.hasExtra("MaNv")) {
-            String getmanv = intent.getStringExtra("MaNv");
-            manv1 = getmanv;
-            GetData(url);
-        }
-
-
+        // Khởi tạo đối tượng Database
+        database = new Database(this, "detail.sqlite", null, 1);
+        manv1 = database.SELECT_MANV_DELTAIL();
+        GetData(url);
         btnSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
