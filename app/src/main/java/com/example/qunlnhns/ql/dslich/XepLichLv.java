@@ -233,7 +233,6 @@ public class XepLichLv extends AppCompatActivity {
                 return false;
             }
         });
-        // Gọi hàm showDatePickerDialog() khi TextView được click
 
         // Gọi hàm để lấy dữ liệu của tuần hiện tại
         getAndDisplayDefaultWeekData();
@@ -269,13 +268,11 @@ public class XepLichLv extends AppCompatActivity {
 
                     // Định dạng thời gian theo định dạng mong muốn
                     DateTimeFormatter formatter = null;
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    }
+                    formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
                     String formattedTime = null;
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        formattedTime = currentTime.format(formatter);
-                    }
+                    formattedTime = currentTime.format(formatter);
+
 
                     // Đặt giá trị cho biến tg
                     tg = formattedTime;
@@ -359,7 +356,7 @@ public class XepLichLv extends AppCompatActivity {
             public void onResponse(String response) {
                 progressDialog.dismiss();
                 if (response.equals("success")) {
-                    Notification.showNotification(XepLichLv.this, "QLNV", "Bạn có thông báo mới, Vào xem ngay nhé!");
+                    Notification.showNotification(XepLichLv.this, "Quản lý nhân sự", "Bạn có thông báo mới, Vào xem ngay nhé!");
                     showAlertDialog(XepLichLv.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
                     showAlertDialog(XepLichLv.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");

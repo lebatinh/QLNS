@@ -1,5 +1,6 @@
 package com.example.qunlnhns.nv;
 
+import static com.example.qunlnhns.Notification.checkUserLoggedInStatus;
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
 
 import androidx.annotation.RequiresApi;
@@ -13,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,8 +33,8 @@ import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.api.Youtube;
 import com.example.qunlnhns.nv.dsnv.DSNVActivity;
-import com.example.qunlnhns.nv.dsnv.tb.Tb;
-import com.example.qunlnhns.nv.dsnv.tb.TbAdapter;
+import com.example.qunlnhns.nv.tb.Tb;
+import com.example.qunlnhns.nv.tb.TbAdapter;
 import com.example.qunlnhns.ql.nv.ChangeListNV;
 import com.example.qunlnhns.ql.nv.ThemNV;
 import com.example.qunlnhns.ql.dslich.XepLichLv;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     String url2 = "http://" + localhost + "/user/get_tb.php";
 
     Database database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +156,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, Xem_Lich_Lv.class));
             }
         });
+        vtb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, GuiThongBao.class));
+            }
+        });
     }
+
     // Nếu người dùng ấn nút quay lại
     @Override
     public void onBackPressed() {
@@ -181,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -199,7 +210,8 @@ public class MainActivity extends AppCompatActivity {
         // Kiểm tra xem có phải là thứ 7 hoặc chủ nhật không
         return (dayOfWeek == DayOfWeek.SATURDAY.getValue());
     }
-//     || dayOfWeek == DayOfWeek.SUNDAY.getValue()
+
+    //     || dayOfWeek == DayOfWeek.SUNDAY.getValue()
     private void GetData1(String url2) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url2, null, new Response.Listener<JSONArray>() {

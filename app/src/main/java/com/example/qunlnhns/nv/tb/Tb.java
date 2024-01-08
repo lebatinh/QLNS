@@ -1,4 +1,4 @@
-package com.example.qunlnhns.nv.dsnv.tb;
+package com.example.qunlnhns.nv.tb;
 
 public class Tb {
     private String tb;

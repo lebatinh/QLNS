@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ public class List_Nv_Adapter extends BaseAdapter {
     private class ViewHolder{
         ImageView imgHinhAnh;
         TextView textMaNV, textHoTen;
+        CheckBox checkBox;
     }
 
     private static Bitmap decodeBase64ToBitmap(String base64String) {
@@ -67,6 +69,7 @@ public class List_Nv_Adapter extends BaseAdapter {
             holder.imgHinhAnh = convertView.findViewById(R.id.imgHinhAnh);
             holder.textMaNV = convertView.findViewById(R.id.textMaNV);
             holder.textHoTen = convertView.findViewById(R.id.textHoTen);
+            holder.checkBox = convertView.findViewById(R.id.checkBox);
 
             convertView.setTag(holder);
         }else {
@@ -85,9 +88,19 @@ public class List_Nv_Adapter extends BaseAdapter {
             // Sử dụng đối tượng Bitmap cho mục đích hiển thị hoặc xử lý khác
             holder.imgHinhAnh.setImageBitmap(bitmap);
         }
+
         holder.textMaNV.setText(listNv.getMaNV());
         holder.textHoTen.setText(listNv.getHoTen());
 
+        // Lấy giá trị layoutType
+        int layoutType = listNv.getLayoutType();
+
+        // Kiểm tra giá trị layoutType để ẩn hiện CheckBox
+        if (layoutType == 0) {
+            holder.checkBox.setVisibility(View.GONE);
+        } else {
+            holder.checkBox.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 }

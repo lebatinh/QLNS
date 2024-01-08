@@ -6,11 +6,20 @@ public class List_Nv {
     private byte[] hinhanh;
     private String maNV;
     private String hoTen;
+    private int layoutType;
+    public int getLayoutType() {
+        return layoutType;
+    }
 
-    public List_Nv(byte[] hinhanh, String maNV, String hoTen) {
+    public void setLayoutType(int layoutType) {
+        this.layoutType = layoutType;
+    }
+
+    public List_Nv(byte[] hinhanh, String maNV, String hoTen, int layoutType) {
         this.hinhanh = hinhanh;
         this.maNV = maNV;
         this.hoTen = hoTen;
+        this.layoutType = layoutType;
     }
 
     public byte[] getHinhanh() {
