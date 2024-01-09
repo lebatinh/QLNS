@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -101,6 +102,18 @@ public class List_Nv_Adapter extends BaseAdapter {
         } else {
             holder.checkBox.setVisibility(View.VISIBLE);
         }
+
+        // Thiết lập trạng thái của CheckBox dựa trên giá trị isChecked của List_Nv
+        holder.checkBox.setChecked(listNv.isChecked());
+
+        // Sự kiện lắng nghe cho CheckBox để cập nhật trạng thái của List_Nv khi thay đổi
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                listNv.setChecked(isChecked);
+            }
+        });
+
         return convertView;
     }
 }

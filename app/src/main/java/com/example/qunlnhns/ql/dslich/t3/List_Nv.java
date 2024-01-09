@@ -7,18 +7,29 @@ public class List_Nv {
     private String maNV;
     private String hoTen;
     private int layoutType;
-    public int getLayoutType() {
-        return layoutType;
-    }
-
-    public void setLayoutType(int layoutType) {
-        this.layoutType = layoutType;
-    }
+    private boolean isChecked;
 
     public List_Nv(byte[] hinhanh, String maNV, String hoTen, int layoutType) {
         this.hinhanh = hinhanh;
         this.maNV = maNV;
         this.hoTen = hoTen;
+        this.layoutType = layoutType;
+        this.isChecked = false;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public int getLayoutType() {
+        return layoutType;
+    }
+
+    public void setLayoutType(int layoutType) {
         this.layoutType = layoutType;
     }
 

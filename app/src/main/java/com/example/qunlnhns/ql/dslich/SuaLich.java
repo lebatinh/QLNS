@@ -6,12 +6,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +37,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
 import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.user.DKActivity;
 
@@ -56,6 +60,26 @@ public class SuaLich extends AppCompatActivity {
     private String manv1;
     private TextView[] tvArray = new TextView[7];
     Database database;
+    private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
+
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Kiểm tra kết nối Internet
+            if (isNetworkConnected()) {
+                // Thực hiện các yêu cầu mạng ở đây
+
+                // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            } else {
+                Toast.makeText(SuaLich.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+
+                // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +139,22 @@ public class SuaLich extends AppCompatActivity {
                 }
             });
         }
+        // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
+        handler.post(runnable);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -168,6 +207,10 @@ public class SuaLich extends AppCompatActivity {
     }
 
     private void QueryData(String url1) {
+        final ProgressDialog progressDialog = new ProgressDialog(SuaLich.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         // Lặp qua mảng TextView để lấy dữ liệu cho time1 đến time7
         for (int i = 0; i < tvArray.length; i++) {
             String timeValue = tvArray[i].getText().toString().trim();
@@ -199,6 +242,7 @@ public class SuaLich extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressDialog.dismiss();
                 if (response.equals("success")) {
                     showAlertDialog(SuaLich.this, "Thông báo", "Sửa thông tin nhân viên thành công! Bạn đã có thể xem nhân viên trong danh sách.");
                 } else if (response.equals("fail")) {
@@ -251,10 +295,16 @@ public class SuaLich extends AppCompatActivity {
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
     private void GetData(String url) {
+        final ProgressDialog progressDialog = new ProgressDialog(SuaLich.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject object = response.getJSONObject(i);

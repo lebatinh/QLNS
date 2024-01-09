@@ -6,11 +6,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +34,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
+import com.example.qunlnhns.nv.GuiThongBao;
 import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.nv.dsnv.NVAdapter;
 import com.example.qunlnhns.nv.dsnv.NhanVien;
@@ -50,8 +56,28 @@ public class ChangeListNV extends AppCompatActivity {
     String localhost = DKActivity.localhost;
     String url = "http://"+localhost+"/user/getdata_nv.php";
     String url1 = "http://"+localhost+"/user/delete_nv.php";
-
     Database database;
+    private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
+
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Kiểm tra kết nối Internet
+            if (isNetworkConnected()) {
+                // Thực hiện các yêu cầu mạng ở đây
+
+                // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            } else {
+                Toast.makeText(ChangeListNV.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+
+                // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,7 +173,22 @@ public class ChangeListNV extends AppCompatActivity {
                 return false;
             }
         });
+        // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
+        handler.post(runnable);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -175,10 +216,16 @@ public class ChangeListNV extends AppCompatActivity {
     }
 
     private void GetData(String url) {
+        final ProgressDialog progressDialog = new ProgressDialog(ChangeListNV.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 if (response.length() == 0) {
                     // Hiển thị thông báo nếu không có nhân viên nào
                     showAlertDialog(ChangeListNV.this, "Cảnh báo!", "Không có nhân viên trong danh sách!");

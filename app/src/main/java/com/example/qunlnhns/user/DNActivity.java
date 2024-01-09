@@ -3,10 +3,14 @@ package com.example.qunlnhns.user;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.Success;
+import com.example.qunlnhns.nv.GuiThongBao;
 import com.example.qunlnhns.nv.MainActivity;
 
 import org.json.JSONArray;
@@ -38,6 +43,26 @@ public class DNActivity extends AppCompatActivity {
     String localhost = DKActivity.localhost;
     String URL = "http://"+localhost+"/user/getdata.php";
     Database database;
+    private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
+
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Kiểm tra kết nối Internet
+            if (isNetworkConnected()) {
+                // Thực hiện các yêu cầu mạng ở đây
+
+                // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            } else {
+                Toast.makeText(DNActivity.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+
+                // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +92,22 @@ public class DNActivity extends AppCompatActivity {
                 startActivity(new Intent(DNActivity.this, DMKActivity.class));
             }
         });
+        // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
+        handler.post(runnable);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -109,10 +149,15 @@ public class DNActivity extends AppCompatActivity {
     }
 
     private void GetData() {
+        final ProgressDialog progressDialog = new ProgressDialog(DNActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 boolean check = false;
                 for (int i = 0; i < response.length(); i++) {
                     try {

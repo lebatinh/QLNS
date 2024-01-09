@@ -6,9 +6,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +29,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.nv.GuiThongBao;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +48,26 @@ public class DMKActivity extends AppCompatActivity {
     String localhost = DKActivity.localhost;
     private String URL1 = "http://"+localhost+"/user/getdata.php";
     private String URL2 = "http://"+localhost+"/user/update.php";
+    private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Kiểm tra kết nối Internet
+            if (isNetworkConnected()) {
+                // Thực hiện các yêu cầu mạng ở đây
+
+                // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            } else {
+                Toast.makeText(DMKActivity.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+
+                // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +101,22 @@ public class DMKActivity extends AppCompatActivity {
                 startActivity(new Intent(DMKActivity.this, DKActivity.class));
             }
         });
+        // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
+        handler.post(runnable);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     // Nếu người dùng ấn nút quay lại
     @Override
     public void onBackPressed() {
@@ -121,11 +161,17 @@ public class DMKActivity extends AppCompatActivity {
     }
 
     private void GetData() {
+        final ProgressDialog progressDialog = new ProgressDialog(DMKActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         AnhXa();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL1, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 boolean check = false;
                 for (int i = 0; i < response.length(); i++) {
                     try {
@@ -160,10 +206,16 @@ public class DMKActivity extends AppCompatActivity {
     }
 
     private void QueryData() {
+        final ProgressDialog progressDialog = new ProgressDialog(DMKActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         AnhXa();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL2, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressDialog.dismiss();
                 if (response.equals("success")) {
                     edtTk_Dmk.setText("");
                     edtMk_Dmk.setText("");

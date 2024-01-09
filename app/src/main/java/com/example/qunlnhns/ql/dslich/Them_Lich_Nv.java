@@ -8,13 +8,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +42,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.ql.dslich.t3.List_Nv;
 import com.example.qunlnhns.ql.dslich.t3.List_Nv_Adapter;
 import com.example.qunlnhns.user.DKActivity;
@@ -74,7 +78,26 @@ public class Them_Lich_Nv extends AppCompatActivity {
     private String m1;
     private Date selectedStartDate;
     private Date selectedEndDate;
+    private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Kiểm tra kết nối Internet
+            if (isNetworkConnected()) {
+                // Thực hiện các yêu cầu mạng ở đây
+
+                // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            } else {
+                Toast.makeText(Them_Lich_Nv.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+
+                // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            }
+        }
+    };
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,6 +217,20 @@ public class Them_Lich_Nv extends AppCompatActivity {
                 }
             }
         });
+        // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
+        handler.post(runnable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     @Override
@@ -316,6 +353,10 @@ public class Them_Lich_Nv extends AppCompatActivity {
     }
 
     private void QueryData(String url2) {
+        final ProgressDialog progressDialog = new ProgressDialog(Them_Lich_Nv.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         // Lặp qua mảng TextView để lấy dữ liệu cho time1 đến time7
         for (int i = 0; i < tvLuaChonArray.length; i++) {
             String timeValue = tvLuaChonArray[i].getText().toString().trim();
@@ -348,6 +389,7 @@ public class Them_Lich_Nv extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressDialog.dismiss();
                 if (response.equals("success")) {
                     showAlertDialog(Them_Lich_Nv.this, "Thông báo", "Thêm thông tin nhân viên thành công! Bạn đã có thể xem nhân viên trong danh sách.");
                     startActivity(new Intent(Them_Lich_Nv.this, XepLichLv.class));
@@ -405,10 +447,16 @@ public class Them_Lich_Nv extends AppCompatActivity {
     }
 
     private void GetData1(String url1) {
+        final ProgressDialog progressDialog = new ProgressDialog(Them_Lich_Nv.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 if (response.length() == 0) {
                     // Hiển thị thông báo nếu không có nhân viên nào
                     showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Không có nhân viên trong danh sách!");
@@ -451,10 +499,15 @@ public class Them_Lich_Nv extends AppCompatActivity {
     }
 
     private void GetData(String url1) {
+        final ProgressDialog progressDialog = new ProgressDialog(Them_Lich_Nv.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 if (response.length() == 0) {
                     // Hiển thị thông báo nếu không có nhân viên nào
                     showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Không có nhân viên trong danh sách!");

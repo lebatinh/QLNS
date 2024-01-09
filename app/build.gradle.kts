@@ -40,5 +40,7 @@ dependencies {
 
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.jakewharton.threetenabp:threetenabp:1.4.6")
+    implementation("com.google.code.gson:gson:2.9.0")
+
 
 }

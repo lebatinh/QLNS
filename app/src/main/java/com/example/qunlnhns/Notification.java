@@ -16,7 +16,10 @@ import com.example.qunlnhns.user.DNActivity;
 public class Notification {
     private static final String CHANNEL_ID = "Thông báo!";
     private static final String CHANNEL_NAME = "Nội dung thông báo!";
-    private static final int NOTIFICATION_ID = 1;
+
+    // Thay đổi NOTIFICATION_ID thành một giá trị duy nhất cho mỗi thông báo
+    private static int notificationIdCounter = 1;
+
     public static void showNotification(Context context, String title, String content) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -41,10 +44,13 @@ public class Notification {
             intent = new Intent(context, DNActivity.class);
         }
 
+        // Tăng NOTIFICATION_ID cho mỗi thông báo
+        int notificationId = notificationIdCounter++;
+
         // Tạo PendingIntent
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Xây dựng thông báo với PendingIntent
+        // Xây dựng thông báo với PendingIntent và NOTIFICATION_ID duy nhất
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notifications)
                 .setContentTitle(title)
@@ -53,8 +59,8 @@ public class Notification {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
-        // Hiển thị thông báo
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        // Hiển thị thông báo với NOTIFICATION_ID duy nhất
+        notificationManager.notify(notificationId, builder.build());
     }
 
     public static boolean checkUserLoggedInStatus(Context context) {
@@ -62,5 +68,4 @@ public class Notification {
         SharedPreferences sharedPreferences = context.getSharedPreferences("QLNS", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("isLoggedIn", false);
     }
-
 }

@@ -8,13 +8,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -38,7 +43,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.user.DKActivity;
-import com.example.qunlnhns.user.DNActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +64,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     TextView tvMaNv, tvHoTen, tvChucVu, tvSdt, tvNgay;
     EditText edtLyDo;
     Button btnDk, btnSua;
-    String getmanv, manv, manv1, hoten, chucvu, sdt, lydo, time1, time2, time3, time4, time5, time6, time7, t2, t3, t4, t5, t6, t7, cn, startDate, endDate;
+    String manv, manv1, hoten, chucvu, sdt, lydo, time1, time2, time3, time4, time5, time6, time7, t2, t3, t4, t5, t6, t7, cn, startDate, endDate;
     String localhost = DKActivity.localhost;
     String url1 = "http://" + localhost + "/user/get_nv.php";
     String url2 = "http://" + localhost + "/user/dk_lich.php";
@@ -71,6 +75,27 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     private Date selectedStartDate;
     private Date selectedEndDate;
     Database database;
+    private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
+
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Kiểm tra kết nối Internet
+            if (isNetworkConnected()) {
+                // Thực hiện các yêu cầu mạng ở đây
+
+                // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            } else {
+                Toast.makeText(DK_Lich_Lv_Activity.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+
+                // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            }
+        }
+    };
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +148,19 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
                 showDatePickerDialog();
             }
         });
+        // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
+        handler.post(runnable);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -217,9 +255,13 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     }
 
     private void check() {
+        final ProgressDialog progressDialog = new ProgressDialog(DK_Lich_Lv_Activity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url4, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressDialog.dismiss();
                 if (response.equals("success")) {
                     // Nhân viên đã tồn tại trong bảng dk_lich
                     // Thực hiện các bước liên quan (lấy dữ liệu từ bảng dk_lich)
@@ -236,14 +278,16 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(DK_Lich_Lv_Activity.this, "Lỗi: " + error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DK_Lich_Lv_Activity.this, "Lỗi", Toast.LENGTH_SHORT).show();
+
+                Log.d("error", error.toString());
             }
         }) {
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("manv", getmanv);
+                params.put("manv", manv1);
                 return params;
             }
         };
@@ -254,11 +298,17 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     }
 
     private void getDataFromNhanVienTable(String url1) {
+        final ProgressDialog progressDialog = new ProgressDialog(DK_Lich_Lv_Activity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
+                    progressDialog.dismiss();
                     try {
                         JSONObject object = response.getJSONObject(i);
                         Log.d("TAG", response.toString());
@@ -309,10 +359,16 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     }
 
     private void GetData(String url5) {
+        final ProgressDialog progressDialog = new ProgressDialog(DK_Lich_Lv_Activity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url5, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject object = response.getJSONObject(i);
@@ -421,6 +477,10 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
 
 
     private void QueryData() {
+        final ProgressDialog progressDialog = new ProgressDialog(DK_Lich_Lv_Activity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         // Lặp qua mảng TextView để lấy dữ liệu cho time1 đến time7
         for (int i = 0; i < tvLuaChonArray.length; i++) {
             String timeValue = tvLuaChonArray[i].getText().toString().trim();
@@ -456,6 +516,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    progressDialog.dismiss();
                     if (response.equals("success")) {
                         showAlertDialog(DK_Lich_Lv_Activity.this, "Thông báo", "Đăng ký lịch thành công.");
                     } else if (response.equals("fail")) {
@@ -508,6 +569,11 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     }
 
     private void QueryData1() {
+        final ProgressDialog progressDialog = new ProgressDialog(DK_Lich_Lv_Activity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         // Lặp qua mảng TextView để lấy dữ liệu cho time1 đến time7
         for (int i = 0; i < tvLuaChonArray.length; i++) {
             String timeValue = tvLuaChonArray[i].getText().toString().trim();
@@ -541,6 +607,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url3, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    progressDialog.dismiss();
                     if (response.equals("success")) {
                         showAlertDialog(DK_Lich_Lv_Activity.this, "Thông báo", "Sửa lịch thành công.");
                     } else if (response.equals("fail")) {

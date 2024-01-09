@@ -1,23 +1,27 @@
 package com.example.qunlnhns.nv;
 
-import static com.example.qunlnhns.Notification.checkUserLoggedInStatus;
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -48,21 +52,45 @@ import org.json.JSONObject;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    ListView lvTb;
-    ArrayList<Tb> arrTb;
-    TbAdapter adapterTb;
+    ListView lvTbAll, lvTbChoice;
+    ArrayList<Tb> arrTbAll;
+    ArrayList<Tb> arrTbChoice;
+    TbAdapter adapterTbAll;
+    TbAdapter adapterTbChoice;
     private ImageButton dsnv, dkl, xemllv, xltp, gtn, tnv, sttnv, xnv, xepllv, vtb, home, thongbao, person, ytb;
     private ImageView profile;
     private TextView tvhoten, tvChucVu;
     private String manv1;
     private ScrollView scrollView;
+    private LinearLayout lnrTbChung, lnrTbRieng, lnrTb;
+    private View view1, view2;
     String localhost = DKActivity.localhost;
     private String url = "http://" + localhost + "/user/get_manv.php";
     String url2 = "http://" + localhost + "/user/get_tb.php";
-
     Database database;
+    private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
+
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Kiểm tra kết nối Internet
+            if (isNetworkConnected()) {
+                // Thực hiện các yêu cầu mạng ở đây
+
+                // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            } else {
+                Toast.makeText(MainActivity.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+
+                // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +102,16 @@ public class MainActivity extends AppCompatActivity {
         manv1 = database.SELECT_MANV_MAIN();
 
         GetData();
-        GetData1(url2);
 
-        lvTb = findViewById(R.id.lvTb);
-        arrTb = new ArrayList<>();
+        lvTbAll = findViewById(R.id.lvTbAll);
+        arrTbAll = new ArrayList<>();
+        adapterTbAll = new TbAdapter(this, R.layout.thong_bao, arrTbAll);
+        lvTbAll.setAdapter(adapterTbAll);
 
-        adapterTb = new TbAdapter(this, R.layout.thong_bao, arrTb);
-        lvTb.setAdapter(adapterTb);
+        lvTbChoice = findViewById(R.id.lvTbChoice);
+        arrTbChoice = new ArrayList<>();
+        adapterTbChoice = new TbAdapter(this, R.layout.thong_bao, arrTbChoice);
+        lvTbChoice.setAdapter(adapterTbChoice);
 
         AnhXa();
 
@@ -140,14 +171,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 scrollView.setVisibility(View.VISIBLE);
-                lvTb.setVisibility(View.GONE);
+                lnrTb.setVisibility(View.GONE);
             }
         });
         thongbao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scrollView.setVisibility(View.GONE);
-                lvTb.setVisibility(View.VISIBLE);
+                lnrTb.setVisibility(View.VISIBLE);
+            }
+        });
+
+        GetTbAll(url2);
+        GetTbChoice(url2);
+
+        lnrTbChung.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view1.setVisibility(View.VISIBLE);
+                view2.setVisibility(View.GONE);
+                lvTbAll.setVisibility(View.VISIBLE);
+                lvTbChoice.setVisibility(View.GONE);
+            }
+        });
+        lnrTbRieng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view1.setVisibility(View.GONE);
+                view2.setVisibility(View.VISIBLE);
+                lvTbAll.setVisibility(View.GONE);
+                lvTbChoice.setVisibility(View.VISIBLE);
             }
         });
         xemllv.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +215,60 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, GuiThongBao.class));
             }
         });
+
+        // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
+        handler.post(runnable);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    private void GetTbChoice(String url2) {
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url2, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
+                if (response.length() == 0) {
+                    // Hiển thị thông báo nếu không có nhân viên nào
+                    showAlertDialog(MainActivity.this, "Cảnh báo!", "Không có thông báo nào!");
+                } else {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject object = response.getJSONObject(i);
+                            String tb = object.optString("ThongBao", "");
+                            String time = object.optString("ThoiGian", "");
+                            String phamvi = object.optString("PhamVi", "");
+                            if (Arrays.asList(phamvi.split(",")).contains(manv1.trim())) {
+                                arrTbChoice.add(new Tb(tb, time));
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    adapterTbChoice.notifyDataSetChanged();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+        );
+        requestQueue.add(jsonArrayRequest);
     }
 
     // Nếu người dùng ấn nút quay lại
@@ -211,12 +318,17 @@ public class MainActivity extends AppCompatActivity {
         return (dayOfWeek == DayOfWeek.SATURDAY.getValue());
     }
 
-    //     || dayOfWeek == DayOfWeek.SUNDAY.getValue()
-    private void GetData1(String url2) {
+    private void GetTbAll(String url2) {
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url2, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 if (response.length() == 0) {
                     // Hiển thị thông báo nếu không có nhân viên nào
                     showAlertDialog(MainActivity.this, "Cảnh báo!", "Không có thông báo nào!");
@@ -226,13 +338,15 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject object = response.getJSONObject(i);
                             String tb = object.optString("ThongBao", "");
                             String time = object.optString("ThoiGian", "");
-
-                            arrTb.add(new Tb(tb, time));
+                            String phamvi = object.optString("PhamVi", "");
+                            if (phamvi.equals("all")){
+                                arrTbAll.add(new Tb(tb, time));
+                            }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
                     }
-                    adapterTb.notifyDataSetChanged();
+                    adapterTbAll.notifyDataSetChanged();
                 }
             }
         }, new Response.ErrorListener() {
@@ -246,10 +360,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetData() {
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject object = response.getJSONObject(i);
@@ -311,5 +431,10 @@ public class MainActivity extends AppCompatActivity {
         tvhoten = findViewById(R.id.tvhoten);
         tvChucVu = findViewById(R.id.tvChucVu);
         scrollView = findViewById(R.id.scrollView);
+        lnrTbChung = findViewById(R.id.lnrTbChung);
+        lnrTbRieng = findViewById(R.id.lnrTbRieng);
+        lnrTb = findViewById(R.id.lnrTb);
+        view1 = findViewById(R.id.view1);
+        view2 = findViewById(R.id.view2);
     }
 }

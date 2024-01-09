@@ -9,12 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
@@ -44,7 +48,6 @@ import com.example.qunlnhns.ql.dslich.t1.Lich;
 import com.example.qunlnhns.ql.dslich.t1.LichAdapter;
 import com.example.qunlnhns.ql.dslich.t2.LichDk;
 import com.example.qunlnhns.ql.dslich.t2.LichDkAdapter;
-import com.example.qunlnhns.ql.nv.ChangeListNV;
 import com.example.qunlnhns.user.DKActivity;
 
 import org.json.JSONArray;
@@ -82,6 +85,27 @@ public class XepLichLv extends AppCompatActivity {
     String tg, startDate, endDate, selectedDate, notificationContent;
     private Date selectedStartDate,selectedEndDate;
     Database database;
+    private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
+
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Kiểm tra kết nối Internet
+            if (isNetworkConnected()) {
+                // Thực hiện các yêu cầu mạng ở đây
+
+                // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            } else {
+                Toast.makeText(XepLichLv.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+
+                // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
+                handler.postDelayed(this, INTERVAL);
+            }
+        }
+    };
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,7 +261,22 @@ public class XepLichLv extends AppCompatActivity {
         // Gọi hàm để lấy dữ liệu của tuần hiện tại
         getAndDisplayDefaultWeekData();
 
+        // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
+        handler.post(runnable);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     private void showNotificationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(XepLichLv.this);
         builder.setTitle("Thông báo");
@@ -376,6 +415,7 @@ public class XepLichLv extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("tb", notificationContent);
                 params.put("tg", tg);
+                params.put("phamvi", "all");
                 return params;
             }
         };
@@ -452,7 +492,6 @@ public class XepLichLv extends AppCompatActivity {
     }
 
     private void GetData1(String url2, String selectedDate) {
-        Log.d("GetData1", "startDate: " + startDate + ", endDate: " + endDate);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
@@ -462,7 +501,6 @@ public class XepLichLv extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(JSONArray response) {
-                Log.d("GetData1", "Response: " + response);
                 progressDialog.dismiss();
 
                 if (response.length() == 0) {
