@@ -39,6 +39,7 @@ import com.example.qunlnhns.api.Youtube;
 import com.example.qunlnhns.nv.dsnv.DSNVActivity;
 import com.example.qunlnhns.nv.tb.Tb;
 import com.example.qunlnhns.nv.tb.TbAdapter;
+import com.example.qunlnhns.ql.LuongThuongPhat;
 import com.example.qunlnhns.ql.nv.ChangeListNV;
 import com.example.qunlnhns.ql.nv.ThemNV;
 import com.example.qunlnhns.ql.dslich.XepLichLv;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Tb> arrTbChoice;
     TbAdapter adapterTbAll;
     TbAdapter adapterTbChoice;
-    private ImageButton dsnv, dkl, xemllv, xltp, gtn, tnv, sttnv, xnv, xepllv, vtb, home, thongbao, person, ytb;
+    private ImageButton dsnv, dkl, xemllv, xltp, xetltp, gtn, tnv, sttnv, xnv, xepllv, vtb, home, thongbao, person, ytb;
     private ImageView profile;
     private TextView tvhoten, tvChucVu;
     private String manv1;
@@ -213,6 +214,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, GuiThongBao.class));
+            }
+        });
+        xetltp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, LuongThuongPhat.class));
             }
         });
 
@@ -418,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
         dkl = findViewById(R.id.dkl);
         xemllv = findViewById(R.id.xemllv);
         xltp = findViewById(R.id.xltp);
+        xetltp = findViewById(R.id.xetltp);
         gtn = findViewById(R.id.gtn);
         tnv = findViewById(R.id.tnv);
         xnv = findViewById(R.id.xnv);

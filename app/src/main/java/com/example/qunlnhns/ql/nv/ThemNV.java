@@ -214,8 +214,8 @@ public class ThemNV extends AppCompatActivity {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
-                progressDialog.dismiss();
+                public void onResponse(String response) {
+                    progressDialog.dismiss();
                 if (response.equals("success")) {
                     showAlertDialog(ThemNV.this, "Thông báo", "Thêm thông tin nhân viên thành công! Bạn đã có thể xem nhân viên trong danh sách.");
                 } else if (response.equals("fail")) {

@@ -91,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,25 +99,27 @@
                     android:text="Lịch làm việc chính thức "
                     android:textSize="20dp"
                     android:textStyle="bold" />
+
                 <View
                     android:layout_width="250dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center"
                     android:background="@color/black" />
+
                 <TextView
                     android:id="@+id/tvLichTime"
-                    android:hint="Từ ngày ... đến ngày ..."
-                    android:drawableRight="@drawable/more"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_height="wrap_content"/>
+                    android:drawableRight="@drawable/more"
+                    android:hint="Từ ngày ... đến ngày ..." />
             </LinearLayout>
 
             <ListView
                 android:id="@+id/lvLich"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp" />
 
         </LinearLayout>
 

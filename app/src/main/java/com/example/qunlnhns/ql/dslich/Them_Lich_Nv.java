@@ -65,7 +65,7 @@ public class Them_Lich_Nv extends AppCompatActivity {
 
     ListView listNv;
     ArrayList<List_Nv> arrListNv;
-    List_Nv_Adapter adapter_lich;
+    List_Nv_Adapter adapterNv;
     String localhost = DKActivity.localhost;
     String url1 = "http://" + localhost + "/user/get_lich.php";
     String url2 = "http://" + localhost + "/user/insert_lich_lv.php";
@@ -74,12 +74,12 @@ public class Them_Lich_Nv extends AppCompatActivity {
     private String maNv, hoTen, t2, t3, t4, t5, t6, t7, cn, time1, time2, time3, time4, time5, time6, time7, startDate, endDate;
     private Button btnThem, btnThoat;
     private ImageButton btnHome;
+    private LinearLayout lnrList, lnrLich, lnrThem;
     private TextView[] tvLuaChonArray = new TextView[7];
     private String m1;
     private Date selectedStartDate;
     private Date selectedEndDate;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
-
     private final Handler handler = new Handler();
     private final Runnable runnable = new Runnable() {
         @Override
@@ -107,8 +107,8 @@ public class Them_Lich_Nv extends AppCompatActivity {
         listNv = findViewById(R.id.listNv);
         arrListNv = new ArrayList<>();
 
-        adapter_lich = new List_Nv_Adapter(this, R.layout.nv, arrListNv);
-        listNv.setAdapter(adapter_lich);
+        adapterNv = new List_Nv_Adapter(this, R.layout.nv, arrListNv);
+        listNv.setAdapter(adapterNv);
 
         AnhXa();
         GetData(url1);
@@ -130,9 +130,6 @@ public class Them_Lich_Nv extends AppCompatActivity {
                     builder.setPositiveButton("Đúng", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            LinearLayout lnrList = findViewById(R.id.lnrList);
-                            LinearLayout lnrLich = findViewById(R.id.lnrLich);
-                            LinearLayout lnrThem = findViewById(R.id.lnrThem);
                             lnrList.setVisibility(View.GONE);
                             lnrLich.setVisibility(View.VISIBLE);
                             lnrThem.setVisibility(View.VISIBLE);
@@ -536,7 +533,7 @@ public class Them_Lich_Nv extends AppCompatActivity {
                             throw new RuntimeException(e);
                         }
                     }
-                    adapter_lich.notifyDataSetChanged();
+                    adapterNv.notifyDataSetChanged();
                 }
             }
         }, new Response.ErrorListener() {
@@ -564,6 +561,9 @@ public class Them_Lich_Nv extends AppCompatActivity {
         tvt7 = findViewById(R.id.t7);
         tvcn = findViewById(R.id.t1);
         tvNgay = findViewById(R.id.tvNgay);
+        lnrList = findViewById(R.id.lnrList);
+        lnrLich = findViewById(R.id.lnrLich);
+        lnrThem = findViewById(R.id.lnrThem);
 
         maNv = manv.getText().toString().trim();
         hoTen = hoten.getText().toString().trim();
