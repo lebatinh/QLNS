@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="12"
     tools:context=".ql.LuongThuongPhat">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="10">
@@ -39,7 +41,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="10"
         android:orientation="vertical">
 
         <View
@@ -50,15 +52,15 @@
         <LinearLayout
             android:id="@+id/lnrNv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="20dp"
                 android:text="Hãy chọn nhân viên để xét"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -66,19 +68,20 @@
             <ListView
                 android:id="@+id/lvNv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp" />
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/frmXet"
+        <LinearLayout
+            android:id="@+id/lnrXet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
-            <ScrollView
+            <FrameLayout
+                android:id="@+id/framelayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -88,21 +91,22 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:weightSum="12">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp">
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="2">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="20dp"
+                                android:gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -131,54 +135,22 @@
                         </androidx.cardview.widget.CardView>
 
                         <LinearLayout
+                            android:id="@+id/lnrThuong"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="15dp"
-                            android:orientation="horizontal"
-                            android:weightSum="3">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:text="Lương cơ bản: "
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <EditText
-                                android:id="@+id/edtLuong"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:hint="Luơng cơ bản" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/black" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="15dp"
-                            android:orientation="vertical">
+                            android:layout_weight="10"
+                            android:gravity="top|center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+                                android:drawableLeft="@drawable/more"
                                 android:gravity="center"
                                 android:text="Thưởng"
-                                android:textSize="18dp" />
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
 
                             <ListView
                                 android:id="@+id/lvThuong"
@@ -186,28 +158,24 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp" />
                         </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/black" />
 
                         <LinearLayout
+                            android:id="@+id/lnrPhat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="15dp"
-                            android:orientation="vertical">
+                            android:layout_weight="10"
+                            android:gravity="top|center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+                                android:drawableLeft="@drawable/more"
                                 android:gravity="center"
                                 android:text="Phạt"
-                                android:textSize="18dp" />
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
 
                             <ListView
                                 android:id="@+id/lvPhat"
@@ -216,88 +184,220 @@
                                 android:layout_margin="10dp" />
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/black" />
-
                         <LinearLayout
+                            android:id="@+id/lnrRieng"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="15dp"
-                            android:orientation="horizontal"
-                            android:weightSum="5">
+                            android:layout_weight="10"
+                            android:orientation="vertical"
+                            android:visibility="visible"
+                            android:weightSum="10">
 
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="3"
-                                android:text="Chi phí phát sinh: "
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <EditText
-                                android:id="@+id/edtChiPhi"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_weight="2"
-                                android:hint="Chi phí khác" />
-                        </LinearLayout>
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/black" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:text="Lương cơ bản: "
+                                    android:textSize="18dp"
+                                    android:textStyle="bold" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="15dp"
-                            android:weightSum="5">
+                                <EditText
+                                    android:id="@+id/edtLuong"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:digits="0123456789"
+                                    android:hint="Luơng cơ bản" />
+                            </LinearLayout>
 
-                            <TextView
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/black" />
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:layout_weight="3"
-                                android:text="Luơng sau cuối: "
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tvTong"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
                                 android:layout_weight="2"
-                                android:hint="Tổng"
-                                android:textSize="18dp" />
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
+                                    <TextView
+                                        android:id="@+id/tvThuong"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:drawableLeft="@drawable/more"
+                                        android:gravity="center"
+                                        android:text="Thưởng : "
+                                        android:textStyle="bold"
+                                        android:textSize="18dp" />
+
+                                    <TextView
+                                        android:id="@+id/tvTotalThuong"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="2"
+                                        android:gravity="center"
+                                        android:hint="Tổng Thưởng"
+                                        android:textSize="18dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/black" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="2"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
+                                    <TextView
+                                        android:id="@+id/tvPhat"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:drawableLeft="@drawable/more"
+                                        android:gravity="center"
+                                        android:textStyle="bold"
+                                        android:text="Phạt: "
+                                        android:textSize="18dp" />
+
+                                    <TextView
+                                        android:id="@+id/tvTotalPhat"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="2"
+                                        android:gravity="center"
+                                        android:hint="Tổng Phạt"
+                                        android:textSize="18dp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/black" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="2"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Chi phí phát sinh: "
+                                    android:textSize="18dp"
+                                    android:textStyle="bold" />
+
+                                <EditText
+                                    android:id="@+id/edtChiPhi"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:digits="0123456789"
+                                    android:hint="Chi phí khác" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/black" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="2"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="5">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:layout_weight="3"
+                                    android:text="Luơng sau cuối: "
+                                    android:textSize="18dp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvTong"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:layout_weight="2"
+                                    android:hint="Tổng"
+                                    android:textSize="18dp" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>
                 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            </ScrollView>
 
-            <ImageButton
-                android:id="@+id/btnThem"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:background="@drawable/circle"
-                android:elevation="5dp"
-                android:src="@android:drawable/ic_input_add"
-                app:layout_anchor="@id/lvLich"
-                app:layout_anchorGravity="bottom|end" />
-        </FrameLayout>
+                <ImageButton
+                    android:id="@+id/btnThem"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/circle"
+                    android:elevation="5dp"
+                    android:src="@android:drawable/ic_input_add"
+                    android:visibility="visible"
+                    app:layout_anchor="@id/framelayout"
+                    app:layout_anchorGravity="bottom|end" />
+            </FrameLayout>
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <View
@@ -310,17 +410,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:gravity="center">
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:gravity="center"
+        android:visibility="gone">
 
-        <Button
-            android:id="@+id/btnGuiTb"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gửi"
-            android:textSize="15sp"
-            app:shapeAppearanceOverlay="@style/corner_50" />
+            android:gravity="center"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/btnTong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tính Tổng"
+                android:textSize="15sp"
+                android:layout_margin="10dp"
+                app:shapeAppearanceOverlay="@style/corner_50" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/btnGui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gửi"
+                android:textSize="15sp"
+                android:layout_margin="10dp"
+                app:shapeAppearanceOverlay="@style/corner_50" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

@@ -9,8 +9,8 @@
     android:orientation="horizontal"
     android:weightSum="2">
 
-    <EditText
-        android:id="@+id/edtLiDo"
+    <TextView
+        android:id="@+id/tvLiDo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -19,8 +19,8 @@
         android:textSize="18dp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/edtSoTien"
+    <TextView
+        android:id="@+id/tvSoTien"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

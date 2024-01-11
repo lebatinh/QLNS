@@ -213,7 +213,6 @@ public class XepLichLv extends AppCompatActivity {
                                             // Truyền tham số cho yêu cầu POST
                                             Map<String, String> params = new HashMap<>();
                                             params.put("manv", maNv);
-                                            Log.d("manv", maNv.toString());
                                             return params;
                                         }
                                     };
@@ -237,7 +236,6 @@ public class XepLichLv extends AppCompatActivity {
                             final ProgressDialog progressDialog = new ProgressDialog(XepLichLv.this);
                             progressDialog.setMessage("Loading...");
                             progressDialog.show();
-                            Intent intent = new Intent(XepLichLv.this, SuaLich.class);
                             database.INSERT_MANV_DELTAIL(null, maNv);
 
                             progressDialog.dismiss();

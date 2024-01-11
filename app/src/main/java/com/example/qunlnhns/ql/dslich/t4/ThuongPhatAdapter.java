@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.qunlnhns.R;
 
@@ -37,7 +38,7 @@ public class ThuongPhatAdapter extends BaseAdapter {
         return 0;
     }
     private class ViewHolder{
-        EditText edtLiDo, edtSoTien;
+        TextView tvLiDo, tvSoTien;
     }
 
     @Override
@@ -48,8 +49,8 @@ public class ThuongPhatAdapter extends BaseAdapter {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout, null);
-            holder.edtLiDo = convertView.findViewById(R.id.edtLiDo);
-            holder.edtSoTien = convertView.findViewById(R.id.edtSoTien);
+            holder.tvLiDo = convertView.findViewById(R.id.tvLiDo);
+            holder.tvSoTien = convertView.findViewById(R.id.tvSoTien);
 
             convertView.setTag(holder);
         }else {
@@ -58,8 +59,8 @@ public class ThuongPhatAdapter extends BaseAdapter {
 
         ThuongPhat thuongPhat = thuongPhatList.get(position);
 
-        holder.edtLiDo.setText(thuongPhat.getLiDo());
-        holder.edtSoTien.setText(thuongPhat.getSoTien());
+        holder.tvLiDo.setText(thuongPhat.getLiDo());
+        holder.tvSoTien.setText(thuongPhat.getSoTien());
 
         return convertView;
     }
