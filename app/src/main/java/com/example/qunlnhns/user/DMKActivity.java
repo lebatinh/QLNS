@@ -29,7 +29,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.GuiThongBao;
 
 import org.json.JSONArray;
 import org.json.JSONException;

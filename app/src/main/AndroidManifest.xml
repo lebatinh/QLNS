@@ -31,11 +31,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ql.LuongThuongPhat"
-            android:exported="false" />
+            android:name=".nv.Xem_Luong"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".nv.GuiThongBao"
-            android:exported="false" />
+            android:name=".ql.Luong"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ql.GuiThongBao"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".nv.Xem_Lich_Lv"
             android:exported="false"

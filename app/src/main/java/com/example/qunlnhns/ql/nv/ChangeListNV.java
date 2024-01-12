@@ -33,8 +33,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.DK_Lich_Lv_Activity;
-import com.example.qunlnhns.nv.GuiThongBao;
 import com.example.qunlnhns.nv.MainActivity;
 import com.example.qunlnhns.nv.dsnv.NVAdapter;
 import com.example.qunlnhns.nv.dsnv.NhanVien;

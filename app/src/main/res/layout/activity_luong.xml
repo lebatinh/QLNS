@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context=".ql.LuongThuongPhat">
+    tools:context=".ql.Luong">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="9"
             android:gravity="center"
-            android:text="Xét lương, thưởng, phạt"
+            android:text="Xét lương nhân viên"
             android:textColor="@color/black"
             android:textSize="25dp" />
     </LinearLayout>

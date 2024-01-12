@@ -27,8 +27,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.Success;
-import com.example.qunlnhns.nv.GuiThongBao;
-import com.example.qunlnhns.nv.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

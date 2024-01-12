@@ -39,7 +39,8 @@ import com.example.qunlnhns.api.Youtube;
 import com.example.qunlnhns.nv.dsnv.DSNVActivity;
 import com.example.qunlnhns.nv.tb.Tb;
 import com.example.qunlnhns.nv.tb.TbAdapter;
-import com.example.qunlnhns.ql.LuongThuongPhat;
+import com.example.qunlnhns.ql.GuiThongBao;
+import com.example.qunlnhns.ql.Luong;
 import com.example.qunlnhns.ql.nv.ChangeListNV;
 import com.example.qunlnhns.ql.nv.ThemNV;
 import com.example.qunlnhns.ql.dslich.XepLichLv;
@@ -219,10 +220,15 @@ public class MainActivity extends AppCompatActivity {
         xetltp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LuongThuongPhat.class));
+                startActivity(new Intent(MainActivity.this, Luong.class));
             }
         });
-
+        xltp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Xem_Luong.class));
+            }
+        });
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
         handler.post(runnable);
     }
