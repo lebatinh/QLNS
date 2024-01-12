@@ -31,11 +31,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ql.SuaBangLuong"
+            android:exported="false" />
+        <activity
+            android:name=".nv.Bang_Luong"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".nv.Xem_Luong"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ql.Luong"
+            android:name=".ql.XetLuong"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -79,7 +86,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nv.dsnv.DSNVActivity"
+            android:name=".nv.DSNVActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

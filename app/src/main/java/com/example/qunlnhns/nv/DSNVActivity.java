@@ -1,4 +1,4 @@
-package com.example.qunlnhns.nv.dsnv;
+package com.example.qunlnhns.nv;
 
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
 
@@ -30,7 +30,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.MainActivity;
+import com.example.qunlnhns.nv.NV.NVAdapter;
+import com.example.qunlnhns.nv.NV.NhanVien;
 import com.example.qunlnhns.user.DKActivity;
 
 import org.json.JSONArray;

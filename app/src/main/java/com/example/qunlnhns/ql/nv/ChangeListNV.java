@@ -34,8 +34,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.nv.MainActivity;
-import com.example.qunlnhns.nv.dsnv.NVAdapter;
-import com.example.qunlnhns.nv.dsnv.NhanVien;
+import com.example.qunlnhns.nv.NV.NVAdapter;
+import com.example.qunlnhns.nv.NV.NhanVien;
 import com.example.qunlnhns.user.DKActivity;
 
 import org.json.JSONArray;

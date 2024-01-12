@@ -1,4 +1,4 @@
-package com.example.qunlnhns.nv.dsnv;
+package com.example.qunlnhns.nv.NV;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.nv.NV.NhanVien;
 
 import java.util.List;
 

@@ -60,7 +60,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class Luong extends AppCompatActivity {
+public class XetLuong extends AppCompatActivity {
 
     private ImageButton btnHome, btnThem;
     private LinearLayout lnrNv, lnrXn, lnrXet, lnrThuong, lnrPhat, lnrRieng;
@@ -92,7 +92,7 @@ public class Luong extends AppCompatActivity {
                 // Sau khi hoàn thành, lặp lại kiểm tra sau một khoảng thời gian
                 handler.postDelayed(this, INTERVAL);
             } else {
-                Toast.makeText(Luong.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(XetLuong.this, "Không có kết nối Internet", Toast.LENGTH_SHORT).show();
 
                 // Nếu không có kết nối, lặp lại kiểm tra ngay sau một khoảng thời gian
                 handler.postDelayed(this, INTERVAL);
@@ -139,7 +139,7 @@ public class Luong extends AppCompatActivity {
                     hoTen = list_nv.getHoTen();
                     tvMaNvHoTen.setText(maNv + " - " + hoTen);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Luong.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(XetLuong.this);
                     builder.setTitle("Cảnh báo");
                     builder.setMessage("Bạn có chắc chắn muốn xét lương cho " + hoTen + " có mã nhân viên là " + maNv + "?");
                     builder.setPositiveButton("Đúng", new DialogInterface.OnClickListener() {
@@ -166,20 +166,20 @@ public class Luong extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Tạo một AlertDialog để hỏi người dùng muốn thưởng hay phạt
-                AlertDialog.Builder builder = new AlertDialog.Builder(Luong.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(XetLuong.this);
                 builder.setTitle("Bạn muốn thưởng hay phạt?");
                 builder.setPositiveButton("Thưởng", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Hiển thị một AlertDialog khác để yêu cầu người dùng nhập thông tin
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Luong.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(XetLuong.this);
                         builder.setTitle("Thêm thưởng");
-                        LinearLayout layout = new LinearLayout(Luong.this);
+                        LinearLayout layout = new LinearLayout(XetLuong.this);
                         layout.setOrientation(LinearLayout.VERTICAL);
-                        final EditText editText1 = new EditText(Luong.this);
+                        final EditText editText1 = new EditText(XetLuong.this);
                         editText1.setHint("Nhập lí do thưởng");
                         layout.addView(editText1);
-                        final EditText editText2 = new EditText(Luong.this);
+                        final EditText editText2 = new EditText(XetLuong.this);
                         editText2.setHint("Nhập số tiền thưởng");
                         setupEditText(editText2);
                         layout.addView(editText2);
@@ -198,7 +198,7 @@ public class Luong extends AppCompatActivity {
 
                                     TotalThuong();
                                 } else {
-                                    Toast.makeText(Luong.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(XetLuong.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -216,14 +216,14 @@ public class Luong extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Hiển thị một AlertDialog khác để yêu cầu người dùng nhập thông tin
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Luong.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(XetLuong.this);
                         builder.setTitle("Thêm phạt");
-                        LinearLayout layout = new LinearLayout(Luong.this);
+                        LinearLayout layout = new LinearLayout(XetLuong.this);
                         layout.setOrientation(LinearLayout.VERTICAL);
-                        final EditText editText1 = new EditText(Luong.this);
+                        final EditText editText1 = new EditText(XetLuong.this);
                         editText1.setHint("Nhập lí do");
                         layout.addView(editText1);
-                        final EditText editText2 = new EditText(Luong.this);
+                        final EditText editText2 = new EditText(XetLuong.this);
                         editText2.setHint("Nhập số tiền");
                         setupEditText(editText2);
                         layout.addView(editText2);
@@ -242,7 +242,7 @@ public class Luong extends AppCompatActivity {
 
                                     TotalPhat();
                                 } else {
-                                    Toast.makeText(Luong.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(XetLuong.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -274,13 +274,13 @@ public class Luong extends AppCompatActivity {
                             QueryLuong(url2);
                             btnGui.setClickable(false);
                         } else {
-                            showAlertDialog(Luong.this, "Cảnh báo!", "Bạn phải tính tổng lương trước!");
+                            showAlertDialog(XetLuong.this, "Cảnh báo!", "Bạn phải tính tổng lương trước!");
                         }
                     } else {
-                        showAlertDialog(Luong.this, "Cảnh báo!", "Bạn quên chưa ghi lương cơ bản!");
+                        showAlertDialog(XetLuong.this, "Cảnh báo!", "Bạn quên chưa ghi lương cơ bản!");
                     }
                 } else {
-                    showAlertDialog(Luong.this, "Cảnh báo!", "Bạn quên chưa chọn ngày cho lịch của lương!");
+                    showAlertDialog(XetLuong.this, "Cảnh báo!", "Bạn quên chưa chọn ngày cho lịch của lương!");
                 }
             }
         });
@@ -336,21 +336,21 @@ public class Luong extends AppCompatActivity {
                     String lido = thuongPhat.getLiDo();
                     String sotien = thuongPhat.getSoTien();
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Luong.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(XetLuong.this);
                     builder.setTitle("Cảnh báo");
                     builder.setMessage("Bạn muốn thay đổi thưởng " + lido + " có số tiền là " + sotien + " như thế nào?");
                     builder.setPositiveButton("Sửa", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Hiển thị một AlertDialog khác để yêu cầu người dùng nhập thông tin
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Luong.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(XetLuong.this);
                             builder.setTitle("Thay đổi thưởng");
-                            LinearLayout layout = new LinearLayout(Luong.this);
+                            LinearLayout layout = new LinearLayout(XetLuong.this);
                             layout.setOrientation(LinearLayout.VERTICAL);
-                            final EditText edt1 = new EditText(Luong.this);
+                            final EditText edt1 = new EditText(XetLuong.this);
                             edt1.setText(lido);
                             layout.addView(edt1);
-                            final EditText edt2 = new EditText(Luong.this);
+                            final EditText edt2 = new EditText(XetLuong.this);
                             edt2.setText(sotien);
                             setupEditText(edt2);
                             layout.addView(edt2);
@@ -372,7 +372,7 @@ public class Luong extends AppCompatActivity {
 
                                         TotalThuong();
                                     } else {
-                                        Toast.makeText(Luong.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(XetLuong.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -415,21 +415,21 @@ public class Luong extends AppCompatActivity {
                     String lydo = thuongPhat.getLiDo();
                     String tienphat = thuongPhat.getSoTien();
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Luong.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(XetLuong.this);
                     builder.setTitle("Cảnh báo");
                     builder.setMessage("Bạn muốn thay đổi phạt " + lydo + " có số tiền là " + tienphat + " như thế nào?");
                     builder.setPositiveButton("Sửa", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Hiển thị một AlertDialog khác để yêu cầu người dùng nhập thông tin
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Luong.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(XetLuong.this);
                             builder.setTitle("Thay đổi phạt");
-                            LinearLayout layout = new LinearLayout(Luong.this);
+                            LinearLayout layout = new LinearLayout(XetLuong.this);
                             layout.setOrientation(LinearLayout.VERTICAL);
-                            final EditText edtLydo = new EditText(Luong.this);
+                            final EditText edtLydo = new EditText(XetLuong.this);
                             edtLydo.setText(lydo);
                             layout.addView(edtLydo);
-                            final EditText edtTp = new EditText(Luong.this);
+                            final EditText edtTp = new EditText(XetLuong.this);
                             edtTp.setText(tienphat);
                             setupEditText(edtTp);
                             layout.addView(edtTp);
@@ -451,7 +451,7 @@ public class Luong extends AppCompatActivity {
 
                                         TotalPhat();
                                     } else {
-                                        Toast.makeText(Luong.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(XetLuong.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -628,7 +628,7 @@ public class Luong extends AppCompatActivity {
                     if (Character.isDigit(inputChar)) {
                         return String.valueOf(inputChar); // Chấp nhận ký tự này
                     } else {
-                        Toast.makeText(Luong.this, "Bạn chỉ có thể dùng các kí tự từ 0 đến 9!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(XetLuong.this, "Bạn chỉ có thể dùng các kí tự từ 0 đến 9!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 return ""; // Không chấp nhận ký tự này
@@ -637,7 +637,7 @@ public class Luong extends AppCompatActivity {
     }
 
     private void QueryLuong(String url2) {
-        final ProgressDialog progressDialog = new ProgressDialog(Luong.this);
+        final ProgressDialog progressDialog = new ProgressDialog(XetLuong.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
@@ -645,15 +645,15 @@ public class Luong extends AppCompatActivity {
             public void onResponse(String response) {
                 progressDialog.dismiss();
                 if (response.equals("success")) {
-                    showAlertDialog(Luong.this, "Thông báo", "Xét lương thành công! Bạn đã có thể xem danh sách lương.");
+                    showAlertDialog(XetLuong.this, "Thông báo", "Xét lương thành công! Bạn đã có thể xem danh sách lương.");
                 } else if (response.equals("fail")) {
-                    showAlertDialog(Luong.this, "Cảnh báo!", "Xét lương không thành công.\nThông tin nhân viên này đã tồn tại!");
+                    showAlertDialog(XetLuong.this, "Cảnh báo!", "Xét lương không thành công.\nThông tin nhân viên này đã tồn tại!");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Luong.this, "Lỗi Thêm nhân viên: " + error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(XetLuong.this, "Lỗi Thêm nhân viên: " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Nullable
@@ -690,7 +690,7 @@ public class Luong extends AppCompatActivity {
     }
 
     private void GetNv(String url1) {
-        final ProgressDialog progressDialog = new ProgressDialog(Luong.this);
+        final ProgressDialog progressDialog = new ProgressDialog(XetLuong.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
@@ -701,7 +701,7 @@ public class Luong extends AppCompatActivity {
                 progressDialog.dismiss();
                 if (response.length() == 0) {
                     // Hiển thị thông báo nếu không có nhân viên nào
-                    showAlertDialog(Luong.this, "Cảnh báo!", "Không có nhân viên trong danh sách!");
+                    showAlertDialog(XetLuong.this, "Cảnh báo!", "Không có nhân viên trong danh sách!");
                 } else {
                     for (int i = 0; i < response.length(); i++) {
                         try {
@@ -733,7 +733,7 @@ public class Luong extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Luong.this, "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(XetLuong.this, "Error", Toast.LENGTH_SHORT).show();
             }
         }
         );
@@ -762,7 +762,7 @@ public class Luong extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Chuyển về màn hình đăng nhập (DNActivity)
-                startActivity(new Intent(Luong.this, MainActivity.class));
+                startActivity(new Intent(XetLuong.this, MainActivity.class));
                 finish(); // Đóng màn hình hiện tại nếu cần
             }
         });

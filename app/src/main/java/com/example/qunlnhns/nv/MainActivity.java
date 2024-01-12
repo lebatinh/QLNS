@@ -36,11 +36,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.api.Youtube;
-import com.example.qunlnhns.nv.dsnv.DSNVActivity;
 import com.example.qunlnhns.nv.tb.Tb;
 import com.example.qunlnhns.nv.tb.TbAdapter;
 import com.example.qunlnhns.ql.GuiThongBao;
-import com.example.qunlnhns.ql.Luong;
+import com.example.qunlnhns.ql.XetLuong;
 import com.example.qunlnhns.ql.nv.ChangeListNV;
 import com.example.qunlnhns.ql.nv.ThemNV;
 import com.example.qunlnhns.ql.dslich.XepLichLv;
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Tb> arrTbChoice;
     TbAdapter adapterTbAll;
     TbAdapter adapterTbChoice;
-    private ImageButton dsnv, dkl, xemllv, xltp, xetltp, gtn, tnv, sttnv, xnv, xepllv, vtb, home, thongbao, person, ytb;
+    private ImageButton dsnv, dkl, xemllv, xltp, xetltp, gtn, tnv, sttnv, xnv, xepllv, vtb, home, thongbao, person, ytb, luong;
     private ImageView profile;
     private TextView tvhoten, tvChucVu;
     private String manv1;
@@ -220,13 +219,19 @@ public class MainActivity extends AppCompatActivity {
         xetltp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Luong.class));
+                startActivity(new Intent(MainActivity.this, XetLuong.class));
             }
         });
         xltp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Xem_Luong.class));
+            }
+        });
+        luong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Bang_Luong.class));
             }
         });
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
@@ -442,6 +447,7 @@ public class MainActivity extends AppCompatActivity {
         person = findViewById(R.id.person);
         profile = findViewById(R.id.profile);
         ytb = findViewById(R.id.ytb);
+        luong = findViewById(R.id.luong);
         tvhoten = findViewById(R.id.tvhoten);
         tvChucVu = findViewById(R.id.tvChucVu);
         scrollView = findViewById(R.id.scrollView);

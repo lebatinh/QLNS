@@ -39,9 +39,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.dsnv.DSNVActivity;
+import com.example.qunlnhns.nv.DSNVActivity;
 import com.example.qunlnhns.nv.MainActivity;
-import com.example.qunlnhns.nv.dsnv.NhanVien;
+import com.example.qunlnhns.nv.NV.NhanVien;
 import com.example.qunlnhns.user.DKActivity;
 
 import java.io.ByteArrayOutputStream;

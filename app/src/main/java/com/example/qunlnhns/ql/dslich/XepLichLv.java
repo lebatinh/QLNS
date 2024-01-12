@@ -252,7 +252,7 @@ public class XepLichLv extends AppCompatActivity {
                 } else {
                     showAlertDialog(XepLichLv.this, "Error", "Không có lịch");
                 }
-                return false;
+                return true;
             }
         });
 
