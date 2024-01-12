@@ -65,7 +65,7 @@ public class LuongThuongPhat extends AppCompatActivity {
     private ImageButton btnHome, btnThem;
     private LinearLayout lnrNv, lnrXn, lnrXet, lnrThuong, lnrPhat, lnrRieng;
     ListView lvNv, lvThuong, lvPhat;
-    private TextView tvMaNvHoTen, tvNgay, tvTotalThuong, tvTotalPhat, tvTong, tvThuong, tvPhat;
+    private TextView tvMaNvHoTen, tvNgay, tvTotalThuong, tvTotalPhat, tvTong, tvThuong, tvPhat, tvThuong1, tvPhat1;
     private EditText edtLuong, edtChiPhi;
     private Button btnGui, btnTong;
     private String maNv, hoTen, luongCoBan, lyDoThuong, tienThuong, lyDoPhat, tienPhat, chiPhiKhac, tong, thoiGian;
@@ -163,7 +163,6 @@ public class LuongThuongPhat extends AppCompatActivity {
                 }
             }
         });
-
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,14 +305,14 @@ public class LuongThuongPhat extends AppCompatActivity {
                 togglePhat();
             }
         });
-        lnrThuong.setOnClickListener(new View.OnClickListener() {
+        tvThuong1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lnrThuong.setVisibility(View.GONE);
                 lnrRieng.setVisibility(View.VISIBLE);
             }
         });
-        lnrPhat.setOnClickListener(new View.OnClickListener() {
+        tvPhat1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lnrPhat.setVisibility(View.GONE);
@@ -329,6 +328,164 @@ public class LuongThuongPhat extends AppCompatActivity {
         });
         layLyDoThuongTuList();
         layLyDoPhatTuList();
+        lvThuong.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (arrThuong != null && position >= 0 && position < arrThuong.size()) {
+                    Object item = parent.getItemAtPosition(position);
+                    ThuongPhat thuongPhat = (ThuongPhat) item;
+                    String lido = thuongPhat.getLiDo();
+                    String sotien = thuongPhat.getSoTien();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LuongThuongPhat.this);
+                    builder.setTitle("Cảnh báo");
+                    builder.setMessage("Bạn muốn thay đổi thưởng " + lido + " có số tiền là " + sotien + " như thế nào?");
+                    builder.setPositiveButton("Sửa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Hiển thị một AlertDialog khác để yêu cầu người dùng nhập thông tin
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LuongThuongPhat.this);
+                            builder.setTitle("Thay đổi thưởng");
+                            LinearLayout layout = new LinearLayout(LuongThuongPhat.this);
+                            layout.setOrientation(LinearLayout.VERTICAL);
+                            final EditText edt1 = new EditText(LuongThuongPhat.this);
+                            edt1.setText(lido);
+                            layout.addView(edt1);
+                            final EditText edt2 = new EditText(LuongThuongPhat.this);
+                            edt2.setText(sotien);
+                            setupEditText(edt2);
+                            layout.addView(edt2);
+                            builder.setView(layout);
+
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Lấy giá trị mới từ EditText
+                                    String newLiDo = edt1.getText().toString().trim();
+                                    String newSoTien = edt2.getText().toString().trim();
+                                    if (!newLiDo.isEmpty() && !newSoTien.isEmpty()) {
+                                        // Sửa item ở vị trí position trong danh sách dữ liệu
+                                        ThuongPhat selectedItem = arrThuong.get(position);
+                                        selectedItem.setLiDo(newLiDo);
+                                        selectedItem.setSoTien(newSoTien);
+                                        // Cập nhật ListView
+                                        adapterThuong.notifyDataSetChanged();
+
+                                        TotalThuong();
+                                    } else {
+                                        Toast.makeText(LuongThuongPhat.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                            builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            builder.show();
+                        }
+                    });
+                    builder.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            arrThuong.remove(item);
+                            adapterThuong.notifyDataSetChanged();
+                            TotalThuong();
+                        }
+                    });
+                    builder.setNeutralButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    // Hiển thị AlertDialog
+                    builder.show();
+                }
+                return true;
+            }
+        });
+        lvPhat.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (arrPhat != null && position >= 0 && position < arrPhat.size()) {
+                    Object item = parent.getItemAtPosition(position);
+                    ThuongPhat thuongPhat = (ThuongPhat) item;
+                    String lydo = thuongPhat.getLiDo();
+                    String tienphat = thuongPhat.getSoTien();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LuongThuongPhat.this);
+                    builder.setTitle("Cảnh báo");
+                    builder.setMessage("Bạn muốn thay đổi phạt " + lydo + " có số tiền là " + tienphat + " như thế nào?");
+                    builder.setPositiveButton("Sửa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Hiển thị một AlertDialog khác để yêu cầu người dùng nhập thông tin
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LuongThuongPhat.this);
+                            builder.setTitle("Thay đổi phạt");
+                            LinearLayout layout = new LinearLayout(LuongThuongPhat.this);
+                            layout.setOrientation(LinearLayout.VERTICAL);
+                            final EditText edtLydo = new EditText(LuongThuongPhat.this);
+                            edtLydo.setText(lydo);
+                            layout.addView(edtLydo);
+                            final EditText edtTp = new EditText(LuongThuongPhat.this);
+                            edtTp.setText(tienphat);
+                            setupEditText(edtTp);
+                            layout.addView(edtTp);
+                            builder.setView(layout);
+
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Lấy giá trị mới từ EditText
+                                    String newLyDo = edtLydo.getText().toString().trim();
+                                    String newTienPhat = edtTp.getText().toString().trim();
+                                    if (!newLyDo.isEmpty() && !newTienPhat.isEmpty()) {
+                                        // Sửa item ở vị trí position trong danh sách dữ liệu
+                                        ThuongPhat selectedItem = arrPhat.get(position);
+                                        selectedItem.setLiDo(newLyDo);
+                                        selectedItem.setSoTien(newTienPhat);
+                                        // Cập nhật ListView
+                                        adapterPhat.notifyDataSetChanged();
+
+                                        TotalPhat();
+                                    } else {
+                                        Toast.makeText(LuongThuongPhat.this, "Bạn phải điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                            builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            builder.show();
+                        }
+                    });
+                    builder.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            arrPhat.remove(item);
+                            adapterPhat.notifyDataSetChanged();
+                            TotalPhat();
+                        }
+                    });
+                    builder.setNeutralButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    // Hiển thị AlertDialog
+                    builder.show();
+                }
+                return true;
+            }
+        });
     }
 
     private void TotalLuong() {
@@ -355,6 +512,7 @@ public class LuongThuongPhat extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng nhập số hợp lệ cho các thành phần lương.", Toast.LENGTH_SHORT).show();
         }
     }
+
     private String layLyDoThuongTuList() {
         StringBuilder lyDoThuongStringBuilder = new StringBuilder();
 
@@ -381,6 +539,7 @@ public class LuongThuongPhat extends AppCompatActivity {
         // Đảo ngược giá trị của isLvThuongVisible
         isLvThuongVisible = !isLvThuongVisible;
     }
+
     private String layLyDoPhatTuList() {
         StringBuilder lyDoPhatStringBuilder = new StringBuilder();
 
@@ -637,6 +796,8 @@ public class LuongThuongPhat extends AppCompatActivity {
         tvTong = findViewById(R.id.tvTong);
         tvThuong = findViewById(R.id.tvThuong);
         tvPhat = findViewById(R.id.tvPhat);
+        tvThuong1 = findViewById(R.id.tvThuong1);
+        tvPhat1 = findViewById(R.id.tvPhat1);
         edtLuong = findViewById(R.id.edtLuong);
         edtChiPhi = findViewById(R.id.edtChiPhi);
         btnGui = findViewById(R.id.btnGui);

@@ -38,8 +38,8 @@ public class DKActivity extends AppCompatActivity {
     private EditText edtTk_Dk, edtMaNv_Dk, edtMk_Dk, edtMk_Dk1;
     private TextView txtDangNhap;
     private Button btnDangKy;
-    public static String localhost = "192.168.3.36";
-    private String URL = "http://"+localhost+"/user/insert.php";
+    public static String localhost = "192.168.3.37";
+    private String URL = "http://" + localhost + "/user/insert.php";
     private String tk, manv, mk, mk1;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 

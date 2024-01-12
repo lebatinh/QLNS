@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="12"
+    android:weightSum="10"
     tools:context=".ql.LuongThuongPhat">
 
     <LinearLayout
@@ -40,8 +40,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
         android:orientation="vertical">
 
         <View
@@ -105,8 +105,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="20dp"
                                 android:gravity="center"
+                                android:layout_gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -126,7 +126,6 @@
                                     android:id="@+id/tvNgay"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
                                     android:gravity="center"
                                     android:hint="Chọn ngày xét lương"
                                     android:textSize="18dp" />
@@ -144,6 +143,7 @@
                             android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/tvThuong1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/more"
@@ -169,6 +169,7 @@
                             android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/tvPhat1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/more"
@@ -201,12 +202,13 @@
                                 android:layout_weight="2"
                                 android:gravity="center"
                                 android:orientation="horizontal"
-                                android:weightSum="3">
+                                android:weightSum="2">
 
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="2"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
                                     android:text="Lương cơ bản: "
                                     android:textSize="18dp"
                                     android:textStyle="bold" />
@@ -331,6 +333,7 @@
                                     android:layout_weight="1"
                                     android:text="Chi phí phát sinh: "
                                     android:textSize="18dp"
+                                    android:gravity="center"
                                     android:textStyle="bold" />
 
                                 <EditText
@@ -355,27 +358,30 @@
                                 android:layout_weight="2"
                                 android:gravity="center"
                                 android:orientation="horizontal"
-                                android:weightSum="5">
+                                android:weightSum="2">
 
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="10dp"
-                                    android:layout_weight="3"
+                                    android:layout_weight="1"
                                     android:text="Luơng sau cuối: "
                                     android:textSize="18dp"
+                                    android:gravity="center"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/tvTong"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="10dp"
-                                    android:layout_weight="2"
+                                    android:layout_weight="1"
                                     android:hint="Tổng"
                                     android:textSize="18dp" />
                             </LinearLayout>
 
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/black" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -400,10 +406,6 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black" />
 
     <LinearLayout
         android:id="@+id/lnrXn"
@@ -426,7 +428,6 @@
                 android:layout_height="wrap_content"
                 android:text="Tính Tổng"
                 android:textSize="15sp"
-                android:layout_margin="10dp"
                 app:shapeAppearanceOverlay="@style/corner_50" />
         </LinearLayout>
         <LinearLayout
@@ -440,7 +441,6 @@
                 android:layout_height="wrap_content"
                 android:text="Gửi"
                 android:textSize="15sp"
-                android:layout_margin="10dp"
                 app:shapeAppearanceOverlay="@style/corner_50" />
 
         </LinearLayout>
