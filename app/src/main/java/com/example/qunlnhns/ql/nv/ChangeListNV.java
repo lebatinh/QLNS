@@ -121,6 +121,8 @@ public class ChangeListNV extends AppCompatActivity {
                                         showAlertDialog(ChangeListNV.this, "Thông báo", "Xóa nhân viên thành công! Bạn đã có thể xem lại danh sách.");
                                     } else if (response.equals("fail")) {
                                         showAlertDialog(ChangeListNV.this, "Cảnh báo!", "Xóa nhân viên không thành công.");
+                                    } else {
+                                        showAlertDialog(ChangeListNV.this, "Cảnh báo!", "Xóa nhân viên không thành công.");
                                     }
                                 }
                             }, new Response.ErrorListener() {

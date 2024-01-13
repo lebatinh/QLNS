@@ -39,7 +39,8 @@ public class DNActivity extends AppCompatActivity {
     private TextView txtDangKy, txtDoiMk;
     private String tk, mk, manvvalue;
     String localhost = DKActivity.localhost;
-    String URL = "http://"+localhost+"/user/getdata.php";
+    String url = "http://" + localhost + "/user/getdata.php";
+    String url1 = "http://" + localhost + "/user/check_admin.php";
     Database database;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 
@@ -68,7 +69,7 @@ public class DNActivity extends AppCompatActivity {
 
         // Khởi tạo đối tượng Database
         database = new Database(this, "main.sqlite", null, 1);
-
+        database.CREATE_TABLE_MAIN();
         AnhXa();
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +106,6 @@ public class DNActivity extends AppCompatActivity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
-
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -138,12 +138,59 @@ public class DNActivity extends AppCompatActivity {
         tk = edtTk_Dn.getText().toString().trim();
         mk = edtMk_Dn.getText().toString().trim();
         if (!tk.isEmpty() && !mk.isEmpty()) {
-            GetData();
+            CheckAd(url1);
         } else {
-            edtTk_Dn.clearComposingText();
+            edtTk_Dn.setText("");
             edtMk_Dn.setText("");
             AlertDialogHelper.showAlertDialog(DNActivity.this, "Cảnh báo!", "Bạn phải nhập đầy đủ tài khoản và mật khẩu!");
         }
+    }
+
+    private void CheckAd(String url1) {
+        final ProgressDialog progressDialog = new ProgressDialog(DNActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                progressDialog.dismiss();
+                boolean check = false;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        String manv = object.getString("MaNv");
+                        String tk1 = object.getString("Email");
+                        String mk1 = object.getString("Pass");
+                        if (tk.equals(tk1) && mk.equals(mk1)) {
+                            manvvalue = manv;
+                            database.INSERT_MANV_MAIN(null, manvvalue, true);
+                            check = true;
+                            break;
+                        } else {
+                            GetData();
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                if (check) {
+                    edtTk_Dn.setText("");
+                    edtMk_Dn.setText("");
+
+                    startActivity(new Intent(DNActivity.this, Success.class));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(DNActivity.this, "Máy chủ bị tắt hoặc lỗi mạng!", Toast.LENGTH_SHORT).show();
+                Log.d("TAG", error.toString());
+            }
+        });
+        requestQueue.add(jsonArrayRequest);
     }
 
     private void GetData() {
@@ -152,7 +199,7 @@ public class DNActivity extends AppCompatActivity {
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 progressDialog.dismiss();
@@ -166,6 +213,7 @@ public class DNActivity extends AppCompatActivity {
                         if (tk.equals(tkdb) && mk.equals(mkdb)) {
                             manvvalue = manv;
                             check = true;
+                            database.INSERT_MANV_MAIN(null, manvvalue, null);
                             break;
                         }
                     } catch (JSONException e) {
@@ -176,9 +224,6 @@ public class DNActivity extends AppCompatActivity {
                 if (check) {
                     edtTk_Dn.setText("");
                     edtMk_Dn.setText("");
-
-                    database.CREATE_TABLE_MAIN();
-                    database.INSERT_MANV_MAIN(null, manvvalue);
                     startActivity(new Intent(DNActivity.this, Success.class));
                 } else {
                     edtTk_Dn.setText("");
@@ -190,7 +235,6 @@ public class DNActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(DNActivity.this, "Máy chủ bị tắt hoặc lỗi mạng!", Toast.LENGTH_SHORT).show();
-                Log.d("TAG", error.toString());
             }
         });
         requestQueue.add(jsonArrayRequest);

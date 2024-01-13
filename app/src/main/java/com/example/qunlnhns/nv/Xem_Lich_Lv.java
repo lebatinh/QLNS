@@ -5,6 +5,7 @@ import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDi
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -94,7 +95,8 @@ public class Xem_Lich_Lv extends AppCompatActivity {
 
         // Khởi tạo đối tượng Database
         database = new Database(this, "main.sqlite", null, 1);
-        manv1 = database.SELECT_MANV_MAIN();
+        Pair<String, String> result = database.SELECT_MANV_MAIN();
+        manv1 = result.first;
 
         // Lấy ngày hiện tại
         LocalDate currentDate = LocalDate.now();

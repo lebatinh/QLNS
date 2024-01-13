@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,8 +45,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Bang_Luong extends AppCompatActivity {
@@ -54,6 +59,7 @@ public class Bang_Luong extends AppCompatActivity {
     ArrayList<Luong> arrLuong;
     LuongAdapter adapter;
     Database database;
+    private Calendar calendar;
     String localhost = DKActivity.localhost;
     String url = "http://" + localhost + "/user/get_luong_nv.php";
     String url1 = "http://" + localhost + "/user/delete_luong.php";
@@ -91,7 +97,7 @@ public class Bang_Luong extends AppCompatActivity {
         adapter = new LuongAdapter(this, R.layout.nv_luong, arrLuong);
         lvBangLuong.setAdapter(adapter);
 
-        GetLuong();
+
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +137,8 @@ public class Bang_Luong extends AppCompatActivity {
                                                 adapter.notifyDataSetChanged();
                                                 showAlertDialog(Bang_Luong.this, "Thông báo", "Xóa lương của " + hoTen + " thành công! \nBạn đã có thể xem lại bảng lương.");
                                             } else if (response.equals("fail")) {
+                                                showAlertDialog(Bang_Luong.this, "Cảnh báo!", "Xóa lương của " + hoTen + " không thành công!");
+                                            } else {
                                                 showAlertDialog(Bang_Luong.this, "Cảnh báo!", "Xóa lương của " + hoTen + " không thành công!");
                                             }
                                         }
@@ -188,8 +196,63 @@ public class Bang_Luong extends AppCompatActivity {
                 return true;
             }
         });
+
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
         handler.post(runnable);
+
+        // Khởi tạo ngày hiện tại
+        calendar = Calendar.getInstance();
+        // Hiển thị tháng hiện tại trong TextView và lấy dữ liệu từ database
+        updateTextView();
+        GetLuong();
+        tvTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+    }
+
+    private void showDatePickerDialog() {
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+
+        // Tạo DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear, int monthOfYear, int dayOfMonth) {
+                        // Lưu giá trị ngày đã chọn vào Calendar
+                        calendar.set(Calendar.YEAR, selectedYear);
+                        calendar.set(Calendar.MONTH, monthOfYear);
+
+                        // Hiển thị tháng đã chọn trong TextView
+                        updateTextView();
+
+                        // Lấy dữ liệu từ database khi người dùng chọn tháng mới
+                        GetLuong();
+                    }
+                },
+                year,
+                month,
+                0 // Giá trị của ngày không quan trọng trong trường hợp này
+        );
+        datePickerDialog.getDatePicker().updateDate(year, month, 1);
+        // Đặt tiêu đề cho DatePickerDialog
+        datePickerDialog.setTitle("Hãy chọn ngày bất kì ở tháng cần dùng để hiện bảng lương");
+
+        // Hiển thị DatePickerDialog
+        datePickerDialog.show();
+    }
+
+    private void updateTextView() {
+        // Format ngày để hiển thị trong TextView
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM/yyyy", Locale.getDefault());
+        String formattedDate = sdf.format(calendar.getTime());
+
+        // Đặt giá trị cho TextView
+        tvTime.setText(formattedDate);
     }
 
     private void GetLuong() {
@@ -201,6 +264,7 @@ public class Bang_Luong extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 progressDialog.dismiss();
+                arrLuong.clear();
                 if (response.length() == 0) {
                     // Hiển thị thông báo nếu không có nhân viên nào
                     showAlertDialog(Bang_Luong.this, "Cảnh báo!", "Không có bảng lương!");
@@ -213,11 +277,12 @@ public class Bang_Luong extends AppCompatActivity {
                             String thuong = object.optString("TienThuong", "");
                             String phat = object.optString("TienPhat", "");
                             String luong = object.optString("Tong", "");
-                            String thoigian = object.optString("ThoiGian", "");
+                            String thoiGian = object.optString("ThoiGian", "");
 
-                            tvTime.setText(thoigian);
-                            arrLuong.add(new Luong(maNv, hoTen, thuong, phat, luong));
-
+                            String tg = tvTime.getText().toString().trim();
+                            if (tg.equals(thoiGian)) {
+                                arrLuong.add(new Luong(maNv, hoTen, thuong, phat, luong));
+                            }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -234,7 +299,6 @@ public class Bang_Luong extends AppCompatActivity {
         );
         requestQueue.add(jsonArrayRequest);
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

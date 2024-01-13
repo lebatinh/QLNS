@@ -247,6 +247,8 @@ public class SuaLich extends AppCompatActivity {
                     showAlertDialog(SuaLich.this, "Thông báo", "Sửa thông tin nhân viên thành công! Bạn đã có thể xem nhân viên trong danh sách.");
                 } else if (response.equals("fail")) {
                     showAlertDialog(SuaLich.this, "Cảnh báo!", "Sửa nhân viên không thành công!");
+                } else {
+                    showAlertDialog(SuaLich.this, "Cảnh báo!", "Sửa nhân viên không thành công!");
                 }
             }
         }, new Response.ErrorListener() {

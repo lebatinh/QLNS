@@ -397,6 +397,8 @@ public class XepLichLv extends AppCompatActivity {
                     showAlertDialog(XepLichLv.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
                     showAlertDialog(XepLichLv.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
+                } else {
+                    showAlertDialog(XepLichLv.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
                 }
             }
         }, new Response.ErrorListener() {

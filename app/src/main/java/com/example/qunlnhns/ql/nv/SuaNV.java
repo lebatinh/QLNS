@@ -298,6 +298,8 @@ public class SuaNV extends AppCompatActivity {
                     showAlertDialog(SuaNV.this, "Thông báo", "Sửa thông tin nhân viên thành công! Bạn đã có thể xem nhân viên trong danh sách.");
                 } else if (response.equals("fail")) {
                     showAlertDialog(SuaNV.this, "Cảnh báo!", "Sửa nhân viên không thành công!");
+                } else {
+                    showAlertDialog(SuaNV.this, "Cảnh báo!", "Sửa nhân viên không thành công!");
                 }
             }
         }, new Response.ErrorListener() {

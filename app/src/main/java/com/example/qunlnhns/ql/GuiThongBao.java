@@ -258,6 +258,8 @@ public class GuiThongBao extends AppCompatActivity {
                     showAlertDialog(GuiThongBao.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
                     showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
+                } else {
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
                 }
             }
         }, new Response.ErrorListener() {
@@ -297,6 +299,8 @@ public class GuiThongBao extends AppCompatActivity {
                     showNotification(GuiThongBao.this, "Quản lý nhân sự", "Bạn có thông báo mới: " + tb + "!");
                     showAlertDialog(GuiThongBao.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
+                } else {
                     showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
                 }
             }

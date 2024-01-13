@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -75,11 +77,10 @@ public class XetLuong extends AppCompatActivity {
     List_Nv_Adapter adapterNv;
     private boolean isLvThuongVisible = false;
     private boolean isLvPhatVisible = false;
+    private Calendar calendar;
     String localhost = DKActivity.localhost;
     String url1 = "http://" + localhost + "/user/get_nv_luong.php";
     String url2 = "http://" + localhost + "/user/insert_luong.php";
-    private Calendar startDateCalendar = Calendar.getInstance();
-    private Calendar endDateCalendar = Calendar.getInstance();
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
     private final Handler handler = new Handler();
     private final Runnable runnable = new Runnable() {
@@ -286,10 +287,13 @@ public class XetLuong extends AppCompatActivity {
         });
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
         handler.post(runnable);
+
+        // Khởi tạo ngày hiện tại
+        calendar = Calendar.getInstance();
         tvNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDateRangePicker();
+                showDatePickerDialog();
             }
         });
         tvThuong.setOnClickListener(new View.OnClickListener() {
@@ -585,36 +589,51 @@ public class XetLuong extends AppCompatActivity {
         tvTotalPhat.setText(String.valueOf(totalPhat));
     }
 
-    private void showDateRangePicker() {
-        MaterialDatePicker<Pair<Long, Long>> picker = MaterialDatePicker.Builder.dateRangePicker()
-                .setTitleText("Chọn ngày")
-                .setSelection(Pair.create(startDateCalendar.getTimeInMillis(), endDateCalendar.getTimeInMillis()))
-                .build();
+    private void showDatePickerDialog() {
+        // Lấy thời gian hiện tại
+        long currentTimeMillis = System.currentTimeMillis();
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.setTimeInMillis(currentTimeMillis);
 
-        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
-            @Override
-            public void onPositiveButtonClick(Pair<Long, Long> selection) {
-                startDateCalendar.setTimeInMillis(selection.first);
-                endDateCalendar.setTimeInMillis(selection.second);
+        int year = currentCalendar.get(Calendar.YEAR);
+        int month = currentCalendar.get(Calendar.MONTH);
 
-                updateNgayTextView();
-            }
-        });
+        // Tạo DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear, int monthOfYear, int dayOfMonth) {
+                        // Lưu giá trị ngày đã chọn vào Calendar
+                        calendar.set(Calendar.YEAR, selectedYear);
+                        calendar.set(Calendar.MONTH, monthOfYear);
 
-        picker.show(getSupportFragmentManager(), picker.toString());
+                        // Hiển thị tháng đã chọn trong TextView
+                        updateTextView();
+                    }
+                },
+                year,
+                month,
+                0
+        );
+
+        datePickerDialog.getDatePicker().updateDate(year, month, 1);
+
+        // Đặt tiêu đề cho DatePickerDialog
+        datePickerDialog.setTitle("Hãy chọn ngày bất kì ở tháng dùng để xét lương");
+
+        // Hiển thị DatePickerDialog
+        datePickerDialog.show();
     }
 
-    private void updateNgayTextView() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-        String startDate = sdf.format(startDateCalendar.getTime());
-        String endDate = sdf.format(endDateCalendar.getTime());
+    private void updateTextView() {
+        // Format ngày để hiển thị trong TextView
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM/yyyy", Locale.getDefault());
+        String formattedDate = sdf.format(calendar.getTime());
 
-        if (TextUtils.equals(startDate, endDate)) {
-            tvNgay.setText(startDate);
-        } else {
-            tvNgay.setText(String.format("%s - %s", startDate, endDate));
-        }
+        // Đặt giá trị cho TextView
+        tvNgay.setText(formattedDate);
     }
 
     private void setupEditText(EditText editText) {
@@ -648,6 +667,8 @@ public class XetLuong extends AppCompatActivity {
                     showAlertDialog(XetLuong.this, "Thông báo", "Xét lương thành công! Bạn đã có thể xem danh sách lương.");
                 } else if (response.equals("fail")) {
                     showAlertDialog(XetLuong.this, "Cảnh báo!", "Xét lương không thành công.\nThông tin nhân viên này đã tồn tại!");
+                } else {
+                    showAlertDialog(XetLuong.this, "Cảnh báo!", "Xét lương không thành công!");
                 }
             }
         }, new Response.ErrorListener() {

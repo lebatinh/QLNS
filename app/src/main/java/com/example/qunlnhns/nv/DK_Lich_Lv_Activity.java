@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -106,7 +107,8 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
 
         // Khởi tạo đối tượng Database
         database = new Database(this, "main.sqlite", null, 1);
-        manv1 = database.SELECT_MANV_MAIN();
+        Pair<String, String> result = database.SELECT_MANV_MAIN();
+        manv1 = result.first;
 
         check();
         btnHome.setOnClickListener(new View.OnClickListener() {
@@ -521,6 +523,8 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
                         showAlertDialog(DK_Lich_Lv_Activity.this, "Thông báo", "Đăng ký lịch thành công.");
                     } else if (response.equals("fail")) {
                         showAlertDialog(DK_Lich_Lv_Activity.this, "Cảnh báo!", "Đăng ký lịch không thành công!");
+                    } else {
+                        showAlertDialog(DK_Lich_Lv_Activity.this, "Cảnh báo!", "Đăng ký lịch không thành công!");
                     }
                 }
             }, new Response.ErrorListener() {
@@ -611,6 +615,8 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
                     if (response.equals("success")) {
                         showAlertDialog(DK_Lich_Lv_Activity.this, "Thông báo", "Sửa lịch thành công.");
                     } else if (response.equals("fail")) {
+                        showAlertDialog(DK_Lich_Lv_Activity.this, "Cảnh báo!", "Bạn chưa đăng ký lịch nên chưa thể sửa! Hãy đăng ký lịch trước");
+                    } else {
                         showAlertDialog(DK_Lich_Lv_Activity.this, "Cảnh báo!", "Bạn chưa đăng ký lịch nên chưa thể sửa! Hãy đăng ký lịch trước");
                     }
                 }

@@ -5,6 +5,7 @@ import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDi
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -64,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton dsnv, dkl, xemllv, xltp, xetltp, gtn, tnv, sttnv, xnv, xepllv, vtb, home, thongbao, person, ytb, luong;
     private ImageView profile;
     private TextView tvhoten, tvChucVu;
-    private String manv1;
+    private String manv1, admin;
     private ScrollView scrollView;
-    private LinearLayout lnrTbChung, lnrTbRieng, lnrTb;
+    private LinearLayout lnrTbChung, lnrTbRieng, lnrTb, lnrQl;
     private View view1, view2;
     String localhost = DKActivity.localhost;
     private String url = "http://" + localhost + "/user/get_manv.php";
@@ -98,9 +99,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        AnhXa();
         // Khởi tạo đối tượng Database
         database = new Database(this, "main.sqlite", null, 1);
-        manv1 = database.SELECT_MANV_MAIN();
+        Pair<String, String> result = database.SELECT_MANV_MAIN();
+        manv1 = result.first;
+        admin = result.second;
+
+        if (admin.equals("true")) {
+            lnrQl.setVisibility(View.VISIBLE);
+        } else if (admin.equals("2")) {
+            lnrQl.setVisibility(View.GONE);
+        }
 
         GetData();
 
@@ -114,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         adapterTbChoice = new TbAdapter(this, R.layout.thong_bao, arrTbChoice);
         lvTbChoice.setAdapter(adapterTbChoice);
 
-        AnhXa();
 
         dsnv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -456,5 +465,6 @@ public class MainActivity extends AppCompatActivity {
         lnrTb = findViewById(R.id.lnrTb);
         view1 = findViewById(R.id.view1);
         view2 = findViewById(R.id.view2);
+        lnrQl = findViewById(R.id.lnrQl);
     }
 }

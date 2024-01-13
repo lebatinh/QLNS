@@ -220,6 +220,8 @@ public class ThemNV extends AppCompatActivity {
                     showAlertDialog(ThemNV.this, "Thông báo", "Thêm thông tin nhân viên thành công! Bạn đã có thể xem nhân viên trong danh sách.");
                 } else if (response.equals("fail")) {
                     showAlertDialog(ThemNV.this, "Cảnh báo!", "Thêm nhân viên không thành công.\nThông tin nhân viên này đã tồn tại!");
+                } else {
+                    showAlertDialog(ThemNV.this, "Cảnh báo!", "Thêm nhân viên không thành công.");
                 }
             }
         }, new Response.ErrorListener() {

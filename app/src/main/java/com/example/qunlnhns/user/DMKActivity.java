@@ -223,6 +223,8 @@ public class DMKActivity extends AppCompatActivity {
                     showAlertDialog(DMKActivity.this, "Thông báo", "Đổi mật khẩu thành công!\nBạn có thể đăng nhập lại bằng\ntài khoản và mật khẩu mới");
                 } else if (response.equals("fail")) {
                     showAlertDialog(DMKActivity.this, "Cảnh báo!", "Đổi mật khẩu không thành công.\nTài khoản hoặc mật khẩu không chính xác\nhoặc không tồn tại!");
+                } else {
+                    showAlertDialog(DMKActivity.this, "Cảnh báo!", "Đổi mật khẩu không thành công.\nTài khoản hoặc mật khẩu không chính xác\nhoặc không tồn tại!");
                 }
             }
         }, new Response.ErrorListener() {

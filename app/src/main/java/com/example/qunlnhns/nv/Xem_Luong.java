@@ -5,6 +5,7 @@ import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDi
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -69,7 +70,8 @@ public class Xem_Luong extends AppCompatActivity {
         AnhXa();
         // Khởi tạo đối tượng Database
         database = new Database(this, "main.sqlite", null, 1);
-        manv = database.SELECT_MANV_MAIN();
+        Pair<String, String> result = database.SELECT_MANV_MAIN();
+        manv = result.first;
 
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
         handler.post(runnable);

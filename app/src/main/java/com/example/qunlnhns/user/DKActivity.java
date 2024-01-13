@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,9 +26,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
+import com.example.qunlnhns.Success;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,11 +43,11 @@ public class DKActivity extends AppCompatActivity {
     private EditText edtTk_Dk, edtMaNv_Dk, edtMk_Dk, edtMk_Dk1;
     private TextView txtDangNhap;
     private Button btnDangKy;
-    public static String localhost = "192.168.3.37";
+    public static String localhost = "192.168.3.38";
     private String URL = "http://" + localhost + "/user/insert.php";
+    private String url1 = "http://" + localhost + "/user/check_user.php";
     private String tk, manv, mk, mk1;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
-
     private final Handler handler = new Handler();
     private final Runnable runnable = new Runnable() {
         @Override
@@ -143,7 +150,6 @@ public class DKActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-
         AnhXa();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
@@ -157,6 +163,10 @@ public class DKActivity extends AppCompatActivity {
                     showAlertDialog(DKActivity.this, "Thông báo", "Đăng ký thành công!\nBạn có thể dùng tài khoản đó để đăng nhập");
                 } else if (response.equals("fail")) {
                     showAlertDialog(DKActivity.this, "Cảnh báo!", "Đăng ký không thành công.\nTài khoản hoặc mã nhân viên đã tồn tại!");
+                } else if (response.equals("not_exists")) {
+                    showAlertDialog(DKActivity.this, "Cảnh báo!", "Đăng ký không thành công.\nBạn không phải nhân viên trong công ty!");
+                } else {
+                    showAlertDialog(DKActivity.this, "Cảnh báo!", "Đăng ký không thành công!.\nTài khoản hoặc mã nhân viên đã tồn tại!");
                 }
             }
         }, new Response.ErrorListener() {
@@ -170,8 +180,8 @@ public class DKActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 // Truyền tham số cho yêu cầu POST
                 Map<String, String> params = new HashMap<>();
-                params.put("email", tk);
                 params.put("manv", manv);
+                params.put("email", tk);
                 params.put("pass", mk);
                 return params;
             }

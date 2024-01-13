@@ -392,6 +392,8 @@ public class Them_Lich_Nv extends AppCompatActivity {
                     startActivity(new Intent(Them_Lich_Nv.this, XepLichLv.class));
                 } else if (response.equals("fail")) {
                     showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Thêm nhân viên không thành công.\nThông tin nhân viên này đã tồn tại!");
+                } else {
+                    showAlertDialog(Them_Lich_Nv.this, "Cảnh báo!", "Thêm nhân viên không thành công.");
                 }
             }
         }, new Response.ErrorListener() {
