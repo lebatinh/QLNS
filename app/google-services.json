@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "183443576600",
+    "firebase_url": "https://message-17b34-default-rtdb.firebaseio.com",
+    "project_id": "message-17b34",
+    "storage_bucket": "message-17b34.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183443576600:android:9739fe7b99cb7cb4fcb06d",
+        "android_client_info": {
+          "package_name": "com.example.qunlnhns"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEPy1DIxn3y8hOXu9F86BSNpgPOAHsgzA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

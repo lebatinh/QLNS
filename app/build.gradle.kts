@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -38,9 +39,20 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    //thư viện volley kết nối với mysql thông qua webservice
     implementation("com.android.volley:volley:1.2.1")
+    //time library
     implementation("com.jakewharton.threetenabp:threetenabp:1.4.6")
+    //chuyển đổi chuỗi string sang json
     implementation("com.google.code.gson:gson:2.9.0")
 
+    //vẽ hình tròn
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-messaging:23.4.0")
+    implementation("com.google.firebase:firebase-firestore:24.10.1")
+    implementation("com.google.firebase:firebase-analytics")
 }

@@ -35,10 +35,6 @@ import com.example.qunlnhns.Database;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.nv.luong.Luong;
 import com.example.qunlnhns.nv.luong.LuongAdapter;
-import com.example.qunlnhns.ql.SuaBangLuong;
-import com.example.qunlnhns.ql.dslich.SuaLich;
-import com.example.qunlnhns.ql.dslich.XepLichLv;
-import com.example.qunlnhns.ql.dslich.t1.Lich;
 import com.example.qunlnhns.user.DKActivity;
 
 import org.json.JSONArray;
@@ -171,18 +167,18 @@ public class Bang_Luong extends AppCompatActivity {
                             builder1.show();
                         }
                     });
-                    builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final ProgressDialog progressDialog = new ProgressDialog(Bang_Luong.this);
-                            progressDialog.setMessage("Loading...");
-                            progressDialog.show();
-                            database.INSERT_MANV_DELTAIL(null, maNv);
-
-                            progressDialog.dismiss();
-                            startActivity(new Intent(Bang_Luong.this, SuaBangLuong.class));
-                        }
-                    });
+//                    builder.setNegativeButton("Sửa", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            final ProgressDialog progressDialog = new ProgressDialog(Bang_Luong.this);
+//                            progressDialog.setMessage("Loading...");
+//                            progressDialog.show();
+//                            database.INSERT_MANV_DELTAIL(null, maNv);
+//
+//                            progressDialog.dismiss();
+//                            startActivity(new Intent(Bang_Luong.this, SuaBangLuong.class));
+//                        }
+//                    });
                     builder.setNeutralButton("Hủy", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

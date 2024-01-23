@@ -43,7 +43,7 @@
             app:cardBackgroundColor="#3DE4D0"
             app:cardCornerRadius="100dp">
 
-            <androidx.appcompat.widget.SearchView
+            <SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

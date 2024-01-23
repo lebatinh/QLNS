@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.Database;
+import com.example.qunlnhns.MessageActivity;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.api.Youtube;
 import com.example.qunlnhns.nv.tb.Tb;
@@ -241,6 +242,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Bang_Luong.class));
+            }
+        });
+        gtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MessageActivity.class));
             }
         });
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo

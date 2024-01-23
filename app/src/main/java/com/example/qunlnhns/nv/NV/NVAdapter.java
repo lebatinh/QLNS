@@ -56,8 +56,6 @@ public class NVAdapter extends BaseAdapter {
             return null;
         }
     }
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;

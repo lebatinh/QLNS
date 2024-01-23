@@ -31,8 +31,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ql.SuaBangLuong"
-            android:exported="false" />
+            android:name=".ChatActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MessageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".nv.Bang_Luong"
             android:exported="false"
