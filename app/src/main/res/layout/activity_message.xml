@@ -5,44 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="12"
+    android:background="#F4E6A2"
     android:orientation="vertical"
-    tools:context=".MessageActivity">
+    tools:context=".nv.MessageActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:layout_margin="10dp">
 
         <ImageButton
             android:id="@+id/btnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
+            android:layout_gravity="center|start"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/home"
+            android:elevation="5dp"
+            android:src="@drawable/icon_back"
+            app:layout_anchor="@id/text"
+            app:layout_anchorGravity="center|start"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="9"
             android:gravity="center"
             android:text="Đoạn chat"
             android:textColor="@color/black"
             android:textSize="30dp" />
-    </LinearLayout>
+
+    </FrameLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="10"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <View

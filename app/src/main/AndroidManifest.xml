@@ -31,15 +31,24 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ChatActivity"
+            android:name=".HDSD"
+            android:exported="false" />
+        <activity
+            android:name=".giaitri.News"
+            android:exported="false" />
+        <activity
+            android:name=".giaitri.Chorme"
+            android:exported="false" />
+        <activity
+            android:name=".nv.ChatActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MessageActivity"
+            android:name=".nv.MessageActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nv.Bang_Luong"
+            android:name=".ql.Bang_Luong"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
@@ -71,7 +80,7 @@
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".api.Youtube"
+            android:name=".giaitri.Youtube"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
@@ -79,23 +88,22 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ql.nv.SuaNV"
+            android:name=".ql.ds_nv.SuaNV"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ql.nv.ChangeListNV"
+            android:name=".ql.ds_nv.ChangeListNV"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ql.nv.ThemNV"
+            android:name=".ql.ds_nv.ThemNV"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".nv.DSNVActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="false" />
         <activity
-            android:name=".nv.MainActivity"
+            android:name=".MainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

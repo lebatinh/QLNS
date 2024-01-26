@@ -4,67 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="top|center"
+    android:orientation="vertical"
+    android:background="#F4E6A2"
     tools:context=".nv.DSNVActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="top|center"
-        android:gravity="center">
+        android:layout_gravity="top"
+        android:layout_margin="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btnHome"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/btnHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|left"
-                android:layout_marginStart="10dp"
-                android:background="@null"
-                android:src="@drawable/home"
-                tools:ignore="SpeakableTextPresentCheck" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Danh sách nhân viên "
-                android:textSize="25dp"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:layout_margin="30dp"/>
-        </LinearLayout>
-        <androidx.cardview.widget.CardView
+            android:layout_gravity="center|start"
+            android:layout_marginStart="10dp"
+            android:background="@null"
+            android:elevation="5dp"
+            android:src="@drawable/icon_back"
+            app:layout_anchor="@id/text"
+            app:layout_anchorGravity="center|start"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Danh sách nhân viên"
+            android:textColor="@color/black"
+            android:textSize="23dp" />
+
+    </FrameLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15sp"
+        app:cardBackgroundColor="#3DE4D0"
+        app:cardCornerRadius="100dp">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="15sp"
-            app:cardBackgroundColor="#3DE4D0"
-            app:cardCornerRadius="100dp">
+            android:gravity="center"
+            android:inputType="text"
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
+            app:queryHint="Tìm kiếm nhân viên tại đây..." />
 
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:inputType="text"
-                android:outlineAmbientShadowColor="@color/black"
-                android:outlineSpotShadowColor="@color/black"
-                app:queryHint="Tìm kiếm nhân viên tại đây..." />
+    </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/black" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black" />
 
-            <ListView
-                android:id="@+id/lvNv"
-                android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+    <ListView
+        android:id="@+id/lvNv"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
 
-    </LinearLayout>
 </LinearLayout>

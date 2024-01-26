@@ -3,8 +3,10 @@
 
     <style name="corner_20" >
         <item name="cornerSize">20%</item>
+        <item name="color">@android:color/holo_green_light</item>
     </style>
     <style name="corner_50" >
         <item name="cornerSize">50%</item>
+        <item name="color">@android:color/holo_green_light</item>
     </style>
 </resources>

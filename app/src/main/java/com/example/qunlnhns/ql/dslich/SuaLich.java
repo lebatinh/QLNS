@@ -35,9 +35,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.qunlnhns.Database;
+import com.example.qunlnhns.DatabaseSQlite;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.MainActivity;
+import com.example.qunlnhns.MainActivity;
 import com.example.qunlnhns.user.DKActivity;
 
 import org.json.JSONArray;
@@ -59,7 +59,7 @@ public class SuaLich extends AppCompatActivity {
     private String url1 = "http://" + localhost + "/user/update_lich.php";
     private String manv1;
     private TextView[] tvArray = new TextView[7];
-    Database database;
+    DatabaseSQlite databaseSQlite;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 
     private final Handler handler = new Handler();
@@ -88,8 +88,8 @@ public class SuaLich extends AppCompatActivity {
         AnhXa();
 
         // Khởi tạo đối tượng Database
-        database = new Database(this, "detail.sqlite", null, 1);
-        manv1 = database.SELECT_MANV_DELTAIL();
+        databaseSQlite = new DatabaseSQlite(this, "detail.sqlite", null, 1);
+        manv1 = databaseSQlite.SELECT_MANV_DELTAIL();
 
         GetData(url);
         btnHome.setOnClickListener(new View.OnClickListener() {

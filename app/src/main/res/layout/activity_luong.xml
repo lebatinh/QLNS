@@ -4,64 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F4E6A2"
     android:orientation="vertical"
     android:weightSum="10"
     tools:context=".ql.XetLuong">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:layout_height="0dp">
 
-        <ImageButton
-            android:id="@+id/btnHome"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:src="@drawable/home"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:layout_margin="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:gravity="center"
-            android:text="Xét lương nhân viên"
-            android:textColor="@color/black"
-            android:textSize="25dp" />
+            <ImageButton
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|start"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:elevation="5dp"
+                android:src="@drawable/icon_back"
+                app:layout_anchor="@id/text"
+                app:layout_anchorGravity="center|start"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Xét lương"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+        </FrameLayout>
     </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="8"
         android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black" />
 
         <LinearLayout
             android:id="@+id/lnrNv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:orientation="vertical"
             android:visibility="visible">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="Hãy chọn nhân viên để xét"
+                android:gravity="center"
+                android:text="Hãy chọn nhân viên để xét lương"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -76,12 +85,14 @@
             android:id="@+id/lnrXet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#B5E3C6"
             android:visibility="gone">
 
             <FrameLayout
                 android:id="@+id/framelayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp">
 
                 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -105,8 +116,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
                                 android:layout_gravity="center"
+                                android:gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -127,7 +138,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:hint="Chọn ngày xét lương"
+                                    android:hint="Chọn tháng xét lương"
                                     android:textSize="18dp" />
 
                             </LinearLayout>
@@ -251,8 +262,8 @@
                                         android:drawableLeft="@drawable/more"
                                         android:gravity="center"
                                         android:text="Thưởng : "
-                                        android:textStyle="bold"
-                                        android:textSize="18dp" />
+                                        android:textSize="18dp"
+                                        android:textStyle="bold" />
 
                                     <TextView
                                         android:id="@+id/tvTotalThuong"
@@ -262,6 +273,7 @@
                                         android:layout_weight="2"
                                         android:gravity="center"
                                         android:hint="Tổng Thưởng"
+                                        android:text="0"
                                         android:textSize="18dp" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -295,9 +307,9 @@
                                         android:layout_weight="1"
                                         android:drawableLeft="@drawable/more"
                                         android:gravity="center"
-                                        android:textStyle="bold"
                                         android:text="Phạt: "
-                                        android:textSize="18dp" />
+                                        android:textSize="18dp"
+                                        android:textStyle="bold" />
 
                                     <TextView
                                         android:id="@+id/tvTotalPhat"
@@ -307,6 +319,7 @@
                                         android:layout_weight="2"
                                         android:gravity="center"
                                         android:hint="Tổng Phạt"
+                                        android:text="0"
                                         android:textSize="18dp" />
                                 </LinearLayout>
 
@@ -331,9 +344,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:gravity="center"
                                     android:text="Chi phí phát sinh: "
                                     android:textSize="18dp"
-                                    android:gravity="center"
                                     android:textStyle="bold" />
 
                                 <EditText
@@ -364,9 +377,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:gravity="center"
                                     android:text="Luơng sau cuối: "
                                     android:textSize="18dp"
-                                    android:gravity="center"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -406,22 +419,21 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/lnrXn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_weight="1"
-        android:weightSum="2"
+        android:layout_height="0dp"
         android:gravity="center"
-        android:visibility="gone">
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:weightSum="2">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
+
             <Button
                 android:id="@+id/btnTong"
                 android:layout_width="wrap_content"
@@ -430,11 +442,13 @@
                 android:textSize="15sp"
                 app:shapeAppearanceOverlay="@style/corner_50" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
+
             <Button
                 android:id="@+id/btnGui"
                 android:layout_width="wrap_content"

@@ -5,42 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#86C5DA"
     tools:context=".nv.DK_Lich_Lv_Activity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:background="#B8860B"
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/btnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/home"
+            android:src="@drawable/icon_back"
+            android:layout_gravity="center|start"
+            android:elevation="5dp"
+            app:layout_anchor="@id/text"
+            app:layout_anchorGravity="center|start"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="9"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:text="Đăng ký lịch làm việc"
+            android:text="Bảng đăng ký lịch"
             android:textColor="@color/black"
-            android:textSize="30dp" />
-    </LinearLayout>
+            android:textSize="23dp" />
+
+    </FrameLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="#A2D2FF"
         android:layout_weight="10"
         android:orientation="vertical">
 
@@ -254,6 +258,7 @@
                             android:text="LỊCH LÀM VIỆC"
                             android:textSize="25dp"
                             android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/tvNgay"
                             android:layout_width="wrap_content"
@@ -261,7 +266,8 @@
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
                             android:gravity="center"
-                            android:text="từ ngày đến ngày"/>
+                            android:drawableRight="@drawable/more"
+                            android:hint="chọn ngày ở đây" />
 
                         <View
                             android:layout_width="match_parent"
@@ -543,7 +549,7 @@
                             android:hint="Viết chi tiết lý do xin nghỉ tại đây (tối đa 100 kí tự)"
                             android:gravity="start"
                             android:maxLength="100"
-                            android:textSize="15dp"/>
+                            android:textSize="15dp" />
                     </LinearLayout>
 
 
@@ -552,22 +558,22 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black" />
 
     <LinearLayout
         android:id="@+id/lnrDkl"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginTop="30sp"
-        android:layout_marginBottom="30dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:background="#6A90B6"
         android:orientation="horizontal"
         android:weightSum="2">
 

@@ -5,7 +5,6 @@ import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDi
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -20,7 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,14 +40,12 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.MainActivity;
-import com.example.qunlnhns.ql.dslich.t3.List_Nv;
-import com.example.qunlnhns.ql.dslich.t3.List_Nv_Adapter;
-import com.example.qunlnhns.ql.dslich.t4.ThuongPhat;
-import com.example.qunlnhns.ql.dslich.t4.ThuongPhatAdapter;
+import com.example.qunlnhns.MainActivity;
+import com.example.qunlnhns.ql.dslich.list_nv.List_Nv;
+import com.example.qunlnhns.ql.dslich.list_nv.List_Nv_Adapter;
+import com.example.qunlnhns.ql.dslich.thuongphat.ThuongPhat;
+import com.example.qunlnhns.ql.dslich.thuongphat.ThuongPhatAdapter;
 import com.example.qunlnhns.user.DKActivity;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;

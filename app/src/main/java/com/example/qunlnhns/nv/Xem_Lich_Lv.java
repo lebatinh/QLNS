@@ -33,10 +33,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.qunlnhns.Database;
+import com.example.qunlnhns.DatabaseSQlite;
+import com.example.qunlnhns.MainActivity;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.ql.dslich.t1.Lich;
-import com.example.qunlnhns.ql.dslich.t1.LichAdapter;
+import com.example.qunlnhns.ql.dslich.lich.Lich;
+import com.example.qunlnhns.ql.dslich.lich.LichAdapter;
 import com.example.qunlnhns.user.DKActivity;
 
 import org.json.JSONArray;
@@ -55,7 +56,7 @@ import java.util.Date;
 public class Xem_Lich_Lv extends AppCompatActivity {
 
     String manv1;
-    Database database;
+    DatabaseSQlite databaseSQlite;
     ListView lvLich;
     ArrayList<Lich> arrLich;
     LichAdapter adapter;
@@ -94,8 +95,8 @@ public class Xem_Lich_Lv extends AppCompatActivity {
         AnhXa();
 
         // Khởi tạo đối tượng Database
-        database = new Database(this, "main.sqlite", null, 1);
-        Pair<String, String> result = database.SELECT_MANV_MAIN();
+        databaseSQlite = new DatabaseSQlite(this, "main.sqlite", null, 1);
+        Pair<String, String> result = databaseSQlite.SELECT_MANV_MAIN();
         manv1 = result.first;
 
         // Lấy ngày hiện tại

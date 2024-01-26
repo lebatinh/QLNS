@@ -41,7 +41,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.qunlnhns.Database;
+import com.example.qunlnhns.DatabaseSQlite;
+import com.example.qunlnhns.MainActivity;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.user.DKActivity;
 
@@ -65,7 +66,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     TextView tvMaNv, tvHoTen, tvChucVu, tvSdt, tvNgay;
     EditText edtLyDo;
     Button btnDk, btnSua;
-    String manv, manv1, hoten, chucvu, sdt, lydo, time1, time2, time3, time4, time5, time6, time7, t2, t3, t4, t5, t6, t7, cn, startDate, endDate;
+    String manv, manv1, hoten, chucvu, sdt, lydo, time, time1, time2, time3, time4, time5, time6, time7, t2, t3, t4, t5, t6, t7, cn, startDate, endDate;
     String localhost = DKActivity.localhost;
     String url1 = "http://" + localhost + "/user/get_nv.php";
     String url2 = "http://" + localhost + "/user/dk_lich.php";
@@ -75,7 +76,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     private final TextView[] tvLuaChonArray = new TextView[7];
     private Date selectedStartDate;
     private Date selectedEndDate;
-    Database database;
+    DatabaseSQlite databaseSQlite;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 
     private final Handler handler = new Handler();
@@ -106,8 +107,8 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
         AnhXa();
 
         // Khởi tạo đối tượng Database
-        database = new Database(this, "main.sqlite", null, 1);
-        Pair<String, String> result = database.SELECT_MANV_MAIN();
+        databaseSQlite = new DatabaseSQlite(this, "main.sqlite", null, 1);
+        Pair<String, String> result = databaseSQlite.SELECT_MANV_MAIN();
         manv1 = result.first;
 
         check();
@@ -221,7 +222,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void displaySelectedDates() {
         // Hiển thị thông tin đã chọn trong TextView
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         startDate = selectedStartDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(formatter);
         endDate = selectedEndDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(formatter);
@@ -266,9 +267,9 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
                 progressDialog.dismiss();
                 if (response.equals("success")) {
                     // Nhân viên đã tồn tại trong bảng dk_lich
-                    // Thực hiện các bước liên quan (lấy dữ liệu từ bảng dk_lich)
+                    // lấy dữ liệu từ bảng dk_lich
                     Toast.makeText(DK_Lich_Lv_Activity.this, "Bạn đã từng đăng ký lịch!\n Giờ bạn có thể sửa lịch nếu muốn!", Toast.LENGTH_SHORT).show();
-                    btnDk.setEnabled(false); // Sử dụng setEnabled thay vì setClickable
+                    btnDk.setEnabled(false);
                     GetData(url5);
                 } else if (response.equals("fail")) {
                     // Nhân viên chưa tồn tại trong bảng dk_lich
@@ -386,6 +387,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
                         t6 = object.optString("T6", "");
                         t7 = object.optString("T7", "");
                         cn = object.optString("Cn", "");
+                        time = object.optString("Tg", "");
 
                         // Lấy chuỗi Base64 từ JSON
                         String hinhBase64 = object.getString("HinhAnh");
@@ -401,10 +403,11 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
                             tvChucVu.setText(chucvu);
                             tvSdt.setText(sdt);
                             edtLyDo.setText(lydo);
+                            tvNgay.setText(time);
 
                             // Lặp qua mảng TextView để lấy dữ liệu cho time1 đến time7
                             for (i = 0; i < tvLuaChonArray.length; i++) {
-                                if (!t2.isEmpty() || !t3.isEmpty() || !t4.isEmpty() || !t5.isEmpty() || !t6.isEmpty() || !t7.isEmpty() || !cn.isEmpty()) {
+                                if (!t2.isEmpty() || !t3.isEmpty() || !t4.isEmpty() || !t5.isEmpty() || !t6.isEmpty() || !t7.isEmpty() || !cn.isEmpty() && !time.isEmpty()) {
                                     switch (i) {
                                         case 0:
                                             tvLuaChonArray[i].setText(cn);
@@ -514,7 +517,8 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
         chucvu = tvHoTen.getText().toString().trim();
         sdt = tvSdt.getText().toString().trim();
         lydo = edtLyDo.getText().toString().trim();
-        if (!time1.isEmpty() && !time2.isEmpty() && !time3.isEmpty() && !time4.isEmpty() && !time5.isEmpty() && !time6.isEmpty() && !time7.isEmpty()) {
+        time = tvNgay.getText().toString().toString();
+        if (!time1.isEmpty() && !time2.isEmpty() && !time3.isEmpty() && !time4.isEmpty() && !time5.isEmpty() && !time6.isEmpty() && !time7.isEmpty() && !time.isEmpty()) {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -550,6 +554,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
                     params.put("t6", time6);
                     params.put("t7", time7);
                     params.put("cn", time1);
+                    params.put("tg", time);
 
                     // Chuyển đổi ảnh từ ImageView sang mảng byte
                     BitmapDrawable bitmapDrawable = (BitmapDrawable) imgHinh.getDrawable();
@@ -606,8 +611,8 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
             }
         }
         lydo = edtLyDo.getText().toString().trim();
-
-        if (!time1.isEmpty() && !time2.isEmpty() && !time3.isEmpty() && !time4.isEmpty() && !time5.isEmpty() && !time6.isEmpty() && !time7.isEmpty()) {
+        time = tvNgay.getText().toString().trim();
+        if (!time1.isEmpty() && !time2.isEmpty() && !time3.isEmpty() && !time4.isEmpty() && !time5.isEmpty() && !time6.isEmpty() && !time7.isEmpty() && !time.isEmpty()) {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url3, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -641,6 +646,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
                     params.put("t6", time6);
                     params.put("t7", time7);
                     params.put("cn", time1);
+                    params.put("tg", time);
 
                     // Chuyển đổi ảnh từ ImageView sang mảng byte
                     BitmapDrawable bitmapDrawable = (BitmapDrawable) imgHinh.getDrawable();

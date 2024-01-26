@@ -27,7 +27,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.qunlnhns.Database;
+import com.example.qunlnhns.DatabaseSQlite;
+import com.example.qunlnhns.MainActivity;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.user.DKActivity;
 
@@ -42,7 +43,7 @@ public class Xem_Luong extends AppCompatActivity {
     private String manv, thuong, phat;
     String localhost = DKActivity.localhost;
     private String url = "http://" + localhost + "/user/get_luong_nv.php";
-    Database database;
+    DatabaseSQlite databaseSQlite;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
     private final Handler handler = new Handler();
     private final Runnable runnable = new Runnable() {
@@ -69,8 +70,8 @@ public class Xem_Luong extends AppCompatActivity {
         setContentView(R.layout.activity_xem_luong);
         AnhXa();
         // Khởi tạo đối tượng Database
-        database = new Database(this, "main.sqlite", null, 1);
-        Pair<String, String> result = database.SELECT_MANV_MAIN();
+        databaseSQlite = new DatabaseSQlite(this, "main.sqlite", null, 1);
+        Pair<String, String> result = databaseSQlite.SELECT_MANV_MAIN();
         manv = result.first;
 
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
@@ -128,7 +129,6 @@ public class Xem_Luong extends AppCompatActivity {
                             String tong = object.optString("Tong", "");
                             String thoiGian = object.optString("ThoiGian", "");
 
-                            // Kiểm tra xem ngày bắt đầu và kết thúc có khớp với ngày được chọn không
                             if (manv.equals(maNv)) {
                                 tvNhanVien.setText(maNv + " - " + hoTen);
                                 tvNgay.setText(thoiGian);

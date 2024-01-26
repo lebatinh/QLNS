@@ -40,14 +40,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.qunlnhns.Database;
-import com.example.qunlnhns.Notification;
+import com.example.qunlnhns.DatabaseSQlite;
+import com.example.qunlnhns.ql.Notification;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.MainActivity;
-import com.example.qunlnhns.ql.dslich.t1.Lich;
-import com.example.qunlnhns.ql.dslich.t1.LichAdapter;
-import com.example.qunlnhns.ql.dslich.t2.LichDk;
-import com.example.qunlnhns.ql.dslich.t2.LichDkAdapter;
+import com.example.qunlnhns.MainActivity;
+import com.example.qunlnhns.ql.dslich.lich.Lich;
+import com.example.qunlnhns.ql.dslich.lich.LichAdapter;
+import com.example.qunlnhns.ql.dslich.lich_dk.LichDk;
+import com.example.qunlnhns.ql.dslich.lich_dk.LichDkAdapter;
 import com.example.qunlnhns.user.DKActivity;
 
 import org.json.JSONArray;
@@ -83,8 +83,8 @@ public class XepLichLv extends AppCompatActivity {
     private ImageButton btnHome, btnThem;
     private Button btnGuiTb;
     String tg, startDate, endDate, selectedDate, notificationContent;
-    private Date selectedStartDate,selectedEndDate;
-    Database database;
+    private Date selectedStartDate, selectedEndDate;
+    DatabaseSQlite databaseSQlite;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 
     private final Handler handler = new Handler();
@@ -115,7 +115,7 @@ public class XepLichLv extends AppCompatActivity {
         AnhXa();
 
         // Khởi tạo đối tượng Database
-        database = new Database(this, "detail.sqlite", null, 1);
+        databaseSQlite = new DatabaseSQlite(this, "detail.sqlite", null, 1);
         GdDkLich();
         tvLichTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +236,7 @@ public class XepLichLv extends AppCompatActivity {
                             final ProgressDialog progressDialog = new ProgressDialog(XepLichLv.this);
                             progressDialog.setMessage("Loading...");
                             progressDialog.show();
-                            database.INSERT_MANV_DELTAIL(null, maNv);
+                            databaseSQlite.INSERT_MANV_DELTAIL(null, maNv);
 
                             progressDialog.dismiss();
                             startActivity(new Intent(XepLichLv.this, SuaLich.class));

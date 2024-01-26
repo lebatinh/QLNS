@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ql.nv.ChangeListNV">
+    tools:context=".ql.ds_nv.ChangeListNV">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,10 +13,11 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="#F6C3AE"
+            android:gravity="center">
 
             <ImageButton
                 android:id="@+id/btnHome"
@@ -25,18 +26,22 @@
                 android:layout_gravity="center|left"
                 android:layout_marginStart="10dp"
                 android:background="@null"
-                android:src="@drawable/home"
+                android:src="@drawable/icon_back"
+                android:elevation="5dp"
+                app:layout_anchor="@id/text"
+                app:layout_anchorGravity="center|start"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="30dp"
+                android:gravity="center"
                 android:text=" Danh sách nhân viên "
                 android:textColor="@color/black"
                 android:textSize="25dp" />
-        </LinearLayout>
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"

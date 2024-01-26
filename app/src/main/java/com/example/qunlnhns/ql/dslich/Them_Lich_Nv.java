@@ -42,8 +42,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.ql.dslich.t3.List_Nv;
-import com.example.qunlnhns.ql.dslich.t3.List_Nv_Adapter;
+import com.example.qunlnhns.ql.dslich.list_nv.List_Nv;
+import com.example.qunlnhns.ql.dslich.list_nv.List_Nv_Adapter;
 import com.example.qunlnhns.user.DKActivity;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 

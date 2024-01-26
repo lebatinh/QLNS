@@ -24,7 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.qunlnhns.Database;
+import com.example.qunlnhns.DatabaseSQlite;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.Success;
 
@@ -41,7 +41,7 @@ public class DNActivity extends AppCompatActivity {
     String localhost = DKActivity.localhost;
     String url = "http://" + localhost + "/user/getdata.php";
     String url1 = "http://" + localhost + "/user/check_admin.php";
-    Database database;
+    DatabaseSQlite databaseSQlite;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 
     private final Handler handler = new Handler();
@@ -68,8 +68,8 @@ public class DNActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dn);
 
         // Khởi tạo đối tượng Database
-        database = new Database(this, "main.sqlite", null, 1);
-        database.CREATE_TABLE_MAIN();
+        databaseSQlite = new DatabaseSQlite(this, "main.sqlite", null, 1);
+        databaseSQlite.CREATE_TABLE_MAIN();
         AnhXa();
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,15 +147,10 @@ public class DNActivity extends AppCompatActivity {
     }
 
     private void CheckAd(String url1) {
-        final ProgressDialog progressDialog = new ProgressDialog(DNActivity.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                progressDialog.dismiss();
                 boolean check = false;
                 for (int i = 0; i < response.length(); i++) {
                     try {
@@ -165,7 +160,7 @@ public class DNActivity extends AppCompatActivity {
                         String mk1 = object.getString("Pass");
                         if (tk.equals(tk1) && mk.equals(mk1)) {
                             manvvalue = manv;
-                            database.INSERT_MANV_MAIN(null, manvvalue, true);
+                            databaseSQlite.INSERT_MANV_MAIN(null, manvvalue, "1", tk);
                             check = true;
                             break;
                         } else {
@@ -186,8 +181,6 @@ public class DNActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(DNActivity.this, "Máy chủ bị tắt hoặc lỗi mạng!", Toast.LENGTH_SHORT).show();
-                Log.d("TAG", error.toString());
             }
         });
         requestQueue.add(jsonArrayRequest);
@@ -195,7 +188,7 @@ public class DNActivity extends AppCompatActivity {
 
     private void GetData() {
         final ProgressDialog progressDialog = new ProgressDialog(DNActivity.this);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Vui lòng chờ một lát...");
         progressDialog.show();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -213,7 +206,7 @@ public class DNActivity extends AppCompatActivity {
                         if (tk.equals(tkdb) && mk.equals(mkdb)) {
                             manvvalue = manv;
                             check = true;
-                            database.INSERT_MANV_MAIN(null, manvvalue, null);
+                            databaseSQlite.INSERT_MANV_MAIN(null, manvvalue, "0", tk);
                             break;
                         }
                     } catch (JSONException e) {

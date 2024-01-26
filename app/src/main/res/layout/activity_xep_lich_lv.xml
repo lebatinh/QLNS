@@ -5,38 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#F4E6A2"
     tools:context=".ql.dslich.XepLichLv">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:layout_margin="10dp">
 
         <ImageButton
             android:id="@+id/btnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/home"
+            android:layout_gravity="center|start"
+            android:src="@drawable/icon_back"
+            android:elevation="5dp"
+            app:layout_anchor="@id/text"
+            app:layout_anchorGravity="center|start"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="9"
+            android:layout_gravity="center"
             android:gravity="center"
             android:text="Xếp lịch làm việc"
             android:textColor="@color/black"
-            android:textSize="30dp" />
-    </LinearLayout>
+            android:textSize="25dp" />
 
+    </FrameLayout>
     <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -157,6 +159,7 @@
         android:background="@color/black" />
 
     <LinearLayout
+        android:background="#9BE37D"
         android:id="@+id/lnrXn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

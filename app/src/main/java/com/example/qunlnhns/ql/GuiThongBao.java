@@ -1,6 +1,6 @@
 package com.example.qunlnhns.ql;
 
-import static com.example.qunlnhns.Notification.showNotification;
+import static com.example.qunlnhns.ql.Notification.showNotification;
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
 
 import androidx.annotation.Nullable;
@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,9 +39,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.R;
-import com.example.qunlnhns.nv.MainActivity;
-import com.example.qunlnhns.ql.dslich.t3.List_Nv;
-import com.example.qunlnhns.ql.dslich.t3.List_Nv_Adapter;
+import com.example.qunlnhns.MainActivity;
+import com.example.qunlnhns.ql.dslich.list_nv.List_Nv;
+import com.example.qunlnhns.ql.dslich.list_nv.List_Nv_Adapter;
 import com.example.qunlnhns.user.DKActivity;
 import com.google.gson.Gson;
 
@@ -258,8 +259,13 @@ public class GuiThongBao extends AppCompatActivity {
                     showAlertDialog(GuiThongBao.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
                     showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
+                } else if (response.equals("rong")) {
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi danh sách chọn!");
+                } else if (response.equals("error")) {
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi danh sách không hợp lệ!");
                 } else {
-                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi bất định!");
+                    Log.d("Response", response);
                 }
             }
         }, new Response.ErrorListener() {
@@ -300,8 +306,13 @@ public class GuiThongBao extends AppCompatActivity {
                     showAlertDialog(GuiThongBao.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
                     showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
+                } else if (response.equals("rong")) {
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi danh sách chọn!");
+                } else if (response.equals("error")) {
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi danh sách không hợp lệ!");
                 } else {
-                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi bất định!");
+                    Log.d("Response", response);
                 }
             }
         }, new Response.ErrorListener() {

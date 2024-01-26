@@ -6,37 +6,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="12"
-    tools:context=".ql.nv.SuaNV">
+    android:background="#F4E6A2"
+    tools:context=".ql.ds_nv.SuaNV">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:layout_margin="10dp">
 
         <ImageButton
             android:id="@+id/btnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/home"
+            android:layout_gravity="center|start"
+            android:src="@drawable/icon_back"
+            android:elevation="5dp"
+            app:layout_anchor="@id/text"
+            app:layout_anchorGravity="center|start"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_weight="9"
-            android:text="Sửa nhân viên"
+            android:text="Sửa thông tin"
             android:textColor="@color/black"
-            android:textSize="30dp" />
-    </LinearLayout>
+            android:textSize="25dp" />
+
+    </FrameLayout>
 
 
     <LinearLayout
@@ -114,7 +116,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Mã Nhân Viên : "
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -124,7 +126,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:hint="Ghi vào đây"
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -147,7 +149,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Họ và Tên : "
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
                             <EditText
@@ -157,7 +159,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:hint="Ghi vào đây"
-                                android:textSize="20sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                         <View
@@ -179,17 +181,18 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Ngày Sinh : "
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
-                            <EditText
-                                android:id="@+id/edtNgaySinh"
+                            <TextView
+                                android:id="@+id/tvNgaySinh"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:hint="Ghi vào đây"
-                                android:textSize="20sp" />
+                                android:hint="Chọn ngày ở đây"
+                                android:drawableRight="@drawable/more"
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                         <View
@@ -211,22 +214,24 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Giới tính : "
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
-                            <EditText
-                                android:id="@+id/edtGioiTinh"
+                            <TextView
+                                android:id="@+id/tvGioiTinh"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:hint="Ghi vào đây"
-                                android:textSize="20sp" />
+                                android:drawableRight="@drawable/more"
+                                android:hint="Chọn giới tính"
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
+                            android:layout_marginTop="20dp"
                             android:background="@color/black" />
 
                         <LinearLayout
@@ -242,7 +247,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Quê quán : "
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
                             <EditText
@@ -252,7 +257,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:hint="Ghi vào đây"
-                                android:textSize="20sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                         <View
@@ -274,7 +279,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Địa chỉ: "
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
                             <EditText
@@ -284,7 +289,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:hint="Ghi vào đây"
-                                android:textSize="20sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                         <View
@@ -306,7 +311,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Chức vụ : "
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
                             <EditText
@@ -316,7 +321,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:hint="Ghi vào đây"
-                                android:textSize="20sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                         <View
@@ -338,7 +343,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Số điện thoại : "
-                                android:textSize="20sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -349,7 +354,7 @@
                                 android:digits="1234567890"
                                 android:gravity="center"
                                 android:hint="Ghi vào đây"
-                                android:textSize="20sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -365,11 +370,9 @@
         android:background="@color/black" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center|bottom"
-        android:layout_marginTop="30sp"
-        android:layout_marginBottom="30dp"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal"

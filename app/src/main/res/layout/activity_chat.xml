@@ -8,12 +8,13 @@
     android:backgroundTint="@color/white"
     android:orientation="vertical"
     android:weightSum="20"
-    tools:context=".ChatActivity">
+    tools:context=".nv.ChatActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="#46C0E8"
         android:orientation="horizontal">
 
         <ImageButton
@@ -44,12 +45,11 @@
 
         <TextView
             android:id="@+id/tvTen"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
-            android:gravity="center"
             android:hint="tên"
             android:textColor="@color/black"
             android:textSize="30dp" />
@@ -61,13 +61,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_weight="18" />
+        android:layout_weight="18"
+        android:background="#B0E0E6" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:background="#EFE4C2"
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="5">
@@ -78,8 +80,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="4"
-            android:hint="Nhập tin nhắn ở đây!"
             android:gravity="center"
+            android:hint="Nhập tin nhắn ở đây!"
             app:shapeAppearanceOverlay="@style/corner_20">
 
             <com.google.android.material.textfield.TextInputEditText

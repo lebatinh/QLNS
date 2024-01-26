@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4E6A2"
+    tools:context=".HDSD">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <ImageButton
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|start"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:elevation="5dp"
+                android:src="@drawable/icon_back"
+                app:layout_anchor="@id/text"
+                app:layout_anchorGravity="center|start"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Huớng dẫn sử dụng"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#9BE37D"
+            android:orientation="vertical">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để tạo tài khoản?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Ấn vào dòng chữ 'Bạn chưa có tài khoản?.Đăng ký tại đây!' ở màn hình đăng nhập để vào giao diện đăng ký \nBước 2: Nhập thông tin đầy đủ vào các ô trên màn hình\nBước 3: Ấn vào nút Đăng ký và chờ thông báo"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để đăng nhập?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_2"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Vào App \nBước 2: Nhập thông tin đầy đủ vào các ô trên màn hình\nBước 3: Ấn vào nút Đăng nhập và chờ thông báo"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để đổi mật khẩu?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_3"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập ấn vào dòng chữ Đổi mật khẩu để vào giao diện \nBước 2: Nhập thông tin đầy đủ vào các ô trên màn hình\nBước 3: Ấn vào nút Đổi mật khẩu và chờ thông báo"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để xem danh sách\nnhân viên trong công ty?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_4"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập, Đăng nhập vào giao diện bên trong \nBước 2: Ấn vào hình phía trên Danh sách nhân viên\nBước 3: Chờ 1 lát để load trang và xem danh sách"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để đăng ký lịch?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_5"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Đăng ký lịch\nBước 3: Chờ load trang và kéo xuống dưới để chọn ngày(lịch tuần), kiểu ca làm việc và lý dó(nếu có) rồi ấn đăng ký (nếu chưa từng đăng ký) hoặc ấn sửa (nếu đã từng đăng ký)\Bước 4: Chờ thông báo"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để xem lịch làm việc?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_6"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Xem lịch làm việc\nBước 3: Chờ load trang rồi sau đó chọn ngày bất kì trong tuần muốn xem lịch làm việc(lịch tuần) để tự động hiển thị bảng lịch làm việc của bạn theo tuần muốn xem"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để xem lương, thưởng, phạt?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_7"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Xem lương, thưởng, phạt\nBước 3: Chờ load trang rồi xem bảng lương của bạn theo ngày đã hiển thị trên màn hình"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để gửi tin nhắn?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_8"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Gửi tin nhắn\nBước 3: Chờ load trang để hiển thị danh sách cuộc trò chuyện hoặc tìm kiếm người muốn trò chuyện trên thanh tìm kiếm\nBước 3: Ấn vào tin nhắn muốn trò chuyện tiếp hoặc người muốn trò chuyện để nhắn tin"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để thêm nhân viên?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_9"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và là người có quyền admin\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Thêm nhân viên\nBước 3: Chờ load trang rồi sau đó chọn ảnh nhân viên và điền hoặc chọn vào các ô bên dưới\nBước 3: Ấn nút Thêm để thêm nhân viên vào danh sách nhân viên của công ty, Ấn nút Xem danh sách nếu muốn xem danh sách nhân viên"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để sửa danh sách nhân viên?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_10"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và là người có quyền admin\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Sửa danh sách nhân viên\nBước 3: Chờ load trang rồi sau đó ấn giữ lâu vào nhân viên bạn muốn thay đổi, có thể sửa hoặc xóa nếu muốn.\n   Nhập thông tin vào thanh tìm kiếm để tìm nhân viên nhanh hơn \n Bước 4: Nếu trước đó chọn xóa thì nhân viên sẽ bị gỡ khởi danh sách nhân viên, nếu ấn Sửa thì sẽ hiện giao diện chứa toàn bộ thông tin về nhân viên đó, Bạn có thể thay đổi thông tin nếu muốn"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để xếp lịch làm việc?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_11"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và là người có quyền admin\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Xếp lịch làm việc\nBước 3: Chờ load trang rồi sau đó ấn vào nút + để chuyển giao diện đến giao diện thêm lịch cho nhân viên chưa có lịch và thực hiện chọn ngày cho lịch và ca của các ngày trong tuần đó.\n Nếu ở giao diện Xếp lịch làm việc chứa danh sách lịch làm việc chính thức, bạn có thể ấn vào dòng chữ 'Lịch làm việc chính thức' để hiện giao diện của danh sách đăng ký của nhân viên\n nếu muốn quay lại thì ấn vào dòng chữ danh sách đăng ký. \n  Nếu muốn xem danh sách lịch làm việc thì xem chọn ngày trong tuần của lịch để xem\n Nếu muốn thay đổi chi tiết của lịch thì ấn giữ 1 lúc vào phần lịch muốn thay đổi và thực hiện xóa hoặc sửa nếu muốn \nBước 4: Gửi thông báo bằng cách ấn nút gửi thông báo sau khi xếp hết lịch làm việc để nhân viên biết mà xem lịch làm việc"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để viết thông báo?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_12"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và là người có quyền admin\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Viết thông báo\nBước 3: Chờ load trang rồi sau đó viết thông báo vào ô trống có dòng chữ 'Viết thông báo tại đây' rồi chọn phạm vi gửi thông báo \nBước 4: Chọn tất cả hoặc chọn người rồi chọn người muốn gửi thông báo sau đó ấn gửi thông báo và chờ thông báo được gửi đi"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để xét lương, thưởng, phạt?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_13"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và là người có quyền admin\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Xét lương\nBước 3: Chờ load trang rồi sau đó chọn nhân viên để xét lương\nBước 4: Chọn ngày và ghi vào các mục ở trên màn hình cho đầy đủ, có thể ấn vào nút + để thêm thưởng hoặc phạt nếu có, Bạn có thể sửa bất kì mục nào nếu muốn (riêng thưởng phạt phải ấn vào chữ thưởng hoặc phạt để sửa danh sách)\nBước 5: Ấn nút Tính Tổng để tính tổng lương rồi ấn nút gửi đế gửi đến danh sách bảng lương"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv14"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để xem bảng lương?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_14"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và là người có quyền admin\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên Bảng lương\nBước 3: Chờ load trang rồi sau đó xem danh sách bảng lương của tháng hiện tại, nếu muốn xem tháng khác thì ấn vào phần chữ chứa tháng/năm để chọn tháng hiển thị bảng lịch"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để tham gia giải trí?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_15"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình ngay phía trên tùy vào mục bạn muốn xem\nBước 3: Chờ load trang rồi sau đó xem phần giải trí mà bạn muốn"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để xem thông báo?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_16"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình quả chuông phía dưới cùng\nBước 3: Chờ load trang rồi sau đó xem thông báo chung và thông báo chỉ riêng bạn"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv17"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableRight="@drawable/icon_arrow_right"
+                        android:text="Làm thế nào để xem thông tin tài khoản?"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_17"
+                        android:background="#E6E28C"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Điều kiện: Phải là nhân viên công ty và có mã nhân viên chính thức\nBước 1: Từ màn hình Đăng nhập, Thực hiện Đăng nhập\nBước 2: Ấn vào hình người phía dưới cùng\nBước 3: Chờ load trang rồi sau đó xem thông tài khoản của bạn và có thể xem hướng dẫn sử dụng hoặc đăng xuất hoặc đổi mật khẩu nếu muốn"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
