@@ -43,9 +43,9 @@ public class DKActivity extends AppCompatActivity {
     private EditText edtTk_Dk, edtMaNv_Dk, edtMk_Dk, edtMk_Dk1;
     private TextView txtDangNhap;
     private Button btnDangKy;
-    public static String localhost = "192.168.3.52";
-    private String URL = "http://" + localhost + "/user/insert.php";
-    private String url1 = "http://" + localhost + "/user/check_user.php";
+    public static String localhost = "192.168.0.102";
+    private final String URL = "http://" + localhost + "/user/insert.php";
+    private final String url1 = "http://" + localhost + "/user/check_user.php";
     private String tk, manv, mk, mk1;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
     private final Handler handler = new Handler();

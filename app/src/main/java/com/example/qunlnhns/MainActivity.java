@@ -10,6 +10,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -17,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,17 +31,20 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.giaitri.Chorme;
 import com.example.qunlnhns.giaitri.News;
@@ -49,7 +57,7 @@ import com.example.qunlnhns.nv.Xem_Lich_Lv;
 import com.example.qunlnhns.nv.Xem_Luong;
 import com.example.qunlnhns.nv.tb.Tb;
 import com.example.qunlnhns.nv.tb.TbAdapter;
-import com.example.qunlnhns.ql.GuiThongBao;
+import com.example.qunlnhns.ql.PutNotification.GuiThongBao;
 import com.example.qunlnhns.ql.XetLuong;
 import com.example.qunlnhns.ql.ds_nv.ChangeListNV;
 import com.example.qunlnhns.ql.ds_nv.ThemNV;
@@ -57,6 +65,7 @@ import com.example.qunlnhns.ql.dslich.XepLichLv;
 import com.example.qunlnhns.user.DKActivity;
 import com.example.qunlnhns.user.DMKActivity;
 import com.example.qunlnhns.user.DNActivity;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +75,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     ListView lvTbAll, lvTbChoice;
@@ -76,13 +87,15 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton dsnv, dkl, xemllv, xltp, xetltp, gtn, tnv, xnv, xepllv, vtb, home, thongbao, person, ytb, luong, chorme, spotify, news;
     private ImageView profile, imgAcount;
     private TextView tvhoten, tvChucVu, text, text1, tvName, tvAcount, tvHDSD, tvDangXuat, tvDMK;
-    private String manv1, admin;
+    private String manv1, admin, savedToken;
     private ScrollView scrollView;
     private LinearLayout lnrTbChung, lnrTbRieng, lnrTb, lnrQl, lnrTbc, lnrTbr, lnrHead;
-    private ConstraintLayout constraint;
+    private LinearLayout lnrPerson;
+    private Drawable drawableHome, drawableTb, drawablePerson;
     private View view1, view2;
     String localhost = DKActivity.localhost;
-    private String url = "http://" + localhost + "/user/get_manv.php";
+    String url = "http://" + localhost + "/user/get_manv.php";
+    String url1 = "http://" + localhost + "/user/insert_update_token.php";
     String url2 = "http://" + localhost + "/user/get_tb.php";
     DatabaseSQlite databaseSQlite;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
@@ -171,22 +184,58 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        drawableHome = getResources().getDrawable(R.drawable.home);
+        drawablePerson = getResources().getDrawable(R.drawable.person);
+        drawableTb = getResources().getDrawable(R.drawable.notifications);
+
+        // Tạo một PorterDuffColorFilter để chuyển màu trắng thành màu đen
+        PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+
+        drawableHome.setColorFilter(null);
+        drawableTb.setColorFilter(colorFilter);
+        drawablePerson.setColorFilter(colorFilter);
+        home.setImageDrawable(drawableHome);
+        thongbao.setImageDrawable(drawableTb);
+        person.setImageDrawable(drawablePerson);
+
         home.setOnClickListener(v -> {
+            drawableHome.setColorFilter(null);
+            drawableTb.setColorFilter(colorFilter);
+            drawablePerson.setColorFilter(colorFilter);
+            home.setImageDrawable(drawableHome);
+            thongbao.setImageDrawable(drawableTb);
+            person.setImageDrawable(drawablePerson);
+
             scrollView.setVisibility(View.VISIBLE);
             lnrTb.setVisibility(View.GONE);
-            constraint.setVisibility(View.GONE);
+            lnrPerson.setVisibility(View.GONE);
             lnrHead.setVisibility(View.VISIBLE);
         });
         thongbao.setOnClickListener(v -> {
+            drawableHome.setColorFilter(colorFilter);
+            drawableTb.setColorFilter(null);
+            drawablePerson.setColorFilter(colorFilter);
+            home.setImageDrawable(drawableHome);
+            thongbao.setImageDrawable(drawableTb);
+            person.setImageDrawable(drawablePerson);
+
             scrollView.setVisibility(View.GONE);
             lnrTb.setVisibility(View.VISIBLE);
-            constraint.setVisibility(View.GONE);
+            lnrPerson.setVisibility(View.GONE);
             lnrHead.setVisibility(View.VISIBLE);
         });
         person.setOnClickListener(v -> {
+            drawableHome.setColorFilter(colorFilter);
+            drawableTb.setColorFilter(colorFilter);
+            drawablePerson.setColorFilter(null);
+            home.setImageDrawable(drawableHome);
+            thongbao.setImageDrawable(drawableTb);
+            person.setImageDrawable(drawablePerson);
+
             scrollView.setVisibility(View.GONE);
             lnrTb.setVisibility(View.GONE);
-            constraint.setVisibility(View.VISIBLE);
+            lnrPerson.setVisibility(View.VISIBLE);
             lnrHead.setVisibility(View.GONE);
         });
         GetTbAll(url2);
@@ -205,8 +254,76 @@ public class MainActivity extends AppCompatActivity {
             lnrTbr.setVisibility(View.VISIBLE);
         });
 
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout1);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                finish();  // Kết thúc Activity hiện tại
+                startActivity(intent);
+            }
+        });
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                return;
+            }
+
+            // Get new FCM registration token
+            String newToken = task.getResult();
+
+            onNewToken(newToken);
+
+            // Kiểm tra xem token có thay đổi hay không
+            if (!newToken.equals(savedToken)) {
+                // Lưu trữ token mới vào SharedPreferences hoặc nơi bạn lưu trữ thông tin
+                savedToken = newToken;
+
+                // Gửi token mới đến server
+                sendRegistrationToServer(newToken);
+            }
+        });
+
+        // Đăng ký thiết bị để nhận thông báo từ FCM
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
+        // Đăng ký thiết bị để nhận thông báo từ FCM
+        FirebaseMessaging.getInstance().subscribeToTopic(manv1);
+
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
         handler.post(runnable);
+    }
+
+    public void onNewToken(String token) {
+        // Lưu trữ token mới vào SharedPreferences hoặc nơi bạn lưu trữ thông tin
+        savedToken = token;
+
+        // Gửi token mới đến server
+        sendRegistrationToServer(token);
+    }
+
+    private void sendRegistrationToServer(String token) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                // Truyền tham số cho yêu cầu POST
+                Map<String, String> params = new HashMap<>();
+                params.put("manv", manv1);
+                params.put("token", token);
+                return params;
+            }
+        };
+        // Thêm yêu cầu vào hàng đợi Volley
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
 
     private void openSpotify() {
@@ -265,11 +382,12 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject object = response.getJSONObject(i);
+                            String title = object.optString("Title", "");
                             String tb = object.optString("ThongBao", "");
                             String time = object.optString("ThoiGian", "");
                             String phamvi = object.optString("PhamVi", "");
                             if (Arrays.asList(phamvi.split(",")).contains(manv1.trim())) {
-                                arrTbChoice.add(new Tb(tb, time));
+                                arrTbChoice.add(new Tb(title, tb, time));
                                 text1.setVisibility(View.GONE); // Ẩn TextView khi ListView không rỗng
                             }
                         } catch (JSONException e) {
@@ -353,11 +471,12 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject object = response.getJSONObject(i);
+                            String title = object.optString("Title", "");
                             String tb = object.optString("ThongBao", "");
                             String time = object.optString("ThoiGian", "");
                             String phamvi = object.optString("PhamVi", "");
                             if (phamvi.equals("all")) {
-                                arrTbAll.add(new Tb(tb, time));
+                                arrTbAll.add(new Tb(title, tb, time));
                                 text.setVisibility(View.GONE); // Ẩn TextView khi ListView không rỗng
                             }
                         } catch (JSONException e) {
@@ -460,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
         lnrTbc = findViewById(R.id.lnrTbc);
         lnrTbr = findViewById(R.id.lnrTbr);
         lnrHead = findViewById(R.id.lnrHead);
-        constraint = findViewById(R.id.constraint);
+        lnrPerson = findViewById(R.id.lnrPerson);
         imgAcount = findViewById(R.id.imgAcount);
         tvName = findViewById(R.id.tvName);
         tvAcount = findViewById(R.id.tvAcount);

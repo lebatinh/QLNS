@@ -7,18 +7,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
-            android:id="@+id/tvTb"
-            android:text="thông báo tại đây!"
+            android:id="@+id/tvTitle"
+            android:text="title!"
             android:textSize="17dp"
             android:textStyle="bold"
             android:gravity="start"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvTb"
+            android:text="nội dung thông báo!"
+            android:textSize="17dp"
+            android:gravity="start"
+            android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/tvTime"
             android:text="thời gian"

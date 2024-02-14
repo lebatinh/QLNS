@@ -75,7 +75,7 @@ public class Them_Lich_Nv extends AppCompatActivity {
     private Button btnThem, btnThoat;
     private ImageButton btnHome;
     private LinearLayout lnrList, lnrLich, lnrThem;
-    private TextView[] tvLuaChonArray = new TextView[7];
+    private final TextView[] tvLuaChonArray = new TextView[7];
     private String m1;
     private Date selectedStartDate;
     private Date selectedEndDate;
@@ -335,13 +335,13 @@ public class Them_Lich_Nv extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.itemSang) {
-                    textView.setText("Ca Sáng");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemChieu) {
-                    textView.setText("Ca Tối");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemFull) {
-                    textView.setText("Full time");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemNghi) {
-                    textView.setText("Nghỉ");
+                    textView.setText(item.getTitle());
                 }
                 return true;
             }
@@ -524,12 +524,6 @@ public class Them_Lich_Nv extends AppCompatActivity {
 
                             hinhBytes = Base64.decode(hinhBase64, Base64.DEFAULT);
 
-                            // Kiểm tra xem mảng byte có dữ liệu không
-                            if (hinhBytes != null && hinhBytes.length > 0) {
-                                // Chuyển mảng byte thành Bitmap
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(hinhBytes, 0, hinhBytes.length);
-
-                            }
                             arrListNv.add(new List_Nv(hinhBytes, maNv, hoTen, 0));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);

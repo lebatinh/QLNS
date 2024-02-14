@@ -55,10 +55,10 @@ public class SuaLich extends AppCompatActivity {
     private TextView hoten, manv, tvt2, tvt3, tvt4, tvt5, tvt6, tvt7, tvcn;
     private String maNv, hoTen, t2, t3, t4, t5, t6, t7, cn, time1, time2, time3, time4, time5, time6, time7;
     String localhost = DKActivity.localhost;
-    private String url = "http://" + localhost + "/user/getdata_lich_lv.php";
-    private String url1 = "http://" + localhost + "/user/update_lich.php";
+    private final String url = "http://" + localhost + "/user/getdata_lich_lv.php";
+    private final String url1 = "http://" + localhost + "/user/update_lich.php";
     private String manv1;
-    private TextView[] tvArray = new TextView[7];
+    private final TextView[] tvArray = new TextView[7];
     DatabaseSQlite databaseSQlite;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
 
@@ -192,13 +192,13 @@ public class SuaLich extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.itemSang) {
-                    textView.setText("Ca Sáng");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemChieu) {
-                    textView.setText("Ca Tối");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemFull) {
-                    textView.setText("Full time");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemNghi) {
-                    textView.setText("Nghỉ");
+                    textView.setText(item.getTitle());
                 }
                 return true;
             }

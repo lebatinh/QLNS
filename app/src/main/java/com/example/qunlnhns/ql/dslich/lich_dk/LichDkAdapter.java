@@ -16,9 +16,9 @@ import com.example.qunlnhns.R;
 import java.util.List;
 
 public class LichDkAdapter extends BaseAdapter {
-    private Context context;
-    private int layout;
-    private List<LichDk> lichDkList;
+    private final Context context;
+    private final int layout;
+    private final List<LichDk> lichDkList;
 
     public LichDkAdapter(Context context, int layout, List<LichDk> lichDkList) {
         this.context = context;
@@ -43,7 +43,7 @@ public class LichDkAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView hinhanh;
-        TextView manv, hoten, lydo, t2, t3, t4, t5, t6, t7, cn;
+        TextView manv, hoten, lydo, t2, t3, t4, t5, t6, t7, cn, tvTg;
     }
 
     private static Bitmap decodeBase64ToBitmap(String base64String) {
@@ -81,8 +81,8 @@ public class LichDkAdapter extends BaseAdapter {
             holder.t5.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
             holder.t6.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
             holder.t7.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-            holder.cn.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-
+            holder.cn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            holder.tvTg = convertView.findViewById(R.id.tvTg);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -111,7 +111,7 @@ public class LichDkAdapter extends BaseAdapter {
         holder.t6.setText(lichDk.getT6());
         holder.t7.setText(lichDk.getT7());
         holder.cn.setText(lichDk.getCn());
-
+        holder.tvTg.setText(lichDk.getTg());
         return convertView;
     }
 }

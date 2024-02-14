@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#F4E6A2"
     tools:context=".giaitri.Chorme">
 
     <ImageButton
         android:id="@+id/back"
         android:src="@drawable/icon_back"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

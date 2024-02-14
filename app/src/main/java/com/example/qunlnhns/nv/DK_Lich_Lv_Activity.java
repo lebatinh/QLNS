@@ -466,20 +466,19 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.itemSang) {
-                    textView.setText("Ca Sáng");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemChieu) {
-                    textView.setText("Ca Tối");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemFull) {
-                    textView.setText("Full time");
+                    textView.setText(item.getTitle());
                 } else if (item.getItemId() == R.id.itemNghi) {
-                    textView.setText("Nghỉ");
+                    textView.setText(item.getTitle());
                 }
                 return true;
             }
         });
         popupMenu.show();
     }
-
 
     private void QueryData() {
         final ProgressDialog progressDialog = new ProgressDialog(DK_Lich_Lv_Activity.this);
@@ -517,7 +516,7 @@ public class DK_Lich_Lv_Activity extends AppCompatActivity {
         chucvu = tvHoTen.getText().toString().trim();
         sdt = tvSdt.getText().toString().trim();
         lydo = edtLyDo.getText().toString().trim();
-        time = tvNgay.getText().toString().toString();
+        time = tvNgay.getText().toString();
         if (!time1.isEmpty() && !time2.isEmpty() && !time3.isEmpty() && !time4.isEmpty() && !time5.isEmpty() && !time6.isEmpty() && !time7.isEmpty() && !time.isEmpty()) {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url2, new Response.Listener<String>() {
                 @Override

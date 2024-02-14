@@ -5,9 +5,9 @@ import android.util.Base64;
 public class LichDk {
     private byte[] hinh;
     private String MaNv, HoTen, LyDo;
-    private String T2, T3, T4, T5, T6, T7, Cn;
+    private String T2, T3, T4, T5, T6, T7, Cn, Tg;
 
-    public LichDk(byte[] hinh, String maNv, String hoTen, String lyDo, String t2, String t3, String t4, String t5, String t6, String t7, String cn) {
+    public LichDk(byte[] hinh, String maNv, String hoTen, String lyDo, String t2, String t3, String t4, String t5, String t6, String t7, String cn, String tg) {
         this.hinh = hinh;
         MaNv = maNv;
         HoTen = hoTen;
@@ -19,6 +19,7 @@ public class LichDk {
         T6 = t6;
         T7 = t7;
         Cn = cn;
+        Tg = tg;
     }
 
     public byte[] getHinh() {
@@ -107,6 +108,14 @@ public class LichDk {
 
     public void setCn(String cn) {
         Cn = cn;
+    }
+
+    public String getTg() {
+        return Tg;
+    }
+
+    public void setTg(String tg) {
+        Tg = tg;
     }
 
     // Thêm phương thức này để trả về chuỗi Base64 của hình ảnh

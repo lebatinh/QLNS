@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -56,7 +57,7 @@ public class MessageActivity extends AppCompatActivity {
     ArrayList<List_Nv> arrNv;
     List_Nv_Adapter adapter;
     ListView lvNv;
-    String manv, hoten, hinh;
+    String manv, hoten;
     private ImageButton btnHome;
     private SearchView searchView;
     private RecyclerView recyclerView;
@@ -161,6 +162,16 @@ public class MessageActivity extends AppCompatActivity {
 
         // Gọi hàm để lấy thông tin từ tất cả các nút con của "Chats"
         getMessageFromFirebase();
+
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Intent intent = new Intent(MessageActivity.this, MessageActivity.class);
+                finish();  // Kết thúc Activity hiện tại
+                startActivity(intent);
+            }
+        });
 
         fetchData();
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo

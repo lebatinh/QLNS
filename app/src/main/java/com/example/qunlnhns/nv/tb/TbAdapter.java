@@ -12,9 +12,9 @@ import com.example.qunlnhns.R;
 import java.util.ArrayList;
 
 public class TbAdapter extends BaseAdapter {
-    private Context context;
-    private int layout;
-    private ArrayList<Tb> tbList;
+    private final Context context;
+    private final int layout;
+    private final ArrayList<Tb> tbList;
 
     public TbAdapter(Context context, int layout, ArrayList<Tb> tbList) {
         this.context = context;
@@ -36,8 +36,8 @@ public class TbAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
-    private class ViewHolder{
-        TextView tvTb, tvTime;
+    private class ViewHolder {
+        TextView tvTitle, tvTb, tvTime;
     }
 
     @Override
@@ -48,6 +48,7 @@ public class TbAdapter extends BaseAdapter {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout, null);
+            holder.tvTitle = convertView.findViewById(R.id.tvTitle);
             holder.tvTb = convertView.findViewById(R.id.tvTb);
             holder.tvTime = convertView.findViewById(R.id.tvTime);
 
@@ -58,6 +59,7 @@ public class TbAdapter extends BaseAdapter {
 
         Tb tb = tbList.get(position);
 
+        holder.tvTitle.setText(tb.getTitle());
         holder.tvTb.setText(tb.getTb());
         holder.tvTime.setText(tb.getTime());
 

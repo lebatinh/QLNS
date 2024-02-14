@@ -200,8 +200,8 @@ public class DNActivity extends AppCompatActivity {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject object = response.getJSONObject(i);
-                        String tkdb = object.getString("Email");
                         String manv = object.getString("Manv");
+                        String tkdb = object.getString("Email");
                         String mkdb = object.getString("Pass");
                         if (tk.equals(tkdb) && mk.equals(mkdb)) {
                             manvvalue = manv;

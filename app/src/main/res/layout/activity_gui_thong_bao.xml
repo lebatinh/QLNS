@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F4E6A2"
-    tools:context=".ql.GuiThongBao">
+    tools:context=".ql.PutNotification.GuiThongBao">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -51,50 +51,52 @@
             android:background="@color/black" />
 
         <EditText
+            android:id="@+id/edtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Viết tiêu đề thông báo tại đây" />
+
+        <EditText
             android:id="@+id/edtTb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="20dp"
             android:hint="Viết thông báo tại đây" />
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/radiogr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="2">
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
 
-            <RadioGroup
-                android:id="@+id/radiogr"
-                android:layout_width="match_parent"
+            <RadioButton
+                android:id="@+id/rdAll"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:text="Tất cả" />
 
-                <RadioButton
-                    android:id="@+id/rdAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Tất cả" />
-
-                <RadioButton
-                    android:id="@+id/rdChoice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Chọn người" />
-            </RadioGroup>
+            <RadioButton
+                android:id="@+id/rdChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Chọn người" />
+        </RadioGroup>
 
 
-            <ListView
-                android:id="@+id/lvCheck"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_margin="10dp"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <ListView
+            android:id="@+id/lvCheck"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View

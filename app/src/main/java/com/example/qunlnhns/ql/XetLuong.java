@@ -270,6 +270,7 @@ public class XetLuong extends AppCompatActivity {
                         if (!tvTong.getText().toString().trim().isEmpty()) {
                             QueryLuong(url2);
                             btnGui.setClickable(false);
+                            startActivity(new Intent(XetLuong.this, MainActivity.class));
                         } else {
                             showAlertDialog(XetLuong.this, "Cảnh báo!", "Bạn phải tính tổng lương trước!");
                         }
@@ -499,7 +500,12 @@ public class XetLuong extends AppCompatActivity {
             double tongPhat = Double.parseDouble(tvTotalPhat.getText().toString());
 
             // Lấy chi phí khác từ edtChiPhi
-            double chiPhiKhac = Double.parseDouble(edtChiPhi.getText().toString());
+            double chiPhiKhac;
+            if (!edtChiPhi.getText().toString().trim().isEmpty()) {
+                chiPhiKhac = Double.parseDouble(edtChiPhi.getText().toString());
+            } else {
+                chiPhiKhac = 0;
+            }
 
             // Tính tổng lương
             double tongLuong = luongCoBan + tongThuong - tongPhat - chiPhiKhac;
@@ -684,11 +690,11 @@ public class XetLuong extends AppCompatActivity {
                 params.put("luongCoBan", luongCoBan);
                 lyDoThuong = layLyDoThuongTuList();
                 params.put("lyDoThuong", lyDoThuong);
-                tienThuong = String.valueOf(tvTotalThuong.getText().toString().trim());
+                tienThuong = tvTotalThuong.getText().toString().trim();
                 params.put("tienThuong", tienThuong);
                 lyDoPhat = layLyDoPhatTuList();
                 params.put("lyDoPhat", lyDoPhat);
-                tienPhat = String.valueOf(tvTotalPhat.getText().toString().trim());
+                tienPhat = tvTotalPhat.getText().toString().trim();
                 params.put("tienPhat", tienPhat);
                 chiPhiKhac = edtChiPhi.getText().toString().trim();
                 params.put("chiPhiKhac", chiPhiKhac);

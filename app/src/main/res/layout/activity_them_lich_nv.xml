@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:elevation="5dp"
-            android:src="@drawable/home"
+            android:src="@drawable/icon_back"
             app:layout_anchor="@id/text"
             app:layout_anchorGravity="center|start"
             tools:ignore="SpeakableTextPresentCheck" />

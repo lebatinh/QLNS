@@ -46,17 +46,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:layout_gravity="center"
-            android:gravity="center"
             android:background="@color/white"
+            android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="7">
 
@@ -96,9 +98,9 @@
                         android:id="@+id/t2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/more"
                         android:gravity="center"
                         android:hint="Ca"
-                        android:drawableRight="@drawable/more"
                         android:textSize="15dp" />
                 </TableRow>
 
@@ -140,9 +142,9 @@
                         android:id="@+id/t3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/more"
                         android:gravity="center"
                         android:hint="Ca"
-                        android:drawableRight="@drawable/more"
                         android:textSize="15dp" />
                 </TableRow>
             </TableLayout>
@@ -183,9 +185,9 @@
                         android:id="@+id/t4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/more"
                         android:gravity="center"
                         android:hint="Ca"
-                        android:drawableRight="@drawable/more"
                         android:textSize="15dp" />
                 </TableRow>
             </TableLayout>
@@ -226,9 +228,9 @@
                         android:id="@+id/t5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/more"
                         android:gravity="center"
                         android:hint="Ca"
-                        android:drawableRight="@drawable/more"
                         android:textSize="15dp" />
                 </TableRow>
             </TableLayout>
@@ -269,9 +271,9 @@
                         android:id="@+id/t6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/more"
                         android:gravity="center"
                         android:hint="Ca"
-                        android:drawableRight="@drawable/more"
                         android:textSize="15dp" />
                 </TableRow>
             </TableLayout>
@@ -312,9 +314,9 @@
                         android:id="@+id/t7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/more"
                         android:gravity="center"
                         android:hint="Ca"
-                        android:drawableRight="@drawable/more"
                         android:textSize="15dp" />
                 </TableRow>
             </TableLayout>
@@ -355,9 +357,9 @@
                         android:id="@+id/cn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/more"
                         android:gravity="center"
                         android:hint="Ca"
-                        android:drawableRight="@drawable/more"
                         android:textSize="15dp" />
                 </TableRow>
             </TableLayout>
@@ -368,8 +370,9 @@
             android:id="@+id/lnrLyDo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -379,11 +382,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/white"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -402,7 +405,36 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     android:drawableRight="@drawable/reason"
-                    android:hint="Lý do xin nghỉ ở đây"
+                    android:hint="Không có lý do"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Thời gian mong muốn: "
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     android:textSize="15dp" />
 
             </LinearLayout>

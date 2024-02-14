@@ -152,27 +152,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black" />
-
-    <LinearLayout
-        android:background="#9BE37D"
-        android:id="@+id/lnrXn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btnGuiTb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gửi thông báo"
-            android:textSize="15sp"
-            app:shapeAppearanceOverlay="@style/corner_50" />
-
-    </LinearLayout>
 </LinearLayout>

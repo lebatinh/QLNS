@@ -35,7 +35,7 @@ public class Chorme extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient());
 
         // Load trang web YouTube trong WebView
-        webView.loadUrl("https://www.youtube.com");
+        webView.loadUrl("https://www.google.com.vn");
 
         back = findViewById(R.id.back);
         back.setOnClickListener(v -> onBackPressed());

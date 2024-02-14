@@ -1,12 +1,6 @@
-package com.example.qunlnhns.ql;
+package com.example.qunlnhns.ql.PutNotification;
 
-import static com.example.qunlnhns.ql.Notification.showNotification;
 import static com.example.qunlnhns.user.DNActivity.AlertDialogHelper.showAlertDialog;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -29,6 +23,11 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -58,20 +57,19 @@ import java.util.Map;
 public class GuiThongBao extends AppCompatActivity {
 
     private ImageButton btnHome;
-    private EditText edtTb;
+    private EditText edtTb, edtTitle;
+    private Button btnGuiTb;
     private RadioGroup radiogr;
     private RadioButton rdAll, rdChoice;
+    String tt, tb, tg, manv, maNv, hoTen;
     private ListView lvCheck;
-    ArrayList<List_Nv> arrListNv;
-    List_Nv_Adapter adapter;
+    private ArrayList<List_Nv> arrListNv;
+    private List_Nv_Adapter adapter;
+    private ArrayList<String> selectedMaNvList;
     String localhost = DKActivity.localhost;
     String url = "http://" + localhost + "/user/gui_tb.php";
     String url1 = "http://" + localhost + "/user/get_nv.php";
-    private Button btnGuiTb;
-    String tg, tb, maNv, hoTen;
-    private ArrayList<String> selectedMaNvList;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
-
     private final Handler handler = new Handler();
     private final Runnable runnable = new Runnable() {
         @Override
@@ -98,83 +96,46 @@ public class GuiThongBao extends AppCompatActivity {
         setContentView(R.layout.activity_gui_thong_bao);
         AnhXa();
 
+        GetData(url1);
         arrListNv = new ArrayList<>();
 
         adapter = new List_Nv_Adapter(this, R.layout.nv, arrListNv);
         lvCheck.setAdapter(adapter);
 
-        // Khởi tạo selectedMaNvList ở đây
         selectedMaNvList = new ArrayList<>();
 
-        GetData(url1);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
+        radiogr.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rdAll) {
+                lvCheck.setVisibility(View.GONE);
+            } else if (checkedId == R.id.rdChoice) {
+                lvCheck.setVisibility(View.VISIBLE);
             }
         });
+        btnHome.setOnClickListener(v -> onBackPressed());
 
-        radiogr.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.rdAll) {
-                    lvCheck.setVisibility(View.GONE);
-                } else if (checkedId == R.id.rdChoice) {
-                    lvCheck.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        btnGuiTb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getLocalTime();
-                // Update the value of tb here
-                tb = edtTb.getText().toString().trim();
-                if (!edtTb.getText().toString().trim().isEmpty()) {
-                    if (rdAll.isChecked()) {
-                        GuiTbAll(url);
-                    } else if (rdChoice.isChecked()) {
-                        lvCheck();
-                    } else {
-                        showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Bạn chưa chọn gửi thông báo với ai!");
-                    }
+        btnGuiTb.setOnClickListener(v -> {
+            getLocalTime();
+            // Update the value of tb here
+            tt = edtTitle.getText().toString().trim();
+            tb = edtTb.getText().toString().trim();
+            if (!tt.isEmpty() && !tb.isEmpty()) {
+                if (rdAll.isChecked()) {
+                    //gửi thông báo
+                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/all", tt, tb, getApplicationContext(), GuiThongBao.this);
+                    notificationsSender.SendNotifications();
+                    GuiTbAll(url);
+                } else if (rdChoice.isChecked()) {
+                    lvCheck();
                 } else {
-                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Bạn chưa viết thông báo mà!");
+                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Bạn chưa chọn gửi thông báo với ai!");
                 }
-
+            } else {
+                showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Bạn chưa viết thông báo mà!");
             }
         });
+
         // Bắt đầu kiểm tra ngay sau khi hoạt động được tạo
         handler.post(runnable);
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Ngừng kiểm tra khi hoạt động được hủy
-        handler.removeCallbacks(runnable);
-    }
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
-
-    private void lvCheck() {
-        // Lọc ra danh sách các maNv đã được chọn
-        selectedMaNvList.clear();
-        for (List_Nv listNv : arrListNv) {
-            if (listNv.isChecked()) {
-                selectedMaNvList.add(listNv.getMaNV());
-            }
-        }
-
-        if (!selectedMaNvList.isEmpty()){
-            // Gọi hàm GuiTbChoice và truyền danh sách maNV đã được chọn
-            GuiTbChoice(url, selectedMaNvList);
-        }else {
-            showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Bạn chưa chọn nhân viên nhận thông báo!");
-        }
-
     }
 
     private void GetData(String url1) {
@@ -204,12 +165,6 @@ public class GuiThongBao extends AppCompatActivity {
 
                             hinhBytes = Base64.decode(hinhBase64, Base64.DEFAULT);
 
-                            // Kiểm tra xem mảng byte có dữ liệu không
-                            if (hinhBytes != null && hinhBytes.length > 0) {
-                                // Chuyển mảng byte thành Bitmap
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(hinhBytes, 0, hinhBytes.length);
-
-                            }
                             arrListNv.add(new List_Nv(hinhBytes, maNv, hoTen, 1));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -228,20 +183,25 @@ public class GuiThongBao extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void getLocalTime() {
-        // Lấy thời gian hiện tại
-        LocalDateTime currentTime = LocalDateTime.now();
+    private void lvCheck() {
+        // Lọc ra danh sách các maNv đã được chọn
+        selectedMaNvList.clear();
+        for (List_Nv listNv : arrListNv) {
+            if (listNv.isChecked()) {
+                selectedMaNvList.add(listNv.getMaNV());
+            }
+        }
 
-        // Định dạng thời gian theo định dạng mong muốn
-        DateTimeFormatter formatter = null;
-        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        String formattedTime = null;
-        formattedTime = currentTime.format(formatter);
-
-        // Đặt giá trị cho biến tg
-        tg = formattedTime;
+        if (!selectedMaNvList.isEmpty()) {
+            for (String maNv : selectedMaNvList) {
+                // Gọi hàm GuiTbChoice và truyền danh sách maNV đã được chọn
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/" + maNv, tt, tb, getApplicationContext(), GuiThongBao.this);
+                notificationsSender.SendNotifications();
+            }
+            GuiTbChoice(url, selectedMaNvList);
+        } else {
+            showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Bạn chưa chọn nhân viên nhận thông báo!");
+        }
     }
 
     private void GuiTbAll(String url) {
@@ -249,24 +209,19 @@ public class GuiThongBao extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressDialog.dismiss();
-                if (response.equals("success")) {
-                    tb = edtTb.getText().toString().trim();
-                    showNotification(GuiThongBao.this, "Quản lý nhân sự", "Bạn có thông báo mới: " + tb + "!");
-                    showAlertDialog(GuiThongBao.this, "Thông báo", "Gửi thông báo thành công!");
-                } else if (response.equals("fail")) {
-                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
-                } else if (response.equals("rong")) {
-                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi danh sách chọn!");
-                } else if (response.equals("error")) {
-                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi danh sách không hợp lệ!");
-                } else {
-                    showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi bất định!");
-                    Log.d("Response", response);
-                }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+            progressDialog.dismiss();
+            if (response.equals("success")) {
+                showAlertDialog(GuiThongBao.this, "Thông báo", "Gửi thông báo thành công!");
+            } else if (response.equals("fail")) {
+                showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
+            } else if (response.equals("rong")) {
+                showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi danh sách chọn!");
+            } else if (response.equals("error")) {
+                showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi danh sách không hợp lệ!");
+            } else {
+                showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Lỗi bất định!");
+                Log.d("Response", response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -279,7 +234,9 @@ public class GuiThongBao extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 // Truyền tham số cho yêu cầu POST
                 Map<String, String> params = new HashMap<>();
+                tt = edtTitle.getText().toString().trim();
                 tb = edtTb.getText().toString().trim();
+                params.put("title", tt);
                 params.put("tb", tb);
                 params.put("tg", tg);
                 params.put("phamvi", "all");
@@ -302,7 +259,6 @@ public class GuiThongBao extends AppCompatActivity {
                 progressDialog.dismiss();
                 if (response.equals("success")) {
                     tb = edtTb.getText().toString().trim();
-                    showNotification(GuiThongBao.this, "Quản lý nhân sự", "Bạn có thông báo mới: " + tb + "!");
                     showAlertDialog(GuiThongBao.this, "Thông báo", "Gửi thông báo thành công!");
                 } else if (response.equals("fail")) {
                     showAlertDialog(GuiThongBao.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
@@ -345,6 +301,35 @@ public class GuiThongBao extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void getLocalTime() {
+        // Lấy thời gian hiện tại
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        // Định dạng thời gian theo định dạng mong muốn
+        DateTimeFormatter formatter = null;
+        formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyy");
+
+        String formattedTime = null;
+        formattedTime = currentTime.format(formatter);
+
+        // Đặt giá trị cho biến tg
+        tg = formattedTime;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Ngừng kiểm tra khi hoạt động được hủy
+        handler.removeCallbacks(runnable);
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -374,11 +359,11 @@ public class GuiThongBao extends AppCompatActivity {
     private void AnhXa() {
         btnHome = findViewById(R.id.btnHome);
         edtTb = findViewById(R.id.edtTb);
+        edtTitle = findViewById(R.id.edtTitle);
+        btnGuiTb = findViewById(R.id.btnGuiTb);
         rdAll = findViewById(R.id.rdAll);
         radiogr = findViewById(R.id.radiogr);
         rdChoice = findViewById(R.id.rdChoice);
         lvCheck = findViewById(R.id.lvCheck);
-        btnGuiTb = findViewById(R.id.btnGuiTb);
     }
-
 }

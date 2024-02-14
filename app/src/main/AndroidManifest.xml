@@ -32,7 +32,8 @@
         tools:targetApi="31">
         <activity
             android:name=".HDSD"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".giaitri.News"
             android:exported="false" />
@@ -60,7 +61,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ql.GuiThongBao"
+            android:name=".ql.PutNotification.GuiThongBao"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -81,8 +82,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".giaitri.Youtube"
-            android:exported="false"
-            android:screenOrientation="landscape" />
+            android:exported="false" />
         <activity
             android:name=".nv.DK_Lich_Lv_Activity"
             android:exported="false"
@@ -128,6 +128,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".ql.PutNotification.FirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

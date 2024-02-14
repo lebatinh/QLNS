@@ -12,8 +12,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -41,7 +39,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.qunlnhns.DatabaseSQlite;
-import com.example.qunlnhns.ql.Notification;
 import com.example.qunlnhns.R;
 import com.example.qunlnhns.MainActivity;
 import com.example.qunlnhns.ql.dslich.lich.Lich;
@@ -77,12 +74,10 @@ public class XepLichLv extends AppCompatActivity {
     String url1 = "http://" + localhost + "/user/getdata_dk_lich.php";
     String url2 = "http://" + localhost + "/user/getdata_lich_lv.php";
     String url3 = "http://" + localhost + "/user/delete_lich.php";
-    String url4 = "http://" + localhost + "/user/gui_tb.php";
-    private LinearLayout lnrLich, lnrDk, lnrXn;
+    private LinearLayout lnrLich, lnrDk;
     private TextView tvDsDk, tvLichLv, tvLichTime;
     private ImageButton btnHome, btnThem;
-    private Button btnGuiTb;
-    String tg, startDate, endDate, selectedDate, notificationContent;
+    String startDate, endDate, selectedDate;
     private Date selectedStartDate, selectedEndDate;
     DatabaseSQlite databaseSQlite;
     private static final long INTERVAL = 5000; // Thời gian giữa các lần kiểm tra (5 giây)
@@ -147,7 +142,6 @@ public class XepLichLv extends AppCompatActivity {
             public void onClick(View v) {
                 lnrDk.setVisibility(View.GONE);
                 lnrLich.setVisibility(View.VISIBLE);
-                lnrXn.setVisibility(View.VISIBLE);
             }
         });
         tvLichLv.setOnClickListener(new View.OnClickListener() {
@@ -155,16 +149,8 @@ public class XepLichLv extends AppCompatActivity {
             public void onClick(View v) {
                 lnrDk.setVisibility(View.VISIBLE);
                 lnrLich.setVisibility(View.GONE);
-                lnrXn.setVisibility(View.GONE);
             }
         });
-        btnGuiTb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showNotificationDialog();
-            }
-        });
-
         lvLich.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -275,67 +261,6 @@ public class XepLichLv extends AppCompatActivity {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    private void showNotificationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(XepLichLv.this);
-        builder.setTitle("Thông báo");
-
-        // Layout cho dialog
-        LinearLayout layout = new LinearLayout(XepLichLv.this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        // Ô nhập liệu
-        final EditText input = new EditText(XepLichLv.this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setHint("Nhập nội dung thông báo");
-        layout.addView(input);
-
-        builder.setView(layout);
-
-        // Nút "Gửi"
-        builder.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Lấy nội dung từ ô nhập liệu
-                notificationContent = input.getText().toString();
-
-                if (!notificationContent.isEmpty()) {
-                    // Lấy thời gian hiện tại
-                    LocalDateTime currentTime = LocalDateTime.now();
-
-                    // Định dạng thời gian theo định dạng mong muốn
-                    DateTimeFormatter formatter = null;
-                    formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-                    String formattedTime = null;
-                    formattedTime = currentTime.format(formatter);
-
-
-                    // Đặt giá trị cho biến tg
-                    tg = formattedTime;
-
-                    // Gọi hàm QueryData để gửi thông báo và cập nhật SQL
-                    QueryData(url4);
-                } else {
-                    // Hiển thị thông báo lỗi nếu nội dung trống
-                    Toast.makeText(XepLichLv.this, "Vui lòng nhập nội dung thông báo", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        // Nút "Hủy"
-        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Đóng dialog nếu người dùng ấn "Hủy"
-                dialog.cancel();
-            }
-        });
-
-        // Hiển thị dialog
-        builder.show();
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void getAndDisplayDefaultWeekData() {
         // Lấy ngày hiện tại
@@ -382,47 +307,6 @@ public class XepLichLv extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-    private void QueryData(String url4) {
-        final ProgressDialog progressDialog = new ProgressDialog(XepLichLv.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url4, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressDialog.dismiss();
-                if (response.equals("success")) {
-                    Notification.showNotification(XepLichLv.this, "Quản lý nhân sự", "Bạn có thông báo mới, Vào xem ngay nhé!");
-                    showAlertDialog(XepLichLv.this, "Thông báo", "Gửi thông báo thành công!");
-                } else if (response.equals("fail")) {
-                    showAlertDialog(XepLichLv.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
-                } else {
-                    showAlertDialog(XepLichLv.this, "Cảnh báo!", "Gửi thông báo thất bại!.\nVui lòng kiểm tra lại!");
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(XepLichLv.this, "Lỗi gửi thông báo!", Toast.LENGTH_SHORT).show();
-                Log.d("Lỗi gửi thông báo: ", error.toString());
-            }
-        }) {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                // Truyền tham số cho yêu cầu POST
-                Map<String, String> params = new HashMap<>();
-                params.put("tb", notificationContent);
-                params.put("tg", tg);
-                params.put("phamvi", "all");
-                return params;
-            }
-        };
-
-        // Thêm yêu cầu vào hàng đợi Volley
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(stringRequest);
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showDatePickerDialog() {
@@ -529,12 +413,6 @@ public class XepLichLv extends AppCompatActivity {
                                 // Chuyển chuỗi Base64 thành mảng byte
                                 byte[] hinhBytes = Base64.decode(hinhBase64, Base64.DEFAULT);
 
-                                // Kiểm tra xem mảng byte có dữ liệu không
-                                if (hinhBytes != null && hinhBytes.length > 0) {
-                                    // Chuyển mảng byte thành Bitmap
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(hinhBytes, 0, hinhBytes.length);
-                                }
-
                                 // Thêm vào danh sách arrLich
                                 arrLich.add(new Lich(hinhBytes, maNv, hoTen, t2, t3, t4, t5, t6, t7, cn));
                             }
@@ -613,6 +491,7 @@ public class XepLichLv extends AppCompatActivity {
                             String t6 = object.optString("T6", "");
                             String t7 = object.optString("T7", "");
                             String cn = object.optString("Cn", "");
+                            String tg = object.optString("Tg", "");
 
                             // Lấy chuỗi Base64 từ JSON
                             String hinhBase64 = object.optString("HinhAnh", "");
@@ -620,13 +499,7 @@ public class XepLichLv extends AppCompatActivity {
                             byte[] hinhBytes = new byte[0];
 
                             hinhBytes = Base64.decode(hinhBase64, Base64.DEFAULT);
-
-                            // Kiểm tra xem mảng byte có dữ liệu không
-                            if (hinhBytes != null && hinhBytes.length > 0) {
-                                // Chuyển mảng byte thành Bitmap
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(hinhBytes, 0, hinhBytes.length);
-                            }
-                            arrDkLich.add(new LichDk(hinhBytes, maNv, hoTen, lyDo, t2, t3, t4, t5, t6, t7, cn));
+                            arrDkLich.add(new LichDk(hinhBytes, maNv, hoTen, lyDo, t2, t3, t4, t5, t6, t7, cn, tg));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -651,10 +524,8 @@ public class XepLichLv extends AppCompatActivity {
         lnrDk = findViewById(R.id.lnrDk);
         lnrLich = findViewById(R.id.lnrLich);
         lnrDk.setVisibility(View.GONE);
-        lnrXn = findViewById(R.id.lnrXn);
         btnHome = findViewById(R.id.btnHome);
         btnThem = findViewById(R.id.btnThem);
-        btnGuiTb = findViewById(R.id.btnGuiTb);
         lvLich = findViewById(R.id.lvLich);
         tvLichTime = findViewById(R.id.tvLichTime);
     }

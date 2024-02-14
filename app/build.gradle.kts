@@ -46,13 +46,13 @@ dependencies {
     //chuyển đổi chuỗi string sang json
     implementation("com.google.code.gson:gson:2.9.0")
 
-    //vẽ hình tròn
-    implementation("de.hdodenhof:circleimageview:3.1.0")
-
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation("com.google.firebase:firebase-database")
-    implementation("com.google.firebase:firebase-messaging:23.4.0")
-    implementation("com.google.firebase:firebase-firestore:24.10.1")
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
+
+    //cập nhật mỗi khi kéo xuống
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }
