@@ -283,8 +283,10 @@ public class GuiThongBao extends AppCompatActivity {
                 // Truyền tham số cho yêu cầu POST
                 Map<String, String> params = new HashMap<>();
                 // Cập nhật giá trị của tb trong getParams
-                tb = edtTb.getText().toString().trim();
 
+                tt = edtTitle.getText().toString().trim();
+                tb = edtTb.getText().toString().trim();
+                params.put("title", tt);
                 params.put("tb", tb);
                 params.put("tg", tg);
 
